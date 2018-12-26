@@ -1,0 +1,14 @@
+mutation updateFaculty($input: UpdateFacultyInput!) {
+  updateFaculty(input: $input) {
+    faculty {
+      id
+      name
+      lastName
+      address
+      mail
+      designation
+      mobile
+      status
+    }
+  }
+}

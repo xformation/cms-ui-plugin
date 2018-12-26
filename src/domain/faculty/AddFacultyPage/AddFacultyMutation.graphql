@@ -1,0 +1,14 @@
+mutation addFaculty($input: AddFacultyInput!) {
+  addFaculty(input: $input) {
+    faculty {
+      id
+      name
+      lastName
+      address
+      mail
+      designation
+      mobile
+      status
+    }
+  }
+}

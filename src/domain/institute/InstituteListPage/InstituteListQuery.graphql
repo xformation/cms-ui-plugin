@@ -1,0 +1,11 @@
+#import "../../gqlfragments/institute.graphql"
+
+fragment instituteSummary on Institute {
+  ...institute
+}
+
+query instituteList {
+  institutes {
+    ...instituteSummary
+  }
+}

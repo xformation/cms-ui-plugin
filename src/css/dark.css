@@ -1,0 +1,54 @@
+.heading{
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.striped-table{
+    width: 100%;
+    border-collapse: separate;
+    margin-bottom: 2rem;
+}
+
+.striped-table th{
+    width: auto;
+    text-align: left;
+    height: 30px;
+    white-space: nowrap;
+    font-weight: bold;
+    background-color: #3C3834 !important;
+    color: white;
+    padding-left: 10px;
+}
+
+.striped-table tr{
+    height: 40px;
+}
+
+.striped-table tbody tr td{
+    padding-left: 10px;
+    border-top: 1px solid #34302D;
+}
+.striped-table tbody tr:nth-child(odd) {
+    background: #F1F1F1;
+}
+
+.striped-table .table-link{
+    text-decoration: underline;
+    color: #5fa134;
+}
+
+.striped-table .table-link:hover{
+    text-decoration: none !important;
+}
+
+.customButton{
+    background-color: #34302D !important;
+    border: 1px solid #5fa134 !important;
+    color: white;
+    border-radius: 0px !important;
+}
+
+.customButton:hover {
+    border: 1px solid #34302D !important;
+    color: white;
+}

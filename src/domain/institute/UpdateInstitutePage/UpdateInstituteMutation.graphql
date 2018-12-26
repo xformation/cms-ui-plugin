@@ -1,0 +1,10 @@
+mutation updateInstitute($input: UpdateInstituteInput!) {
+  updateInstitute(input: $input) {
+    institute {
+      id
+      name
+      code
+      year
+    }
+  }
+}

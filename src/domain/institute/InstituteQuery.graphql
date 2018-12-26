@@ -1,0 +1,7 @@
+#import "../gqlfragments/instituteDetails.graphql"
+
+query institute($instituteId: Int!) {
+  institute(id: $instituteId){
+  ...instituteDetails
+  }
+}

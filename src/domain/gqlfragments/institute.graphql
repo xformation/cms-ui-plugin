@@ -1,0 +1,6 @@
+fragment institute on Institute {
+  id
+  name
+  code
+  year
+}

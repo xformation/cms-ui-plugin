@@ -1,0 +1,5 @@
+#import "./FindAllByLocation.graphql"
+
+fragment findAllByLocationDetails on LocationDTO {
+  ...findAllByLocation
+}

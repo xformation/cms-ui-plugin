@@ -1,0 +1,26 @@
+.striped-table{
+    width: 100%;
+    border-collapse: separate;
+}
+
+.striped-table th{
+    width: auto;
+    padding: 4px 10px;
+    text-align: left;
+    line-height: 30px;
+    height: 30px;
+    white-space: nowrap;
+    font-weight: bold;
+    background-color: #3C3834 !important;
+    color: white;
+}
+
+.striped-table tbody tr:nth-child(odd) {
+    background: #F1F1F1;
+}
+
+
+.striped-table tbody tr td{
+    padding-left: 10px;
+    border-top: 1px solid #34302D;
+}

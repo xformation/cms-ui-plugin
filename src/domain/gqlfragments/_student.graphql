@@ -1,0 +1,8 @@
+fragment student on Student {
+  id
+  name
+  surName
+  fatherName
+  gender
+  rollNo
+}

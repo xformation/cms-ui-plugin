@@ -1,0 +1,7 @@
+#import "../gqlfragments/FindAllByLocationDetails.graphql"
+
+query findAllByLocation($findAllByLocationId: Int!) {
+  findAllByLocation(id: $findAllByLocationId){
+  ...findAllByLocationDetails
+  }
+}

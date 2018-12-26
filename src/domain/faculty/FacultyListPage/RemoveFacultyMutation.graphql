@@ -1,0 +1,14 @@
+mutation removeFaculty($input: RemoveFacultyInput!) {
+  removeFaculty(input: $input) {
+    Faculty {
+      id
+      name
+      lastName
+      address
+      mail
+      designation
+      mobile
+      status
+    }
+  }
+}

@@ -1,0 +1,10 @@
+fragment faculty on Faculty {
+  id
+  name
+  lastName
+  address
+  mail
+  designation
+  mobile
+  status
+}

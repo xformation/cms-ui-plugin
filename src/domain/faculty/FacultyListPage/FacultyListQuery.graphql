@@ -1,0 +1,11 @@
+#import "../../gqlfragments/faculty.graphql"
+
+fragment facultySummary on Faculty {
+  ...faculty
+}
+
+query facultyList {
+  faculties {
+    ...facultySummary
+  }
+}

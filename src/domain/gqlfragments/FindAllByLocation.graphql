@@ -1,0 +1,6 @@
+fragment findAllByLocation on findAllByLocation {
+ id
+    name
+    address
+    appliesTo
+}
