@@ -96,6 +96,13 @@
     },
     {
       "type": "page",
+      "name": "MarkAttendance",
+      "addToNav": true,
+      "defaultNav": false,
+      "component": "MarkAttendance"
+    },
+    {
+      "type": "page",
       "name": "findStudentYears",
       "addToNav": true,
       "defaultNav": false,

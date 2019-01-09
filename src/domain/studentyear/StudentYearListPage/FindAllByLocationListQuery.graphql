@@ -1,11 +1,11 @@
 #import "../../gqlfragments/FindAllByLocation.graphql"
 
-fragment findAllByLocationSummary on LocationDTO {
-  ...findAllByLocation
+fragment locationSummary on Location {
+  ...location
 }
 
-query findAllByLocationList {
-  findAllByLocations {
-    ...findAllByLocationSummary
+query locationList {
+  locations {
+    ...locationSummary
   }
 }

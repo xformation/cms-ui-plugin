@@ -7,6 +7,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 import { createGraphQLClient } from "../../createGraphQLClient";
 import AttendanceOverview from "./AttendanceOverview";
+import MarkAttendance from "./MarkAttendance";
 
 const graphQLClient = createGraphQLClient();
 
@@ -17,6 +18,7 @@ export default function init() {
         <BrowserRouter>
           <Switch>
             <Route path="/plugins/xformation-petclinic-panel/page/attendance" component={AttendanceOverview} />
+            <Route path="/plugins/xformation-petclinic-panel/page/markattendance" component={MarkAttendance} />
           </Switch>
         </BrowserRouter>
       </ApolloProvider>,

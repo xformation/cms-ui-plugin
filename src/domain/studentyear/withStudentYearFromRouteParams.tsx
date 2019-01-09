@@ -3,46 +3,46 @@ import { RouteComponentProps } from "react-router";
 import { graphql, QueryProps } from "react-apollo";
 import * as gql from 'graphql-tag';
 
-import * as findAllByLocationQueryGql from "./findAllByLocationQuery.graphql";
-import { ReactFunctionOrComponentClass, findAllByLocationQuery, findAllByLocationDetailsFragment } from "../types";
+import * as locationQueryGql from "./locationQuery.graphql";
+import { ReactFunctionOrComponentClass, locationQuery, locationDetailsFragment } from "../types";
 import withLoadingHandler from "../../components/withLoadingHandler";
 
 var queryString = require('query-string');
 
-// Specifies the parameters taken from the route definition (/.../:findAllByLocationId)
-type findAllByLocationPageRouteParams = {
-  findAllByLocationId: any
+// Specifies the parameters taken from the route definition (/.../:locationId)
+type locationPageRouteParams = {
+  locationId: any
 };
 
 // Specifies the Properties that are passed to
-type findAllByLocationPageProps = RouteComponentProps<findAllByLocationPageRouteParams>;
+type locationPageProps = RouteComponentProps<locationPageRouteParams>;
 
 // The "full set" of properties passed to the target component
-// (that is with the properties from GraphQL including the loaded findAllByLocation)
-type findAllByLocationPageFullProps = findAllByLocationPageProps & {
-  data: QueryProps & findAllByLocationQuery;
-  findAllByLocation: findAllByLocationDetailsFragment;
+// (that is with the properties from GraphQL including the loaded location)
+type locationPageFullProps = locationPageProps & {
+  data: QueryProps & locationQuery;
+  location: locationDetailsFragment;
 };
 
-// this function takes a Component, that must have findAllByLocationPageProps-compatible properties.
-// The function loads the findAllByLocation with the findAllByLocationId specified in the route params
-// and passes the loaded findAllByLocation to the specified Component
-const withfindAllByLocationFromRouteParams = (
-  ThefindAllByLocationComponent: ReactFunctionOrComponentClass<{
-    findAllByLocation: findAllByLocationDetailsFragment;
+// this function takes a Component, that must have locationPageProps-compatible properties.
+// The function loads the location with the locationId specified in the route params
+// and passes the loaded location to the specified Component
+const withlocationFromRouteParams = (
+  ThelocationComponent: ReactFunctionOrComponentClass<{
+    location: locationDetailsFragment;
   }>
 ) => {
-  const withfindAllByLocationFromRouteParamsWrapper = (props: findAllByLocationPageFullProps) => <ThefindAllByLocationComponent findAllByLocation={props.data.findAllByLocation} />;
-  return graphql<findAllByLocationQuery, findAllByLocationPageProps, findAllByLocationPageFullProps>(findAllByLocationQueryGql,
+  const withlocationFromRouteParamsWrapper = (props: locationPageFullProps) => <ThelocationComponent location={props.data.location} />;
+  return graphql<locationQuery, locationPageProps, locationPageFullProps>(locationQueryGql,
     {
       // options: ({ match }) => (
       //   {
       //     variables: {
-      //       findAllByLocationId: queryString.parse(location.search).id
+      //       locationId: queryString.parse(location.search).id
       //     }
       //   })
     }
-  )(withLoadingHandler<any>(withfindAllByLocationFromRouteParamsWrapper));
+  )(withLoadingHandler<any>(withlocationFromRouteParamsWrapper));
 };
 
-export default withfindAllByLocationFromRouteParams;
+export default withlocationFromRouteParams;

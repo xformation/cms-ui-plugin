@@ -1,4 +1,4 @@
-.striped-table{
+/* .striped-table{
     width: 100%;
     border-collapse: separate;
 }
@@ -23,4 +23,31 @@
 .striped-table tbody tr td{
     padding-left: 10px;
     border-top: 1px solid #34302D;
-}
+} */
+
+/* .page-container {
+    margin: 0px !important;
+} */
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+    }
+
+    .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+
+    /* / Position the tooltip / / */
+    position: absolute;
+    z-index: 1;
+    }
+
+    .tooltip:hover .tooltiptext {
+    visibility: visible;
+    }

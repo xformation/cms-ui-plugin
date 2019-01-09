@@ -12,6 +12,8 @@ import { EditFacultyPage } from './ui/EditFacultyPage';
 import { AttendanceOverview } from './ui/AttendanceOverview';
 import { FindStudentYearsPage } from './ui/FindStudentYearsPage';
 import { StudentsPage } from './ui/StudentsPage';
+import { MarkAttendance } from './ui/MarkAttendance';
+
 
 
 export {
@@ -27,5 +29,6 @@ export {
     EditFacultyPage,
     AttendanceOverview,
     FindStudentYearsPage,
-    StudentsPage
+    StudentsPage,
+    MarkAttendance
 };

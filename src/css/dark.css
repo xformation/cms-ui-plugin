@@ -1,4 +1,4 @@
-.heading{
+/* .heading{
     margin-top: 2rem;
     margin-bottom: 2rem;
 }
@@ -52,3 +52,91 @@
     border: 1px solid #34302D !important;
     color: white;
 }
+
+.page-container {
+    margin: 0px !important;
+    max-width: 100%;
+    background-color: white;
+    padding: 10px !important;
+}
+
+.main-view {
+    padding: 20px;
+    background: #EFEFEF;
+}
+
+.page-header{
+ padding: 0px;
+}
+
+.page-header__inner{
+    margin-bottom: 0px;
+}
+.page-header__logo {
+    margin: 0px;
+    height: 30px;
+}
+ */
+.plugin-bg-white {
+  background: white;
+  min-height: 96vh;
+}
+.plr {
+  padding: 10px 13px;
+}
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+    }
+
+    .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+
+    /* // Position the tooltip / */
+    position: absolute;
+    z-index: 1;
+    }
+
+    .tooltip:hover .tooltiptext {
+    visibility: visible;
+    }
+
+
+    .hasTooltip a {
+        display: none;
+        color: #fff;
+        text-decoration: none;
+        padding: 3px;
+        }
+
+        .hasTooltip:hover a {
+        display: block;
+        position: absolute;
+        background-color: #83DAAB;
+        border: 1px solid #83DAAB;
+        margin: 2px -14px;
+        }
+       .j-between{
+           display: flex;
+           justify-content: space-between !important;
+       }
+       .chooseDate > .react-datepicker-wrapper{
+            width: 100%;
+       }
+       .btn-danger-bg{
+           background: #F57846 !important;
+           color: #fff;
+
+       }
+       .tooltip-red{
+        background: #FABBA2 !important;
+        margin: 0px -10px !important;
+        border: 1px solid #fabba2 !important;
+    }

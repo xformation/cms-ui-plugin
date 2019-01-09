@@ -11,7 +11,7 @@ import withLoadingHandler from "../../../components/withLoadingHandler";
 const StudentRow = ({ student }: { student: StudentSummaryFragment }) =>
   <tr key={student.id}>
     <td>
-        {student.sName}
+      {student.sName}
     </td>
     <td className="hidden-sm hidden-xs">
       {student.attendance}
@@ -37,7 +37,7 @@ type StudentListPageProps = {
 };
 
 const StudentListPage = ({ data: { students } }: StudentListPageProps) =>
-  <section>
+  <section className="customCss">
     <h2 className="heading">
       {/* {students.length}  */}
       Students found

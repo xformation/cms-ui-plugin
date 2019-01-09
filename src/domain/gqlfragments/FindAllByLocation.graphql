@@ -1,4 +1,4 @@
-fragment findAllByLocation on findAllByLocation {
+fragment location on Location {
  id
     name
     address
