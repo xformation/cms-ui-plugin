@@ -85,58 +85,83 @@
   padding: 10px 13px;
 }
 .tooltip {
-    position: relative;
-    display: inline-block;
-    border-bottom: 1px dotted black;
-    }
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
 
-    .tooltip .tooltiptext {
-    visibility: hidden;
-    width: 120px;
-    background-color: black;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
 
-    /* // Position the tooltip / */
-    position: absolute;
-    z-index: 1;
-    }
+  /* // Position the tooltip / */
+  position: absolute;
+  z-index: 1;
+}
 
-    .tooltip:hover .tooltiptext {
-    visibility: visible;
-    }
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
 
+.hasTooltip a {
+  display: none;
+  color: #fff;
+  text-decoration: none;
+  padding: 3px;
+}
 
-    .hasTooltip a {
-        display: none;
-        color: #fff;
-        text-decoration: none;
-        padding: 3px;
-        }
+.hasTooltip:hover a {
+  display: block;
+  position: absolute;
+  background-color: #83daab;
+  border: 1px solid #83daab;
+  margin: 2px -14px;
+}
+.j-between {
+  display: flex;
+  justify-content: space-between !important;
+}
+.chooseDate > .react-datepicker-wrapper {
+  width: 100%;
+}
+.chooseDateN > .react-datepicker-wrapper {
+  width: 90% !important;
+  border: 1px solid #dde4ed !important;
+}
 
-        .hasTooltip:hover a {
-        display: block;
-        position: absolute;
-        background-color: #83DAAB;
-        border: 1px solid #83DAAB;
-        margin: 2px -14px;
-        }
-       .j-between{
-           display: flex;
-           justify-content: space-between !important;
-       }
-       .chooseDate > .react-datepicker-wrapper{
-            width: 100%;
-       }
-       .btn-danger-bg{
-           background: #F57846 !important;
-           color: #fff;
+.btn-danger-bg {
+  background: #f57846 !important;
+  color: #fff;
+}
+.tooltip-red {
+  background: #fabba2 !important;
+  margin: 0px -10px !important;
+  border: 1px solid #fabba2 !important;
+}
+.dgrid-6 {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto auto;
+  grid-gap: 10px;
+}
 
-       }
-       .tooltip-red{
-        background: #FABBA2 !important;
-        margin: 0px -10px !important;
-        border: 1px solid #fabba2 !important;
-    }
+.hflex {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.hhflex {
+  display: flex;
+  justify-content: space-between;
+  padding-right: 5px;
+}
+.h-center {
+  border: 1px solid #dde4ed;
+  background: white;
+  padding: 5px;
+}

@@ -2,7 +2,70 @@ import * as React from "react";
 import DatePicker from "react-datepicker";
 import * as moment from "moment";
 
-import "react-datepicker/dist/react-datepicker.css";
+import {
+    PagingState,
+    IntegratedPaging,
+    IntegratedFiltering,
+} from '@devexpress/dx-react-grid';
+
+import {
+    Grid,
+    Table,
+    TableHeaderRow,
+    PagingPanel,
+} from '@devexpress/dx-react-grid-bootstrap4';
+
+// import "react-datepicker/dist/react-datepicker.css";
+
+import '@devexpress/dx-react-grid-bootstrap4/dist/dx-react-grid-bootstrap4.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+import { generateRows } from './generator';
+
+class TableComponent extends React.Component<any, any> {
+    constructor(props: any) {
+        super(props);
+        this.state = {
+            columns: [
+                { name: 'name', title: 'Student ID' },
+                { name: 'sex', title: 'Student Name' },
+                { name: 'city', title: 'Attendance' },
+                { name: 'car', title: 'Comments' },
+            ],
+            rows: generateRows({ length: 60 }),
+            pageSizes: [5, 10, 15, 0],
+
+
+        };
+    }
+
+    render() {
+        const { rows, columns, pageSizes } = this.state;
+
+        return (
+            <div className="card">
+                <Grid
+                    rows={rows}
+                    columns={columns}
+
+                >
+                    <PagingState
+                        defaultCurrentPage={0}
+                        defaultPageSize={5}
+                    />
+
+                    <IntegratedFiltering />
+                    <IntegratedPaging />
+                    <Table />
+                    <TableHeaderRow />
+                    <PagingPanel
+                        pageSizes={pageSizes}
+                    />
+                </Grid>
+            </div>
+        );
+    }
+}
 
 class DatePickerComponent extends React.Component<any, any> {
     constructor(props: any) {
@@ -29,21 +92,22 @@ class DatePickerComponent extends React.Component<any, any> {
         );
     }
 }
+
 const MarkAttendance = () =>
     <section className="plugin-bg-white">
         <h3 className="bg-heading p-1">
             <i className="fa fa-university stroke-transparent mr-1" aria-hidden="true"></i> Admin - Mark Attendance
         </h3>
         <div className="p-1">
-            <div className="dflex j-between">
-                <div className="chooseDate">
+            <div className="dgrid-6">
+                <div className="chooseDateN">
                     <label>Choose Date</label>
                     <DatePickerComponent />
                     {/* <input type="date" name="" id="" value="12/06/19" /> */}
                 </div>
                 <div className="">
                     <label>Stream</label>
-                    <select className="">
+                    <select className="sfwidth">
                         <option value="">Computer Science</option>
                         <option value="">Information Technology</option>
                         <option value="">Electrical</option>
@@ -51,168 +115,59 @@ const MarkAttendance = () =>
                 </div>
                 <div className="">
                     <label>Semester</label>
-                    <select className="">
+                    <select className="sfwidth">
                         <option value="">Sem - 1</option>
                         <option value="">Sem - 2</option>
                     </select>
                 </div>
                 <div className="">
                     <label>Section</label>
-                    <select className="">
+                    <select className="sfwidth">
                         <option value="">Div - 1</option>
                         <option value="">Div - 2</option>
                     </select>
                 </div>
                 <div className="">
                     <label>Period</label>
-                    <select className="">
+                    <select className="sfwidth">
                         <option value="">Period - 1</option>
                         <option value="">Period - 2</option>
                     </select>
                 </div>
                 <div className="">
                     <label>Subject</label>
-                    <select className="">
+                    <select className="sfwidth">
                         <option value="">Subject 1</option>
                         <option value="">Subject 2</option>
                     </select>
                 </div>
             </div>
-            <h3 className="bg-heading mt-3 p-1 mb-0">Computer Science Sem 1</h3>
-            <table className="fwidth">
-                <thead>
-                    <th>Class</th>
-                    <th>Section</th>
-                    <th>Period 1</th>
-                    <th>Break</th>
-                    <th>Period 2</th>
-                    <th>Period 3</th>
-                    <th>Period 4</th>
-                    <th>Period 5</th>
-                    <th>Lunch</th>
-                    <th>Period 6</th>
-                    <th>Period 7</th>
-                    <th>Period 8</th>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td rowSpan={2}>1st Year</td>
-                        <td>A</td>
-                        <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Markred
-<a href="">New visual experience!</a>
-                        </span></td>
-                        <td></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td><a href="" className="btn btn-secondary plr"> <i className="fa fa-close" aria-hidden="true"></i> UnMarked</a></td>
-                        <td></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                    </tr>
-                    <tr>
+            <div className="hflex bg-heading">
+                <h3 className="mt-3 p-1 mb-0">Computer Science Sem 1</h3>
+                <div className="hhflex">
+                    <div >
+                        <select >
+                            <option value="" selected disabled hidden>No Of Entries</option>
+                            <option value="">10</option>
+                            <option value="">10</option>
+                        </select>
+                    </div>
+                    <div className="px-2">
+                        <select >
+                            <option value="" selected disabled hidden>Sort By</option>
+                            <option value="">Name</option>
+                            <option value="">Roll No</option>
+                        </select>
+                    </div>
+                    <div className="h-center">
+                        <input type="text" placeholder="Search Student" />
+                        <i className="fa fa-search" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
 
-                        <td>B</td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td><a href="" className="btn btn-secondary plr"> <i className="fa fa-close" aria-hidden="true"></i> UnMarked</a></td>
-                        <td></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                    </tr>
-                    <tr>
-                        <td rowSpan={2}>2nd Year</td>
-                        <td>A</td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td><a href="" className="btn btn-secondary plr"> <i className="fa fa-close" aria-hidden="true"></i> UnMarked</a></td>
-                        <td></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                    </tr>
-                    <tr>
-
-                        <td>B</td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td><a href="" className="btn btn-secondary plr"> <i className="fa fa-close" aria-hidden="true"></i> UnMarked</a></td>
-                        <td></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                    </tr>
-                    <tr>
-                        <td rowSpan={2}>3rd Year</td>
-                        <td>A</td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td><a href="" className="btn btn-secondary plr"> <i className="fa fa-close" aria-hidden="true"></i> UnMarked</a></td>
-                        <td></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                    </tr>
-                    <tr>
-
-                        <td>B</td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td><a href="" className="btn btn-secondary plr"> <i className="fa fa-close" aria-hidden="true"></i> UnMarked</a></td>
-                        <td></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                    </tr>
-                    <tr>
-                        <td rowSpan={2}>4th Year</td>
-                        <td>A</td>
-
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td><a href="" className="btn btn-secondary plr"> <i className="fa fa-close" aria-hidden="true"></i> UnMarked</a></td>
-                        <td></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                    </tr>
-                    <tr>
-
-                        <td>B</td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td><a href="" className="btn btn-secondary plr"> <i className="fa fa-close" aria-hidden="true"></i> UnMarked</a></td>
-                        <td></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                        <td><a href="" className="btn btn-success"> <i className="fa fa-check" aria-hidden="true"></i> Marked</a></td>
-                    </tr>
-                </tbody>
-            </table>
-
+            <TableComponent />
         </div>
     </section>;
+
 export default MarkAttendance;
