@@ -1,7 +1,13 @@
-import * as React from "react";
-import DatePicker from "react-datepicker";
-import * as moment from "moment";
-
+import * as React from 'react';
+import DatePicker from 'react-datepicker';
+import * as moment from 'moment';
+interface Props extends React.Props<Checkbox> {
+  label: string;
+  style: any;
+  defaultChecked?: boolean;
+  checkedIcon?: any;
+  uncheckedIcon?: any;
+}
 // import {
 //     PagingState,
 //     IntegratedPaging,
@@ -33,7 +39,6 @@ import * as moment from "moment";
 //             rows: generateRows({ length: 60 }),
 //             pageSizes: [5, 10, 15, 0],
 
-
 //         };
 //     }
 
@@ -64,124 +69,159 @@ import * as moment from "moment";
 //         );
 //     }
 // }
+const styles = {
+  checkbox: {
+    marginBottom: 16,
+  },
+};
 
 class DatePickerComponent extends React.Component<any, any> {
-    constructor(props: any) {
-        super(props);
-        this.state = {
-            startDate: moment()
-        };
-        this.handleChange = this.handleChange.bind(this);
-    }
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      startDate: moment(),
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
 
-    handleChange(date: any) {
-        this.setState({
-            startDate: date
-        });
-    }
+  handleChange(date: any) {
+    this.setState({
+      startDate: date,
+    });
+  }
 
-    render() {
-        return (
-            <DatePicker
-                selected={this.state.startDate}
-                onChange={this.handleChange}
-            />
-
-        );
-    }
+  render() {
+    return <DatePicker selected={this.state.startDate} onChange={this.handleChange} />;
+  }
 }
 
-const MarkAttendance = () =>
-    <section className="plugin-bg-white">
-        <h3 className="bg-heading p-1">
-            <i className="fa fa-university stroke-transparent mr-1" aria-hidden="true"></i> Admin - Mark Attendance
-        </h3>
-        <div className="p-1">
-            <div className="dgrid-6">
-                <div className="chooseDateN">
-                    <label>Choose Date</label>
-                    <DatePickerComponent />
-                    {/* <input type="date" name="" id="" value="12/06/19" /> */}
-                </div>
-                <div className="">
-                    <label>Stream</label>
-                    <select className="sfwidth">
-                        <option value="">Computer Science</option>
-                        <option value="">Information Technology</option>
-                        <option value="">Electrical</option>
-                    </select>
-                </div>
-                <div className="">
-                    <label>Semester</label>
-                    <select className="sfwidth">
-                        <option value="">Sem - 1</option>
-                        <option value="">Sem - 2</option>
-                    </select>
-                </div>
-                <div className="">
-                    <label>Section</label>
-                    <select className="sfwidth">
-                        <option value="">Div - 1</option>
-                        <option value="">Div - 2</option>
-                    </select>
-                </div>
-                <div className="">
-                    <label>Period</label>
-                    <select className="sfwidth">
-                        <option value="">Period - 1</option>
-                        <option value="">Period - 2</option>
-                    </select>
-                </div>
-                <div className="">
-                    <label>Subject</label>
-                    <select className="sfwidth">
-                        <option value="">Subject 1</option>
-                        <option value="">Subject 2</option>
-                    </select>
-                </div>
-            </div>
-            <div className="hflex bg-heading mt-3">
-                <h4 className="p-1 py-2 mb-0">Computer Science Sem 1</h4>
-                <div className="hhflex">
-                    <div >
-                        <select >
-                            <option value="" selected disabled hidden>No Of Entries</option>
-                            <option value="">10</option>
-                            <option value="">20</option>
-                        </select>
-                    </div>
-                    <div className="px-2">
-                        <select >
-                            <option value="" selected disabled hidden>Sort By</option>
-                            <option value="">Name</option>
-                            <option value="">Roll No</option>
-                        </select>
-                    </div>
-                    <div className="h-center">
-                        <input type="text" placeholder="Search Student" />
-                        <i className="fa fa-search" aria-hidden="true"></i>
-                    </div>
-                </div>
-            </div>
-            <table className="fwidth" id="matable">
-                <thead>
-                    <th>Student Id</th>
-                    <th>Student Name</th>
-                    <th>Attendance</th>
-                    <th>Comments</th>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>001</td>
-                        <td>James Cameron</td>
-                        <td><a href="">On/Off</a></td>
-                        <td><input type="text" placeholder="Enter your comment" /></td>
-                    </tr>
-                </tbody>
-            </table>
-
-            {/* <TableComponent /> */}
+const MarkAttendance = () => (
+  <section className="plugin-bg-white">
+    <h3 className="bg-heading p-1">
+      <i className="fa fa-university stroke-transparent mr-1" aria-hidden="true" /> Admin
+      - Mark Attendance
+    </h3>
+    <div className="p-1">
+      <div className="dgrid-6">
+        <div className="chooseDateN">
+          <label>Choose Date</label>
+          <DatePickerComponent />
+          {/* <input type="date" name="" id="" value="12/06/19" /> */}
         </div>
-    </section>;
+        <div className="markWidth">
+          <label>Stream</label>
+          <select>
+            <option value="">Computer Science</option>
+            <option value="">Information Technology</option>
+            <option value="">Electrical</option>
+          </select>
+        </div>
+        <div className="markWidth">
+          <label>Semester</label>
+          <select>
+            <option value="">Sem - 1</option>
+            <option value="">Sem - 2</option>
+          </select>
+        </div>
+        <div className="markWidth">
+          <label>Section</label>
+          <select>
+            <option value="">Div - 1</option>
+            <option value="">Div - 2</option>
+          </select>
+        </div>
+        <div className="markWidth">
+          <label>Period</label>
+          <select>
+            <option value="">Period - 1</option>
+            <option value="">Period - 2</option>
+          </select>
+        </div>
+        <div className="markWidth">
+          <label>Subject</label>
+          <select>
+            <option value="">Subject 1</option>
+            <option value="">Subject 2</option>
+          </select>
+        </div>
+      </div>
+      <div className="hflex bg-heading mt-3">
+        <h4 className="p-1 py-2 mb-0">Computer Science Sem 1</h4>
+        <div className="hhflex">
+          <div>
+            <select className="ma-select">
+              <option value="" selected disabled hidden>
+                No Of Entries
+              </option>
+              <option value="">10</option>
+              <option value="">20</option>
+            </select>
+          </div>
+          <div className="mx-2">
+            <select className="ma-select">
+              <option value="" selected disabled hidden>
+                Sort By
+              </option>
+              <option value="">Name</option>
+              <option value="">Roll No</option>
+            </select>
+          </div>
+          <div className="h-center ma-select">
+            <input type="text" placeholder="Search Student" className="ma-select" />
+            <i className="fa fa-search" aria-hidden="true" />
+          </div>
+        </div>
+      </div>
+      <table className="fwidth" id="matable">
+        <thead>
+          <th>Student Id</th>
+          <th>Student Name</th>
+          <th>Attendance</th>
+          <th>Comments</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>001</td>
+            <td>James Cameron</td>
+            <td>
+              <label className="switch">
+                {' '}
+                <input type="checkbox" /> <span className="slider" />{' '}
+              </label>
+            </td>
+            <td>
+              <input type="text" placeholder="Enter your comment" />
+            </td>
+          </tr>
+          <tr>
+            <td>002</td>
+            <td>Lesli Parker</td>
+            <td>
+              <Checkbox label="Simple" style={styles.checkbox} />
+            </td>
+            <td>
+              <input type="text" placeholder="Enter your comment" />
+            </td>
+          </tr>
+          <tr>
+            <td>003</td>
+            <td>James Carter</td>
+            <td>
+              <label className="switch">
+                {' '}
+                <input type="checkbox" /> <span className="slider" />{' '}
+              </label>
+            </td>
+            <td>
+              <input type="text" placeholder="Enter your comment" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      {/* <TableComponent /> */}
+    </div>
+  </section>
+);
 
 export default MarkAttendance;
