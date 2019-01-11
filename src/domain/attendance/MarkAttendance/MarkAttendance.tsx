@@ -1,13 +1,13 @@
 import * as React from 'react';
 import DatePicker from 'react-datepicker';
 import * as moment from 'moment';
-interface Props extends React.Props<Checkbox> {
-  label: string;
-  style: any;
-  defaultChecked?: boolean;
-  checkedIcon?: any;
-  uncheckedIcon?: any;
-}
+// interface Props extends React.Props<Checkbox> {
+//   label: string;
+//   style: any;
+//   defaultChecked?: boolean;
+//   checkedIcon?: any;
+//   uncheckedIcon?: any;
+// }
 // import {
 //     PagingState,
 //     IntegratedPaging,
@@ -197,7 +197,10 @@ const MarkAttendance = () => (
             <td>002</td>
             <td>Lesli Parker</td>
             <td>
-              <Checkbox label="Simple" style={styles.checkbox} />
+              <label className="switch">
+                {' '}
+                <input type="checkbox" /> <span className="slider" />{' '}
+              </label>
             </td>
             <td>
               <input type="text" placeholder="Enter your comment" />
