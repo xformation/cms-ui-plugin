@@ -2,70 +2,68 @@ import * as React from "react";
 import DatePicker from "react-datepicker";
 import * as moment from "moment";
 
-import {
-    PagingState,
-    IntegratedPaging,
-    IntegratedFiltering,
-} from '@devexpress/dx-react-grid';
+// import {
+//     PagingState,
+//     IntegratedPaging,
+//     IntegratedFiltering,
+// } from '@devexpress/dx-react-grid';
 
-import {
-    Grid,
-    Table,
-    TableHeaderRow,
-    PagingPanel,
-} from '@devexpress/dx-react-grid-bootstrap4';
+// import {
+//     Grid,
+//     Table,
+//     TableHeaderRow,
+//     PagingPanel,
+// } from '@devexpress/dx-react-grid-bootstrap4';
 
-// import "react-datepicker/dist/react-datepicker.css";
+// import '@devexpress/dx-react-grid-bootstrap4/dist/dx-react-grid-bootstrap4.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
-import '@devexpress/dx-react-grid-bootstrap4/dist/dx-react-grid-bootstrap4.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import { generateRows } from './generator';
 
-import { generateRows } from './generator';
-
-class TableComponent extends React.Component<any, any> {
-    constructor(props: any) {
-        super(props);
-        this.state = {
-            columns: [
-                { name: 'name', title: 'Student ID' },
-                { name: 'sex', title: 'Student Name' },
-                { name: 'city', title: 'Attendance' },
-                { name: 'car', title: 'Comments' },
-            ],
-            rows: generateRows({ length: 60 }),
-            pageSizes: [5, 10, 15, 0],
+// class TableComponent extends React.Component<any, any> {
+//     constructor(props: any) {
+//         super(props);
+//         this.state = {
+//             columns: [
+//                 { name: 'name', title: 'Student ID' },
+//                 { name: 'sex', title: 'Student Name' },
+//                 { name: 'city', title: 'Attendance' },
+//                 { name: 'car', title: 'Comments' },
+//             ],
+//             rows: generateRows({ length: 60 }),
+//             pageSizes: [5, 10, 15, 0],
 
 
-        };
-    }
+//         };
+//     }
 
-    render() {
-        const { rows, columns, pageSizes } = this.state;
+//     render() {
+//         const { rows, columns, pageSizes } = this.state;
 
-        return (
-            <div className="card">
-                <Grid
-                    rows={rows}
-                    columns={columns}
+//         return (
+//             <div className="card">
+//                 <Grid
+//                     rows={rows}
+//                     columns={columns}
 
-                >
-                    <PagingState
-                        defaultCurrentPage={0}
-                        defaultPageSize={5}
-                    />
+//                 >
+//                     <PagingState
+//                         defaultCurrentPage={0}
+//                         defaultPageSize={5}
+//                     />
 
-                    <IntegratedFiltering />
-                    <IntegratedPaging />
-                    <Table />
-                    <TableHeaderRow />
-                    <PagingPanel
-                        pageSizes={pageSizes}
-                    />
-                </Grid>
-            </div>
-        );
-    }
-}
+//                     <IntegratedFiltering />
+//                     <IntegratedPaging />
+//                     <Table />
+//                     <TableHeaderRow />
+//                     <PagingPanel
+//                         pageSizes={pageSizes}
+//                     />
+//                 </Grid>
+//             </div>
+//         );
+//     }
+// }
 
 class DatePickerComponent extends React.Component<any, any> {
     constructor(props: any) {
@@ -142,14 +140,14 @@ const MarkAttendance = () =>
                     </select>
                 </div>
             </div>
-            <div className="hflex bg-heading">
-                <h3 className="mt-3 p-1 mb-0">Computer Science Sem 1</h3>
+            <div className="hflex bg-heading mt-3">
+                <h4 className="p-1 py-2 mb-0">Computer Science Sem 1</h4>
                 <div className="hhflex">
                     <div >
                         <select >
                             <option value="" selected disabled hidden>No Of Entries</option>
                             <option value="">10</option>
-                            <option value="">10</option>
+                            <option value="">20</option>
                         </select>
                     </div>
                     <div className="px-2">
@@ -165,8 +163,24 @@ const MarkAttendance = () =>
                     </div>
                 </div>
             </div>
+            <table className="fwidth" id="matable">
+                <thead>
+                    <th>Student Id</th>
+                    <th>Student Name</th>
+                    <th>Attendance</th>
+                    <th>Comments</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>001</td>
+                        <td>James Cameron</td>
+                        <td><a href="">On/Off</a></td>
+                        <td><input type="text" placeholder="Enter your comment" /></td>
+                    </tr>
+                </tbody>
+            </table>
 
-            <TableComponent />
+            {/* <TableComponent /> */}
         </div>
     </section>;
 
