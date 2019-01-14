@@ -2,79 +2,9 @@ import * as React from 'react';
 import DatePicker from 'react-datepicker';
 import * as moment from 'moment';
 
-// interface Props extends React.Props<Checkbox> {
-//   label: string;
-//   style: any;
-//   defaultChecked?: boolean;
-//   checkedIcon?: any;
-//   uncheckedIcon?: any;
-// }
-// import {
-//     PagingState,
-//     IntegratedPaging,
-//     IntegratedFiltering,
-// } from '@devexpress/dx-react-grid';
-
-// import {
-//     Grid,
-//     Table,
-//     TableHeaderRow,
-//     PagingPanel,
-// } from '@devexpress/dx-react-grid-bootstrap4';
-
-// import '@devexpress/dx-react-grid-bootstrap4/dist/dx-react-grid-bootstrap4.css';
-// import 'bootstrap/dist/css/bootstrap.min.css';
-
-// import { generateRows } from './generator';
-
-// class TableComponent extends React.Component<any, any> {
-//     constructor(props: any) {
-//         super(props);
-//         this.state = {
-//             columns: [
-//                 { name: 'name', title: 'Student ID' },
-//                 { name: 'sex', title: 'Student Name' },
-//                 { name: 'city', title: 'Attendance' },
-//                 { name: 'car', title: 'Comments' },
-//             ],
-//             rows: generateRows({ length: 60 }),
-//             pageSizes: [5, 10, 15, 0],
-
-//         };
-//     }
-
-//     render() {
-//         const { rows, columns, pageSizes } = this.state;
-
-//         return (
-//             <div className="card">
-//                 <Grid
-//                     rows={rows}
-//                     columns={columns}
-
-//                 >
-//                     <PagingState
-//                         defaultCurrentPage={0}
-//                         defaultPageSize={5}
-//                     />
-
-//                     <IntegratedFiltering />
-//                     <IntegratedPaging />
-//                     <Table />
-//                     <TableHeaderRow />
-//                     <PagingPanel
-//                         pageSizes={pageSizes}
-//                     />
-//                 </Grid>
-//             </div>
-//         );
-//     }
-// }
-const styles = {
-  checkbox: {
-    marginBottom: 16,
-  },
-};
+interface type {
+  checked: boolean;
+}
 
 class DatePickerComponent extends React.Component<any, any> {
   constructor(props: any) {
@@ -90,6 +20,7 @@ class DatePickerComponent extends React.Component<any, any> {
       startDate: date,
     });
   }
+
 
   render() {
     return <DatePicker selected={this.state.startDate} onChange={this.handleChange} />;
@@ -187,7 +118,7 @@ const MarkAttendance = () => (
             <td>
               <label className="switch">
                 {' '}
-                <input type="checkbox" /> <span className="slider" />{' '}
+                <input type="checkbox" defaultChecked /> <span className="slider" />{' '}
               </label>
             </td>
             <td>
@@ -200,7 +131,7 @@ const MarkAttendance = () => (
             <td>
               <label className="switch">
                 {' '}
-                <input type="checkbox" /> <span className="slider" />{' '}
+                <input type="checkbox" defaultChecked /> <span className="slider" />{' '}
               </label>
             </td>
             <td>
@@ -213,7 +144,7 @@ const MarkAttendance = () => (
             <td>
               <label className="switch">
                 {' '}
-                <input type="checkbox" /> <span className="slider" />{' '}
+                <input type="checkbox" defaultChecked /> <span className="slider" />{' '}
               </label>
             </td>
             <td>
