@@ -2,7 +2,6 @@ import * as React from 'react';
 import DatePicker from 'react-datepicker';
 import * as moment from 'moment';
 
-import '';
 // interface Props extends React.Props<Checkbox> {
 //   label: string;
 //   style: any;
