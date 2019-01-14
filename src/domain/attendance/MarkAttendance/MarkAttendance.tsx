@@ -1,7 +1,8 @@
 import * as React from 'react';
 import DatePicker from 'react-datepicker';
 import * as moment from 'moment';
-import Toggle from 'react-toggle';
+
+import '';
 // interface Props extends React.Props<Checkbox> {
 //   label: string;
 //   style: any;
@@ -96,14 +97,6 @@ class DatePickerComponent extends React.Component<any, any> {
   }
 }
 
-// class ToggleAttendace extends React.Component {
-//   constructor(props: any) {
-//     super(props);
-//   defaultChecked={this.state.baconIsReady}
-//     onChange={this.handleBaconChange}
-
-// }
-
 const MarkAttendance = () => (
   <section className="plugin-bg-white">
     <h3 className="bg-heading p-1">
@@ -190,8 +183,21 @@ const MarkAttendance = () => (
         </thead>
         <tbody>
           <tr>
+            <td>001</td>
+            <td>James Cameron</td>
+            <td>
+              <label className="switch">
+                {' '}
+                <input type="checkbox" /> <span className="slider" />{' '}
+              </label>
+            </td>
+            <td>
+              <input type="text" placeholder="Enter your comment" />
+            </td>
+          </tr>
+          <tr>
             <td>002</td>
-            <td>Jamie Cameron</td>
+            <td>Lesli Parker</td>
             <td>
               <label className="switch">
                 {' '}
@@ -217,6 +223,7 @@ const MarkAttendance = () => (
           </tr>
         </tbody>
       </table>
+
       <div className="d-flex fwidth justify-content-between pt-2">
         <p>Showing 1-10 of 60 Entries</p>
         <div>
@@ -253,8 +260,6 @@ const MarkAttendance = () => (
           </ul>
         </div>
       </div>
-
-      {/* <TableComponent /> */}
     </div>
   </section>
 );
