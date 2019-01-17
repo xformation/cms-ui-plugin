@@ -1,20 +1,20 @@
 import * as React from 'react';
 
-import {withRouter, RouteComponentProps, Link} from 'react-router-dom';
-import {graphql, QueryProps} from 'react-apollo';
+import { withRouter, RouteComponentProps, Link } from 'react-router-dom';
+import { graphql, QueryProps } from 'react-apollo';
 
 import * as StudentListQueryGql from './StudentListQuery.graphql';
-import {StudentListQuery, StudentSummaryFragment} from '../../types';
+import { StudentListQuery, StudentSummaryFragment } from '../../types';
 import withLoadingHandler from '../../../components/withLoadingHandler';
 
-const StudentRow = ({student}: {student: StudentSummaryFragment}) => (
+const StudentRow = ({ student }: { student: StudentSummaryFragment }) => (
   <tr key={student.id}>
     <td>{student.sName}</td>
     <td className="hidden-sm hidden-xs">{student.attendance}</td>
   </tr>
 );
 
-const StudentsTable = ({students}: {students: StudentSummaryFragment[]}) => (
+const StudentsTable = ({ students }: { students: StudentSummaryFragment[] }) => (
   <table className="striped-table">
     <thead>
       <tr>
@@ -33,7 +33,7 @@ type StudentListPageProps = {
   data: QueryProps & StudentListQuery;
 };
 
-const StudentListPage = ({data: {students}}: StudentListPageProps) => (
+const StudentListPage = ({ data: { students } }: StudentListPageProps) => (
   // <section className="customCss">
   //   <h2 className="heading">
   //     {/* {students.length}  */}
@@ -51,7 +51,7 @@ const StudentListPage = ({data: {students}}: StudentListPageProps) => (
     </h3>
     <div className="p-1">
       <div className="dflex j-start">
-        <div className="fwidth">
+        <div className="fwidth pr-1">
           <label>Year</label>
           <select className="fwidth">
             <option value="">1</option>

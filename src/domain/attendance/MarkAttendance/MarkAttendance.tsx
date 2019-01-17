@@ -82,7 +82,7 @@ const MarkAttendance = () => (
         <div className="hhflex">
           <div>
             <select className="ma-select">
-              <option value="" selected disabled hidden>
+              <option value="">
                 No Of Entries
               </option>
               <option value="">10</option>
@@ -91,7 +91,7 @@ const MarkAttendance = () => (
           </div>
           <div className="mx-2">
             <select className="ma-select">
-              <option value="" selected disabled hidden>
+              <option value="">
                 Sort By
               </option>
               <option value="">Name</option>
