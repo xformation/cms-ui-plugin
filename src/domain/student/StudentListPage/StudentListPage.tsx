@@ -1,20 +1,20 @@
 import * as React from 'react';
 
-import { withRouter, RouteComponentProps, Link } from 'react-router-dom';
-import { graphql, QueryProps } from 'react-apollo';
+import {withRouter, RouteComponentProps, Link} from 'react-router-dom';
+import {graphql, QueryProps} from 'react-apollo';
 
 import * as StudentListQueryGql from './StudentListQuery.graphql';
-import { StudentListQuery, StudentSummaryFragment } from '../../types';
+import {StudentListQuery, StudentSummaryFragment} from '../../types';
 import withLoadingHandler from '../../../components/withLoadingHandler';
 
-const StudentRow = ({ student }: { student: StudentSummaryFragment }) => (
+const StudentRow = ({student}: {student: StudentSummaryFragment}) => (
   <tr key={student.id}>
     <td>{student.sName}</td>
     <td className="hidden-sm hidden-xs">{student.attendance}</td>
   </tr>
 );
 
-const StudentsTable = ({ students }: { students: StudentSummaryFragment[] }) => (
+const StudentsTable = ({students}: {students: StudentSummaryFragment[]}) => (
   <table className="striped-table">
     <thead>
       <tr>
@@ -33,7 +33,7 @@ type StudentListPageProps = {
   data: QueryProps & StudentListQuery;
 };
 
-const StudentListPage = ({ data: { students } }: StudentListPageProps) => (
+const StudentListPage = ({data: {students}}: StudentListPageProps) => (
   // <section className="customCss">
   //   <h2 className="heading">
   //     {/* {students.length}  */}
@@ -160,32 +160,33 @@ const StudentListPage = ({ data: { students } }: StudentListPageProps) => (
             <td>Scholarship</td>
             <td>0000-111-222</td>
           </tr>
-
         </tbody>
       </table>
     </div>
 
     <section className="plugin-bg-white">
       <h3 className="bg-heading p-1">
-        <i className="fa fa-university stroke-transparent mr-1" aria-hidden="true" /> Admin
-        - Student Management
-    </h3>
-      <div className="hflex bg-heading mt-3">
+        <i className="fa fa-university stroke-transparent mr-1" aria-hidden="true" />{' '}
+        Admin - Student Management
+      </h3>
+      <div className="hflex bg-heading mt-3 mr-18 ml-18">
         <h4>Student Profile</h4>
         <div className="hhflex">
           <a href="" className="btn btn-primary btn-width bt-radius">
             Save
-        </a>
+          </a>
         </div>
       </div>
       <div className="grid">
         <div className="leftbar">
           <img src="/public/img/cubes.png" alt="" />
           <div className="form-justify">
-            <label htmlFor="">*Admission No:</label><input className="border-plugin input-width" type="text" />
+            <label htmlFor="">*Admission No:</label>
+            <input className="border-plugin input-width" type="text" />
           </div>
           <div className="form-justify">
-            <label htmlFor="">*Student Id:</label><input className="border-plugin input-width" type="text" />
+            <label htmlFor="">*Student Id:</label>
+            <input className="border-plugin input-width" type="text" />
           </div>
           <div className="form-justify">
             <label htmlFor="">*Department:</label>
@@ -223,88 +224,90 @@ const StudentListPage = ({ data: { students } }: StudentListPageProps) => (
             </select>
           </div>
           <div className="form-justify">
-            <label htmlFor="">Student Type:</label><input type="text" className="input-width border-plugin" />
+            <label htmlFor="">Student Type:</label>
+            <input type="text" className="input-width border-plugin" />
           </div>
         </div>
-        <div className="rightbar"><form action="" className="form-grid">
-          <div>
-            <label htmlFor="">Name*</label>
-            <input className="border-plugin fwidth" type="text" />
-          </div>
-          <div>
-            <label htmlFor="">Middle Name*</label>
-            <input className="border-plugin fwidth" type="text" />
-          </div>
-          <div>
-            <label htmlFor="">Last Name*</label>
-            <input className="border-plugin fwidth" type="text" />
-          </div>
-          <div>
-            <label htmlFor="">Father Name*</label>
-            <input className="border-plugin fwidth" type="text" />
-          </div>
-          <div>
-            <label htmlFor="">Father Middle Name*</label>
-            <input className="border-plugin fwidth" type="text" />
-          </div>
-          <div>
-            <label htmlFor="">Father Last Name*</label>
-            <input className="border-plugin fwidth" type="text" />
-          </div>
-          <div>
-            <label htmlFor="">Mother Name*</label>
-            <input className="border-plugin fwidth" type="text" />
-          </div>
-          <div>
-            <label htmlFor="">Mother Middle Name*</label>
-            <input className="border-plugin fwidth" type="text" />
-          </div>
-          <div>
-            <label htmlFor="">Mother Last Name*</label>
-            <input className="border-plugin fwidth" type="text" />
-          </div>
+        <div className="rightbar">
+          <form action="" className="form-grid">
+            <div>
+              <label htmlFor="">Name*</label>
+              <input className="border-plugin fwidth" type="text" />
+            </div>
+            <div>
+              <label htmlFor="">Middle Name*</label>
+              <input className="border-plugin fwidth" type="text" />
+            </div>
+            <div>
+              <label htmlFor="">Last Name*</label>
+              <input className="border-plugin fwidth" type="text" />
+            </div>
+            <div>
+              <label htmlFor="">Father Name*</label>
+              <input className="border-plugin fwidth" type="text" />
+            </div>
+            <div>
+              <label htmlFor="">Father Middle Name*</label>
+              <input className="border-plugin fwidth" type="text" />
+            </div>
+            <div>
+              <label htmlFor="">Father Last Name*</label>
+              <input className="border-plugin fwidth" type="text" />
+            </div>
+            <div>
+              <label htmlFor="">Mother Name*</label>
+              <input className="border-plugin fwidth" type="text" />
+            </div>
+            <div>
+              <label htmlFor="">Mother Middle Name*</label>
+              <input className="border-plugin fwidth" type="text" />
+            </div>
+            <div>
+              <label htmlFor="">Mother Last Name*</label>
+              <input className="border-plugin fwidth" type="text" />
+            </div>
 
-          <div>
-            <label htmlFor="">Adhar No*</label>
-            <input className="border-plugin fwidth" type="text" />
-          </div>
-          <div>
-            <label htmlFor="">Date Of Birth*</label>
-            <input className="border-plugin fwidth" type="text" />
-          </div>
-          <div>
-            <label htmlFor="">Place Of Birth*</label>
-            <input className="border-plugin fwidth" type="text" />
-          </div>
-          <div>
-            <label htmlFor="">Religion*</label>
-            <input className="border-plugin fwidth" type="text" />
-          </div>
-          <div>
-            <label htmlFor="">Cast*</label>
-            <input className="border-plugin fwidth" type="text" />
-          </div>
-          <div>
-            <label htmlFor="">Subcasat*</label>
-            <input className="border-plugin fwidth" type="text" />
-          </div>
-          <div>
-            <label htmlFor="">Age*</label>
-            <input className="border-plugin fwidth" type="text" />
-          </div>
-          <div>
-            <label htmlFor="">Sex*</label>
-            <input className="border-plugin fwidth" type="text" />
-          </div>
-          <div>
-            <label htmlFor="">Blood Group*</label>
-            <input className="border-plugin fwidth" type="text" />
-          </div>
-
-        </form></div>
+            <div>
+              <label htmlFor="">Adhar No*</label>
+              <input className="border-plugin fwidth" type="text" />
+            </div>
+            <div>
+              <label htmlFor="">Date Of Birth*</label>
+              <input className="border-plugin fwidth" type="text" />
+            </div>
+            <div>
+              <label htmlFor="">Place Of Birth*</label>
+              <input className="border-plugin fwidth" type="text" />
+            </div>
+            <div>
+              <label htmlFor="">Religion*</label>
+              <input className="border-plugin fwidth" type="text" />
+            </div>
+            <div>
+              <label htmlFor="">Cast*</label>
+              <input className="border-plugin fwidth" type="text" />
+            </div>
+            <div>
+              <label htmlFor="">Subcasat*</label>
+              <input className="border-plugin fwidth" type="text" />
+            </div>
+            <div>
+              <label htmlFor="">Age*</label>
+              <input className="border-plugin fwidth" type="text" />
+            </div>
+            <div>
+              <label htmlFor="">Sex*</label>
+              <input className="border-plugin fwidth" type="text" />
+            </div>
+            <div>
+              <label htmlFor="">Blood Group*</label>
+              <input className="border-plugin fwidth" type="text" />
+            </div>
+          </form>
+        </div>
       </div>
     </section>
-  </section >
+  </section>
 );
 export default graphql<StudentListQuery, StudentListPageOwnProps, StudentListPageProps>(
   StudentListQueryGql
