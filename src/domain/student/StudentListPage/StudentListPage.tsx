@@ -185,7 +185,6 @@ const StudentListPage = ({ data: { students } }: StudentListPageProps) => (
             <label htmlFor="">*Admission No:</label><input className="border-plugin input-width" type="text" />
           </div>
           <div className="form-justify">
-
             <label htmlFor="">*Student Id:</label><input className="border-plugin input-width" type="text" />
           </div>
           <div className="form-justify">
@@ -224,7 +223,7 @@ const StudentListPage = ({ data: { students } }: StudentListPageProps) => (
             </select>
           </div>
           <div className="form-justify">
-            <label htmlFor="">Student Type:<input type="text" className="input-width border-plugin" /></label>
+            <label htmlFor="">Student Type:</label><input type="text" className="input-width border-plugin" />
           </div>
         </div>
         <div className="rightbar"><form action="" className="form-grid">

@@ -402,3 +402,7 @@ ul.ul-attend > li:last-child {
   width: 150px;
   height: 25px;
 }
+.form-justify {
+  display: flex;
+  justify-content: space-around;
+}
