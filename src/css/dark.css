@@ -374,3 +374,9 @@ ul.ul-attend > li:last-child {
 .b-0 {
   border: none;
 }
+.bt-radius {
+  border-radius: 4px;
+}
+.btn-width {
+  width: 10.5rem;
+}
