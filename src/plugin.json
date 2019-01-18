@@ -12,10 +12,7 @@
       "name": "Synectiks",
       "url": "https://xformation.com"
     },
-    "keywords": [
-      "petclinic",
-      "panel"
-    ],
+    "keywords": ["petclinic", "panel"],
     "version": "1.0.6",
     "updated": "2018-10-12",
     "logos": {
@@ -114,6 +111,13 @@
       "addToNav": true,
       "defaultNav": false,
       "component": "StudentsPage"
+    },
+    {
+      "type": "page",
+      "name": "StudentProfile",
+      "addToNav": true,
+      "defaultNav": false,
+      "component": "StudentProfilePage"
     }
   ],
   "dependencies": {

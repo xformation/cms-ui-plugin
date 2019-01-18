@@ -1,25 +1,25 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import {AppContainer} from 'react-hot-loader';
-import {ApolloProvider} from 'react-apollo';
+import { AppContainer } from 'react-hot-loader';
+import { ApolloProvider } from 'react-apollo';
 
-import {BrowserRouter, Switch, Route} from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-import {createGraphQLClient} from '../../../createGraphQLClient';
-import StudentListPage from './StudentProfilePage';
+import { createGraphQLClient } from '../../../createGraphQLClient';
+import StudentProfilePage from './StudentProfilePage';
 import '../../../css/dark.css';
 
 const graphQLClient = createGraphQLClient();
 
 export default function init() {
-  setTimeout(function() {
+  setTimeout(function () {
     ReactDOM.render(
       <ApolloProvider client={graphQLClient}>
         <BrowserRouter>
           <Switch>
             <Route
-              path="/plugins/xformation-petclinic-panel/page/students"
-              component={StudentListPage}
+              path="/plugins/xformation-petclinic-panel/page/studentprofile"
+              component={StudentProfilePage}
             />
           </Switch>
         </BrowserRouter>

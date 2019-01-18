@@ -380,3 +380,25 @@ ul.ul-attend > li:last-child {
 .btn-width {
   width: 10.5rem;
 }
+.grid {
+  display: grid;
+  grid-template-columns: 30% 70%;
+}
+.rightbar {
+  padding: 2rem;
+  border: 1px solid #cecece;
+}
+.border-plugin {
+  border: 1px solid #cecece;
+  border-radius: 5px;
+  padding: 4px;
+}
+.form-grid {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-gap: 15px;
+}
+.input-width {
+  width: 150px;
+  height: 25px;
+}
