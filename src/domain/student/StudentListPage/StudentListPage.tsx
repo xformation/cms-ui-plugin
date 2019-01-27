@@ -427,6 +427,36 @@ const StudentListPage = ({data: {students}}: StudentListPageProps) => (
         </div>
       </div>
     </section>
+    <section className="plugin-bg-white">
+      <div className="hflex bg-heading mt-3 mr-18 ml-18">
+        <h4>Student Profile</h4>
+        <div className="hhflex">
+          <a href="" className="btn btn-primary btn-width bt-radius">
+            Save
+          </a>
+        </div>
+      </div>
+      <div className="main-grid">
+        <div className="left-grid">
+          <img src="" alt="" />
+        </div>
+        <div className="righ-grid">
+          <div className="heading-flex">
+            <h3>Jeremy Andrew Rose</h3>
+            <span>Contact No 9878545625</span>
+            <span>Primary Contact Father 9878545625</span>
+          </div>
+          <div className="next-h3">
+            <span>Admission No: 951426</span>
+            <span>Roll No: 2019-521</span>
+            <span>Class: First Year</span>
+            <span>Student Id: 951426</span>
+            <span>Department: Computer Science</span>
+            <span>Section: C</span>
+          </div>
+        </div>
+      </div>
+    </section>
   </section>
 );
 export default graphql<StudentListQuery, StudentListPageOwnProps, StudentListPageProps>(
