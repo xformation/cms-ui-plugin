@@ -13,7 +13,7 @@ import {AttendanceOverview} from './ui/AttendanceOverview';
 import {FindStudentYearsPage} from './ui/FindStudentYearsPage';
 import {StudentsPage} from './ui/StudentsPage';
 import {MarkAttendance} from './ui/MarkAttendance';
-import {StudentsProfilePage} from './ui/StudentsProfile';
+import {StudentsProfile} from './ui/StudentsProfile';
 
 export {
   WelcomePage,
@@ -30,5 +30,5 @@ export {
   FindStudentYearsPage,
   StudentsPage,
   MarkAttendance,
-  StudentsProfilePage,
+  StudentsProfile,
 };

@@ -1,7 +1,7 @@
-import init from '../domain/student/StudentProfile/StudentsApp';
+import init from '../domain/student/StudentProfilePage/StudentsApp';
 
-export class StudentsProfilePage {
-  static templateUrl = '/partials/studentprofile.html';
+export class StudentsProfile {
+  static templateUrl = '/partials/studentsprofile.html';
   constructor() {
     init();
   }
