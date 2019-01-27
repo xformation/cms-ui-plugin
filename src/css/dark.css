@@ -398,7 +398,6 @@ ul.ul-attend > li:last-child {
   margin-left: 6px;
 }
 .rightbar {
-  padding: 2rem;
   border: 1px solid #cecece;
 }
 .border-plugin {
@@ -410,6 +409,7 @@ ul.ul-attend > li:last-child {
   display: grid;
   grid-template-columns: auto auto auto;
   grid-gap: 15px;
+  margin: 2rem;
 }
 .input-width {
   width: 120px;
@@ -419,4 +419,28 @@ ul.ul-attend > li:last-child {
 .form-justify {
   display: flex;
   justify-content: space-between;
+}
+
+.b-1 {
+  border: 1px solid #cecece;
+}
+
+.reln {
+  padding-left: 2rem;
+  padding-top: 1rem;
+}
+.reln > select {
+  border-radius: 5px;
+  width: 300px !important;
+}
+.rel-radio {
+  display: grid;
+  border-radius: 5px;
+  border: 1px solid #cecece;
+  height: 30px;
+  grid-template-columns: auto auto;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 18px;
+  background-color: #efefef;
 }

@@ -229,6 +229,7 @@ const StudentListPage = ({data: {students}}: StudentListPageProps) => (
           </div>
         </div>
         <div className="rightbar">
+          <h3 className="bg-heading p-1 b-1">Personal Details</h3>
           <form action="" className="form-grid">
             <div>
               <label htmlFor="">Name*</label>
@@ -302,6 +303,125 @@ const StudentListPage = ({data: {students}}: StudentListPageProps) => (
             <div>
               <label htmlFor="">Blood Group*</label>
               <input className="border-plugin fwidth" type="text" />
+            </div>
+          </form>
+
+          <h3 className="bg-heading p-1 b-1">Contact Details</h3>
+          <form action="" className="form-grid">
+            <div>
+              <label htmlFor="">Address Line 1*</label>
+              <input className="border-plugin fwidth" type="text" />
+            </div>
+            <div>
+              <label htmlFor="">Address Line 2</label>
+              <input className="border-plugin fwidth" type="text" />
+            </div>
+            <div>
+              <label htmlFor="">Town*</label>
+              <input className="border-plugin fwidth" type="text" />
+            </div>
+            <div>
+              <label htmlFor="">State*</label>
+              <input className="border-plugin fwidth" type="text" />
+            </div>
+            <div>
+              <label htmlFor="">Country*</label>
+              <input className="border-plugin fwidth" type="text" />
+            </div>
+            <div>
+              <label htmlFor="">Pin Code*</label>
+              <input className="border-plugin fwidth" type="text" />
+            </div>
+            <div>
+              <label htmlFor="">Contact Number*</label>
+              <input className="border-plugin fwidth" type="text" />
+            </div>
+            <div>
+              <label htmlFor="">Alternate Contact Number 1</label>
+              <input className="border-plugin fwidth" type="text" />
+            </div>
+            <br />
+            <div>
+              <label htmlFor="">Email Address*</label>
+              <input className="border-plugin fwidth" type="text" />
+            </div>
+
+            <div>
+              <label htmlFor="">Alternate Email Address</label>
+              <input className="border-plugin fwidth" type="text" />
+            </div>
+          </form>
+
+          <h3 className="bg-heading p-1 b-1">Primary And Emergency Contact Details</h3>
+          <form action="">
+            <div className="reln">
+              <label htmlFor="">Relation with Student*</label>
+              <select name="" id="">
+                <option value="">Father</option>
+                <option value="">Mother</option>
+              </select>
+            </div>
+            <div className="form-grid">
+              <div>
+                <label htmlFor="">Name*</label>
+                <input className="border-plugin fwidth" type="text" />
+              </div>
+              <div>
+                <label htmlFor="">Middle Name*</label>
+                <input className="border-plugin fwidth" type="text" />
+              </div>
+              <div>
+                <label htmlFor="">Last Name*</label>
+                <input className="border-plugin fwidth" type="text" />
+              </div>
+              <div>
+                <label htmlFor="">Contact Number*</label>
+                <input className="border-plugin fwidth" type="text" />
+              </div>
+              <div>
+                <label htmlFor="">Email Address*</label>
+                <input className="border-plugin fwidth" type="text" />
+              </div>
+              <div className="rel-radio">
+                <label htmlFor="">Last Name*</label>
+                <input className="border-plugin fwidth" type="radio" />
+              </div>
+            </div>
+          </form>
+          <hr />
+          <form action="">
+            <div className="reln">
+              <label htmlFor="">Relation with Student*</label>
+              <select name="" id="">
+                <option value="">Father</option>
+                <option value="">Mother</option>
+              </select>
+            </div>
+            <div className="form-grid">
+              <div>
+                <label htmlFor="">Name*</label>
+                <input className="border-plugin fwidth" type="text" />
+              </div>
+              <div>
+                <label htmlFor="">Middle Name*</label>
+                <input className="border-plugin fwidth" type="text" />
+              </div>
+              <div>
+                <label htmlFor="">Last Name*</label>
+                <input className="border-plugin fwidth" type="text" />
+              </div>
+              <div>
+                <label htmlFor="">Contact Number*</label>
+                <input className="border-plugin fwidth" type="text" />
+              </div>
+              <div>
+                <label htmlFor="">Email Address*</label>
+                <input className="border-plugin fwidth" type="text" />
+              </div>
+              <div className="rel-radio">
+                <label htmlFor="">Last Name*</label>
+                <input className="border-plugin fwidth" type="radio" />
+              </div>
             </div>
           </form>
         </div>
