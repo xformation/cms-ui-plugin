@@ -114,10 +114,10 @@
     },
     {
       "type": "page",
-      "name": "StudentProfile",
+      "name": "StudentsProfile",
       "addToNav": true,
       "defaultNav": false,
-      "component": "StudentProfilePage"
+      "component": "StudentsProfile"
     }
   ],
   "dependencies": {
