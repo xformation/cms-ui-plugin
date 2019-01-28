@@ -444,3 +444,111 @@ ul.ul-attend > li:last-child {
   margin-top: 18px;
   background-color: #efefef;
 }
+.main-grid {
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  grid-gap: 20px;
+}
+.heading-flex {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.heading-flex > h3 {
+  color: #447aae !important;
+}
+.heading-flex > .hflex-h5 {
+  margin: 0 3rem;
+  border-left: 1px solid #cecece;
+  border-right: 1px solid #cecece;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+/* .hflex-h5::before {
+  content: '';
+  display: block;
+  width: 2px;
+  height: 6px;
+  background-color: #cecece;
+  position: absolute;
+}
+.hflex-h5::after {
+  content: '';
+  display: block;
+  width: 2px;
+  height: 6px;
+  background-color: #cecece;
+  position: absolute;
+} */
+.next-div {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+.next-div span {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  color: rgba(54, 151, 239, 0.5) !important;
+}
+.next-div span span {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  color: black !important;
+}
+.family-details {
+  margin-top: 2rem;
+}
+.family-details,
+.contact-details,
+.id-details {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+.family-details > h5 {
+  color: rgba(54, 151, 239, 0.5) !important;
+}
+h5 {
+  color: rgba(54, 151, 239, 0.5) !important;
+}
+.contact-details > h5 {
+  color: rgba(54, 151, 239, 0.5) !important;
+}
+.id-details > h5 {
+  color: rgba(54, 151, 239, 0.5) !important;
+}
+.contact-details {
+  border-top: 1px solid #cecece;
+  border-bottom: 1px solid #cecece;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+}
+.buttons a {
+  border-radius: 10px;
+}
+/* .buttons {
+  background-color: rgba(0, 153, 224, 0.4);
+} */
+.b-1 {
+  border: 1px solid #cecece;
+}
+.m-2 {
+  margin: 2rem;
+}
+
+.btn-disable {
+  background-color: rgba(54, 151, 239, 0.4) !important;
+  color: #fff;
+}
+.btn-disable:hover {
+  background-color: rgba(54, 151, 239, 0.5) !important;
+  color: #fff;
+}
