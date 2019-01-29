@@ -7,6 +7,7 @@ import {EditInstitutePage} from './ui/EditInstitutePage';
 import {InstitutePage} from './ui/InstitutePage';
 import {FacultiesPage} from './ui/FacultiesPage';
 import {AddFacultyPage} from './ui/AddFacultyPage';
+import {AddStudentPage} from './ui/AddStudentPage';
 import {FacultyPage} from './ui/FacultyPage';
 import {EditFacultyPage} from './ui/EditFacultyPage';
 import {AttendanceOverview} from './ui/AttendanceOverview';
@@ -31,4 +32,5 @@ export {
   StudentsPage,
   MarkAttendance,
   StudentsProfile,
+  AddStudentPage,
 };

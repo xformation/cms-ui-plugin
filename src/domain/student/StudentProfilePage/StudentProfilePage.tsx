@@ -85,9 +85,7 @@ const StudentProfilePage = ({data: {students}}: StudentListPageProps) => (
             </span>
           </div>
           <div className="buttons">
-            <a href="" className="btn btn-primary">
-              Profile
-            </a>
+            <a className="btn btn-primary">Profile</a>
             <a href="" className="btn btn-disable">
               Details
             </a>

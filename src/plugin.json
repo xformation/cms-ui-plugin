@@ -114,6 +114,13 @@
     },
     {
       "type": "page",
+      "name": "AddStudent",
+      "addToNav": true,
+      "defaultNav": false,
+      "component": "AddStudentPage"
+    },
+    {
+      "type": "page",
       "name": "StudentsProfile",
       "addToNav": true,
       "defaultNav": false,

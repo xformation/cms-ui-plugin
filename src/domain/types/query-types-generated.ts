@@ -191,6 +191,25 @@ export type AddFacultyMutation = {
     };
   };
 };
+export type AddStudentInput = {
+  id?: string | null;
+  sName?: string | null;
+  attendance?: string | null;
+};
+
+export type AddStudentMutationVariables = {
+  input: AddStudentInput;
+};
+
+export type AddStudentMutation = {
+  addStudent: {
+    student: {
+      id: number;
+      sName: string;
+      attendance: boolean;
+    };
+  };
+};
 
 export type UpdateFacultyMutationVariables = {
   input: UpdateFacultyInput;

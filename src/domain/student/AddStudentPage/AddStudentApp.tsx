@@ -5,9 +5,7 @@ import {ApolloProvider} from 'react-apollo';
 
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 
-import {createGraphQLClient} from '../../createGraphQLClient';
-import StudentListPage from './StudentListPage';
-import StudentProfilePage from './StudentProfilePage';
+import {createGraphQLClient} from '../../../createGraphQLClient';
 import AddStudentPage from './AddStudentPage';
 
 const graphQLClient = createGraphQLClient();
@@ -19,21 +17,13 @@ export default function init() {
         <BrowserRouter>
           <Switch>
             <Route
-              path="/plugins/xformation-petclinic-panel/page/students"
-              component={StudentListPage}
-            />
-            <Route
-              path="/plugins/xformation-petclinic-panel/page/studentsprofile"
-              component={StudentProfilePage}
-            />
-            <Route
               path="/plugins/xformation-petclinic-panel/page/addstudent"
               component={AddStudentPage}
             />
           </Switch>
         </BrowserRouter>
       </ApolloProvider>,
-      document.getElementById('mount')
+      document.getElementById('mountAddStudent')
     );
-  }, 10);
+  }, 100);
 }
