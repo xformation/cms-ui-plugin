@@ -45,6 +45,11 @@ const StudentListPage = ({data: {students}}: StudentListPageProps) => (
   //     </Link> */}
   // </section>;
   <section className="plugin-bg-white">
+    {/* <h2 className="heading">
+     
+      Students found
+    </h2>
+    <StudentsTable students={students} /> */}
     <h3 className="bg-heading p-1">
       <i className="fa fa-university stroke-transparent mr-1" aria-hidden="true" /> Admin
       - Student Overview

@@ -16,22 +16,22 @@
     "version": "1.0.6",
     "updated": "2018-10-12",
     "logos": {
-      "small": "img/react-logo.svg",
-      "large": "img/react-logo.svg"
+      "small": "img/students.png",
+      "large": "img/students.png"
     }
   },
   "includes": [
     {
       "type": "page",
       "name": "Home",
-      "addToNav": true,
-      "defaultNav": true,
+      "addToNav": false,
+      "defaultNav": false,
       "component": "WelcomePage"
     },
     {
       "type": "page",
       "name": "Institutes",
-      "addToNav": true,
+      "addToNav": false,
       "defaultNav": false,
       "component": "InstitutesPage"
     },
@@ -59,7 +59,7 @@
     {
       "type": "page",
       "name": "Faculties",
-      "addToNav": true,
+      "addToNav": false,
       "defaultNav": false,
       "component": "FacultiesPage"
     },
@@ -86,22 +86,8 @@
     },
     {
       "type": "page",
-      "name": "Attendance",
-      "addToNav": true,
-      "defaultNav": false,
-      "component": "AttendanceOverview"
-    },
-    {
-      "type": "page",
-      "name": "MarkAttendance",
-      "addToNav": true,
-      "defaultNav": false,
-      "component": "MarkAttendance"
-    },
-    {
-      "type": "page",
       "name": "findStudentYears",
-      "addToNav": true,
+      "addToNav": false,
       "defaultNav": false,
       "component": "FindStudentYearsPage"
     },
@@ -109,7 +95,7 @@
       "type": "page",
       "name": "Students",
       "addToNav": true,
-      "defaultNav": false,
+      "defaultNav": true,
       "component": "StudentsPage"
     },
     {
@@ -125,6 +111,20 @@
       "addToNav": true,
       "defaultNav": false,
       "component": "StudentsProfile"
+    },
+    {
+      "type": "page",
+      "name": "Attendance",
+      "addToNav": true,
+      "defaultNav": false,
+      "component": "AttendanceOverview"
+    },
+    {
+      "type": "page",
+      "name": "MarkAttendance",
+      "addToNav": true,
+      "defaultNav": false,
+      "component": "MarkAttendance"
     }
   ],
   "dependencies": {
