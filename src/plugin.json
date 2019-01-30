@@ -125,6 +125,13 @@
       "addToNav": true,
       "defaultNav": false,
       "component": "MarkAttendance"
+    },
+    {
+      "type": "page",
+      "name": "TeacherAttendance",
+      "addToNav": true,
+      "defaultNav": false,
+      "component": "TeacherAttendance"
     }
   ],
   "dependencies": {

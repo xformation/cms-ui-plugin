@@ -5,10 +5,9 @@ import {ApolloProvider} from 'react-apollo';
 
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 
-import {createGraphQLClient} from '../../createGraphQLClient';
-import AttendanceOverview from './AttendanceOverview';
-import MarkAttendance from './MarkAttendance';
+import {createGraphQLClient} from '../../../createGraphQLClient';
 import TeacherAttendance from './TeacherAttendance';
+import '../../../css/dark.css';
 
 const graphQLClient = createGraphQLClient();
 
@@ -19,21 +18,13 @@ export default function init() {
         <BrowserRouter>
           <Switch>
             <Route
-              path="/plugins/xformation-petclinic-panel/page/attendance"
-              component={AttendanceOverview}
-            />
-            <Route
-              path="/plugins/xformation-petclinic-panel/page/markattendance"
-              component={MarkAttendance}
-            />
-            <Route
               path="/plugins/xformation-petclinic-panel/page/teacherattendance"
               component={TeacherAttendance}
             />
           </Switch>
         </BrowserRouter>
       </ApolloProvider>,
-      document.getElementById('mount')
+      document.getElementById('mountTeacherAttendance')
     );
   }, 100);
 }

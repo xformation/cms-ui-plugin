@@ -552,3 +552,19 @@ h5 {
   background-color: rgba(54, 151, 239, 0.5) !important;
   color: #fff;
 }
+.check-square {
+  background: green;
+  color: white;
+  padding: 5px;
+}
+.check-square-red {
+  background: red;
+  color: white;
+  padding: 5px;
+}
+#t-attendance {
+  width: 100%;
+}
+#t-attendance select {
+  width: 100%;
+}
