@@ -297,8 +297,10 @@ export type StudentListQuery = {
   // Return all known Pet Institutes
   students: Array<{
     id: number;
-    sName: string;
-    attendance: boolean;
+    studentName: string;
+    fatherName: string;
+    fatherMiddleName: string;
+    fatherLastName: string;
   }>;
 };
 
@@ -309,27 +311,35 @@ export type StudentQueryVariables = {
 export type StudentQuery = {
   student: {
     id: number;
-    sName: string;
-    attendance: boolean;
+    studentName: string;
+    fatherName: string;
+    fatherMiddleName: string;
+    fatherLastName: string;
   };
 };
 
 export type StudentFragment = {
   id: number;
-  sName: string;
-  attendance: boolean;
+  studentName: string;
+  fatherName: string;
+  fatherMiddleName: string;
+  fatherLastName: string;
 };
 
 export type StudentDetailsFragment = {
   id: number;
-  sName: string;
-  attendance: boolean;
+  studentName: string;
+  fatherName: string;
+  fatherMiddleName: string;
+  fatherLastName: string;
 };
 
 export type StudentSummaryFragment = {
   id: number;
-  sName: string;
-  attendance: boolean;
+  studentName: string;
+  fatherName: string;
+  fatherMiddleName: string;
+  fatherLastName: string;
 };
 
 /* tslint:enable */

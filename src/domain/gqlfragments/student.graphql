@@ -1,5 +1,7 @@
 fragment student on Student {
   id
-  sName
-  attendance
+  studentName
+  fatherName
+  fatherMiddleName
+  fatherLastName
 }

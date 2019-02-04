@@ -9,8 +9,10 @@ import withLoadingHandler from '../../../components/withLoadingHandler';
 
 const StudentRow = ({student}: {student: StudentSummaryFragment}) => (
   <tr key={student.id}>
-    <td>{student.sName}</td>
-    <td className="hidden-sm hidden-xs">{student.attendance}</td>
+    <td>{student.studentName}</td>
+    <td>{student.fatherName}</td>
+    <td>{student.fatherMiddleName}</td>
+    <td>{student.fatherLastName}</td>
   </tr>
 );
 
@@ -19,7 +21,9 @@ const StudentsTable = ({students}: {students: StudentSummaryFragment[]}) => (
     <thead>
       <tr>
         <th>Student Name</th>
-        <th>Attendance</th>
+        <th>Father Name</th>
+        <th>Father Middle Name</th>
+        <th>Father Last Name</th>
       </tr>
     </thead>
     <tbody>
@@ -34,152 +38,16 @@ type StudentListPageProps = {
 };
 
 const StudentListPage = ({data: {students}}: StudentListPageProps) => (
-  // <section className="customCss">
-  //   <h2 className="heading">
-  //     {/* {students.length}  */}
-  //     Students found
-  //   </h2>
-  //   <StudentsTable students={students} />
-  //   {/* <Link to={`/plugins/xformation-petclinic-panel/page/addstudent`} className="btn customButton">
-  //     Add Student
-  //     </Link> */}
-  // </section>;
-  <section className="plugin-bg-white">
-    {/* <h2 className="heading">
-     
+  <section className="customCss">
+    <h2 className="heading">
+      {students.length}
       Students found
     </h2>
-    <StudentsTable students={students} /> */}
-    <h3 className="bg-heading p-1">
-      <i className="fa fa-university stroke-transparent mr-1" aria-hidden="true" /> Admin
-      - Student Overview
-    </h3>
-    <div className="hflex bg-heading mt-3">
-      <h4>Student Details</h4>
-      <div className="hhflex">
-        <Link
-          className="btn btn-primary btn-width bt-radius"
-          to={`/plugins/xformation-petclinic-panel/page/addstudent`}
-        >
-          Create New Student{' '}
-        </Link>
-        {/* <a href="" className="btn btn-primary btn-width bt-radius">
-          Create New Student
-        </a> */}
-        <a href="" className="btn btn-primary btn-width bt-radius mx-2">
-          Export
-        </a>
-        <a href="" className="btn btn-primary btn-width bt-radius">
-          Save
-        </a>
-      </div>
-    </div>
-    <div className="p-1">
-      <div className="dflex j-start">
-        <div className="fwidth pr-1">
-          <label>Department</label>
-          <select className="fwidth">
-            <option value="">Computer Science</option>
-            <option value="">Information Technology</option>
-            <option value="">Electrical</option>
-          </select>
-        </div>
-        <div className="fwidth pr-1">
-          <label>Year</label>
-          <select className="fwidth">
-            <option value="">Year 1</option>
-            <option value="">Year 2</option>
-            <option value="">Year 3</option>
-            <option value="">Year 4</option>
-          </select>
-          {/* <DatePickerComponent /> */}
-          {/* <input type="date" name="" id="" value="12/06/19" /> */}
-        </div>
-        <div className="fwidth">
-          <label>Semester</label>
-          <select className="fwidth">
-            <option value="">Div - 1</option>
-            <option value="">Div - 2</option>
-          </select>
-        </div>
-        <div className="fwidth pr-1">
-          <label>Section</label>
-          <select className="fwidth">
-            <option value="">Div - 1</option>
-            <option value="">Div - 2</option>
-          </select>
-        </div>
-        <div className="fwidth pr-1">
-          <label>Gender</label>
-          <select className="fwidth">
-            <option value="">Male</option>
-            <option value="">Female</option>
-          </select>
-        </div>
-        <div className="fwidth pr-1">
-          <label>Student Type</label>
-          <select className="fwidth">
-            <option value="">Scholarship</option>
-            <option value="">Management</option>
-          </select>
-        </div>
-      </div>
-      <h3 className="bg-heading mt-3 p-1 mb-0">Computer Science Sem 1</h3>
-      <table className="fwidth">
-        <thead>
-          <th>
-            <input type="checkbox" />
-          </th>
-          <th>Name</th>
-          <th>Student</th>
-          <th>Department</th>
-          <th>Year</th>
-          <th>Section</th>
-          <th>Gender</th>
-          <th>Type</th>
-          <th>Primary</th>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <input type="checkbox" />
-            </td>
-            <td>
-              <Link to={`/plugins/xformation-petclinic-panel/page/studentsprofile`}>
-                Andrew Russel{' '}
-              </Link>
-            </td>
-            <td>2019-21</td>
-            <td>Robotic Science</td>
-            <td>Second</td>
-            <td>C</td>
-            <td>Male</td>
-            <td>Scholarship</td>
-            <td>0000-111-222</td>
-          </tr>
-
-          <tr>
-            <td>
-              <input type="checkbox" />
-            </td>
-            <td>
-              <Link to={`/plugins/xformation-petclinic-panel/page/studentsprofile`}>
-                Jeremy Rose{' '}
-              </Link>
-            </td>
-            <td>2019-21</td>
-            <td>Electronics Science</td>
-            <td>Third</td>
-            <td>C</td>
-            <td>Male</td>
-            <td>Scholarship</td>
-            <td>0000-111-222</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <StudentsTable students={students} />
+    {/* <StudentsTable students={students} /> */}
   </section>
 );
+
 export default graphql<StudentListQuery, StudentListPageOwnProps, StudentListPageProps>(
   StudentListQueryGql
 )(withLoadingHandler(StudentListPage));

@@ -17,8 +17,10 @@ import {number} from 'prop-types';
 
 const emptyStudent = (): StudentData => ({
   id: '',
-  sName: '',
-  attendance: true,
+  studentName: '',
+  fatherName: '',
+  fatherMiddleName: '',
+  fatherLastName: '',
 });
 
 type AddStudentPageOwnProps = RouteComponentProps<{}>;

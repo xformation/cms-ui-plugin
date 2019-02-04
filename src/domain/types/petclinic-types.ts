@@ -29,6 +29,8 @@ export type location = {
 
 export type StudentData = {
   id: string;
-  sName: string;
-  attendance: boolean;
+  studentName: string;
+  fatherName: string;
+  fatherMiddleName: string;
+  fatherLastName: string;
 };
