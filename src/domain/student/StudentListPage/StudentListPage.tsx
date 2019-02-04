@@ -9,21 +9,37 @@ import withLoadingHandler from '../../../components/withLoadingHandler';
 
 const StudentRow = ({student}: {student: StudentSummaryFragment}) => (
   <tr key={student.id}>
+    <td>
+      <input type="checkbox" name="" id="" />
+    </td>
     <td>{student.studentName}</td>
-    <td>{student.fatherName}</td>
-    <td>{student.fatherMiddleName}</td>
-    <td>{student.fatherLastName}</td>
+    <td>{student.rollNo}</td>
+    <td>{student.id}</td>
+    <td>{student.department}</td>
+    <td>{student.batch}</td>
+    <td>{student.section}</td>
+    <td>{student.sex}</td>
+    <td>{student.studentType}</td>
+    <td>{student.contactNo}</td>
   </tr>
 );
 
 const StudentsTable = ({students}: {students: StudentSummaryFragment[]}) => (
-  <table className="striped-table">
+  <table id="studentlistpage" className="striped-table fwidth bg-white">
     <thead>
       <tr>
+        <th>
+          <input type="checkbox" name="" id="" />
+        </th>
         <th>Student Name</th>
-        <th>Father Name</th>
-        <th>Father Middle Name</th>
-        <th>Father Last Name</th>
+        <th>Roll No</th>
+        <th>Student Id</th>
+        <th>Department</th>
+        <th>Year</th>
+        <th>Section</th>
+        <th>Gender</th>
+        <th>Type</th>
+        <th>Primary Contact</th>
       </tr>
     </thead>
     <tbody>
@@ -39,10 +55,7 @@ type StudentListPageProps = {
 
 const StudentListPage = ({data: {students}}: StudentListPageProps) => (
   <section className="customCss">
-    <h2 className="heading">
-      {students.length}
-      Students found
-    </h2>
+    <h2 className="bg-heading">Student Details</h2>
     <StudentsTable students={students} />
     {/* <StudentsTable students={students} /> */}
   </section>

@@ -66,8 +66,8 @@ export type StudentData = {
   admissionNo: number;
   rollNo: number;
   studentType: string;
-  batch: string;
-  section: string;
-  branch: string;
-  department: string;
+  batch: number;
+  section: number;
+  branch: number;
+  department: number;
 };

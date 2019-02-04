@@ -568,3 +568,7 @@ h5 {
 #t-attendance select {
   width: 100%;
 }
+table#studentlistpage th,
+td {
+  text-align: center !important;
+}
