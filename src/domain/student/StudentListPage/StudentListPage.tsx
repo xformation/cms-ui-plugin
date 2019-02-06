@@ -12,7 +12,15 @@ const StudentRow = ({student}: {student: StudentSummaryFragment}) => (
     <td>
       <input type="checkbox" name="" id="" />
     </td>
-    <td>{student.studentName}</td>
+
+    <td>
+      <Link
+        className="table-link"
+        to={`/plugins/xformation-petclinic-panel/page/student?id=${student.id}`}
+      >
+        {student.studentName}
+      </Link>
+    </td>
     <td>{student.rollNo}</td>
     <td>{student.id}</td>
     <td>{student.department.name}</td>

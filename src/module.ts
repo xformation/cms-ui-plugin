@@ -16,6 +16,7 @@ import {StudentsPage} from './ui/StudentsPage';
 import {MarkAttendance} from './ui/MarkAttendance';
 import {TeacherAttendance} from './ui/TeacherAttendance';
 import {StudentsProfile} from './ui/StudentsProfile';
+import {StudentPage} from './ui/StudentPage';
 
 export {
   WelcomePage,
@@ -35,4 +36,5 @@ export {
   TeacherAttendance,
   StudentsProfile,
   AddStudentPage,
+  StudentPage,
 };

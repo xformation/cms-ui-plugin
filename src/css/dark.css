@@ -572,3 +572,12 @@ table#studentlistpage th,
 td {
   text-align: center !important;
 }
+.family-details > h5 > span {
+  color: #111111;
+}
+.contact-details > h5 > span {
+  color: #111111;
+}
+.id-details > h5 > span {
+  color: #111111;
+}
