@@ -37,8 +37,16 @@ fragment student on Student {
   # admissionNo
   rollNo
   studentType
-  # batch
-  # section
-  # branch
-  # department
+  batch {
+    batch
+  }
+  section {
+    section
+  }
+  branch {
+    branchName
+  }
+  department {
+    name
+  }
 }

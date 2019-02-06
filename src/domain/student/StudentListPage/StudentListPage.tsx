@@ -15,9 +15,9 @@ const StudentRow = ({student}: {student: StudentSummaryFragment}) => (
     <td>{student.studentName}</td>
     <td>{student.rollNo}</td>
     <td>{student.id}</td>
-    <td>{student.department}</td>
-    <td>{student.batch}</td>
-    <td>{student.section}</td>
+    <td>{student.department.name}</td>
+    <td>{student.batch.batch}</td>
+    <td>{student.section.section}</td>
     <td>{student.sex}</td>
     <td>{student.studentType}</td>
     <td>{student.contactNo}</td>

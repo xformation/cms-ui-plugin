@@ -334,10 +334,18 @@ export type StudentListQuery = {
     admissionNo: number;
     rollNo: number;
     studentType: string;
-    batch: number;
-    section: number;
-    branch: number;
-    department: number;
+    batch: {
+      batch: any;
+    };
+    section: {
+      section: any;
+    };
+    branch: {
+      branchName: string;
+    };
+    department: {
+      name: string;
+    };
   }>;
 };
 
@@ -385,10 +393,18 @@ export type StudentQuery = {
     admissionNo: number;
     rollNo: number;
     studentType: string;
-    batch: number;
-    section: number;
-    branch: number;
-    department: number;
+    batch: {
+      batch: any;
+    };
+    section: {
+      section: any;
+    };
+    branch: {
+      branchName: string;
+    };
+    department: {
+      name: string;
+    };
   };
 };
 
@@ -431,10 +447,18 @@ export type StudentFragment = {
   admissionNo: number;
   rollNo: number;
   studentType: string;
-  batch: number;
-  section: number;
-  branch: number;
-  department: number;
+  batch: {
+    batch: any;
+  };
+  section: {
+    section: any;
+  };
+  branch: {
+    branchName: string;
+  };
+  department: {
+    name: string;
+  };
 };
 
 export type StudentDetailsFragment = {
@@ -476,10 +500,18 @@ export type StudentDetailsFragment = {
   admissionNo: number;
   rollNo: number;
   studentType: string;
-  batch: number;
-  section: number;
-  branch: number;
-  department: number;
+  batch: {
+    batch: any;
+  };
+  section: {
+    section: any;
+  };
+  branch: {
+    branchName: string;
+  };
+  department: {
+    name: string;
+  };
 };
 
 export type StudentSummaryFragment = {
@@ -521,10 +553,18 @@ export type StudentSummaryFragment = {
   admissionNo: number;
   rollNo: number;
   studentType: string;
-  batch: number;
-  section: number;
-  branch: number;
-  department: number;
+  batch: {
+    batch: any;
+  };
+  section: {
+    section: any;
+  };
+  branch: {
+    branchName: string;
+  };
+  department: {
+    name: string;
+  };
 };
 
 /* tslint:enable */

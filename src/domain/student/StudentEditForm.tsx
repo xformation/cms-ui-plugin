@@ -45,10 +45,10 @@ const copyStudent = (student: StudentData): StudentData => ({
   admissionNo: student.admissionNo,
   rollNo: student.rollNo,
   studentType: student.studentType,
-  batch: student.batch,
-  section: student.section,
-  branch: student.branch,
-  department: student.department,
+  batch: student.batch.batch,
+  section: student.section.section,
+  branch: student.branch.branchName,
+  department: student.department.name,
 });
 
 const studentFormElements = [
