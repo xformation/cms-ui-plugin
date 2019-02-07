@@ -490,7 +490,7 @@ ul.ul-attend > li:last-child {
 .next-div span {
   margin-top: 1rem;
   margin-bottom: 1rem;
-  color: rgba(54, 151, 239, 0.5) !important;
+  color: rgb(78, 144, 203) !important;
 }
 .next-div span span {
   margin-top: 1rem;
@@ -507,16 +507,16 @@ ul.ul-attend > li:last-child {
   grid-template-columns: repeat(3, 1fr);
 }
 .family-details > h5 {
-  color: rgba(54, 151, 239, 0.5) !important;
+  color: rgb(78, 144, 203) !important;
 }
 h5 {
-  color: rgba(54, 151, 239, 0.5) !important;
+  color: rgb(78, 144, 203) !important;
 }
 .contact-details > h5 {
-  color: rgba(54, 151, 239, 0.5) !important;
+  color: rgb(78, 144, 203) !important;
 }
 .id-details > h5 {
-  color: rgba(54, 151, 239, 0.5) !important;
+  color: rgb(78, 144, 203) !important;
 }
 .contact-details {
   border-top: 1px solid #cecece;
