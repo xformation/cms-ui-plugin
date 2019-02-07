@@ -16,7 +16,7 @@ import withLoadingHandler from '../../../components/withLoadingHandler';
 import {number} from 'prop-types';
 
 const emptyStudent = (): StudentData => ({
-  id: '',
+  // id: '',
   studentName: '',
   fatherName: '',
   fatherMiddleName: '',

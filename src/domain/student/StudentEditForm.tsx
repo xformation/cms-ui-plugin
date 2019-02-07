@@ -7,7 +7,7 @@ import {NotEmpty} from '../../components/form/Constraints';
 import {StudentData} from '../types';
 
 const copyStudent = (student: StudentData): StudentData => ({
-  id: student.id,
+  // id: student.id,
   studentName: student.studentName,
   fatherName: student.fatherName,
   fatherMiddleName: student.fatherMiddleName,
@@ -52,12 +52,6 @@ const copyStudent = (student: StudentData): StudentData => ({
 });
 
 const studentFormElements = [
-  {
-    name: 'id',
-    label: 'Id',
-    constraint: NotEmpty,
-    elementComponentFactory: InputFactory,
-  },
   {
     elementComponentFactory: InputFactory,
     name: 'studentName',
@@ -231,6 +225,7 @@ const studentFormElements = [
     name: 'middleName',
     label: 'Middle Name',
     constraint: NotEmpty,
+    className: 'fwidth',
   },
   {
     elementComponentFactory: InputFactory,

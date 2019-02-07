@@ -1,5 +1,7 @@
 // ------------------------------------ REACT ------------------------------------
-export type ReactFunctionOrComponentClass<P> = React.ComponentClass<P> | React.StatelessComponent<P>;
+export type ReactFunctionOrComponentClass<P> =
+  | React.ComponentClass<P>
+  | React.StatelessComponent<P>;
 
 // ------------------------------------ ERROR ------------------------------------
 export type FieldError = {
@@ -46,8 +48,8 @@ export type FormElement = {
 };
 
 export type SelectFormElement = FormElement & {
-	options: SelectOption[]
-}
+  options: SelectOption[];
+};
 
 // ---------------------------------------------------------------------------------------
 export type FormModel = {

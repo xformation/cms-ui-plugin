@@ -28,7 +28,7 @@ export type location = {
 };
 
 export type StudentData = {
-  id: string;
+  // id: string;
   studentName: string;
   fatherName: string;
   fatherMiddleName: string;

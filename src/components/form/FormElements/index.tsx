@@ -1,10 +1,16 @@
-import * as React from "react";
+import * as React from 'react';
 
-import { FormElement, FormModel, FieldError, SelectOption, SelectFormElement } from "../types";
+import {
+  FormElement,
+  FormModel,
+  FieldError,
+  SelectOption,
+  SelectFormElement,
+} from '../types';
 
-import Input from "./elements/Input";
-import DateInput from "./elements/DateInput";
-import SelectInput from "./elements/SelectInput";
+import Input from './elements/Input';
+import DateInput from './elements/DateInput';
+import SelectInput from './elements/SelectInput';
 
 export function InputFactory(
   element: FormElement,
@@ -52,12 +58,12 @@ export function SelectInputFactory(
   object: FormModel,
   fieldError: FieldError | null,
   onInputChange: any,
-	onBlur: any,
+  onBlur: any
 ) {
   return (
     <SelectInput
       key={element.name}
-			options={element.options}
+      options={element.options}
       object={object}
       fieldError={fieldError}
       label={element.label}
@@ -67,4 +73,3 @@ export function SelectInputFactory(
     />
   );
 }
-
