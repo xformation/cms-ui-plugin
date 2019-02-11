@@ -86,6 +86,13 @@
     },
     {
       "type": "page",
+      "name": "EditStudent",
+      "addToNav": false,
+      "defaultNav": false,
+      "component": "EditStudentPage"
+    },
+    {
+      "type": "page",
       "name": "findStudentYears",
       "addToNav": false,
       "defaultNav": false,
