@@ -27,6 +27,7 @@ export function InputFactory(
       constraint={element.constraint}
       label={element.label}
       name={element.name}
+      className={element.className}
       onChange={onInputChange}
       onBlur={onBlur}
     />

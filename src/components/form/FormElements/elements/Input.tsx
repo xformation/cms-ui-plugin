@@ -13,6 +13,7 @@ type InputProps = {
   object: any;
   fieldError: FieldError | null;
   name: string;
+  className: string;
   constraint: Constraint;
   label: string;
   onChange: InputChangeHandler;
@@ -23,6 +24,7 @@ const Input = ({
   object,
   fieldError,
   name,
+  className,
   constraint = NoConstraint,
   label,
   onChange,
@@ -39,7 +41,7 @@ const Input = ({
   const cssGroup = `form-group ${fieldError ? 'has-error' : ''}`;
 
   return (
-    <div className={cssGroup}>
+    <div className={className}>
       <label className="col-sm-2 control-label">{label}</label>
 
       <div className="col-sm-10">

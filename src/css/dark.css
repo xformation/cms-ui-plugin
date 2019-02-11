@@ -581,3 +581,33 @@ td {
 .id-details > h5 > span {
   color: #111111;
 }
+
+.student-flex select {
+  width: 13vw;
+  margin-bottom: 25px;
+}
+.student-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.student-flex input[type='search'] {
+  padding: 7px;
+  margin-top: 1.2%;
+}
+.margin-bott {
+  margin-bottom: 25px;
+}
+.bg-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.bg-heading h2 {
+  flex-grow: 1;
+}
+.bg-heading button:first-child {
+  width: 180px;
+  margin-right: 15px;
+}

@@ -54,9 +54,7 @@ const emptyStudent = (): StudentData => ({
   admissionNo: 0,
   rollNo: 0,
   studentType: '',
-  batch: {
-    batch: '',
-  },
+  batch: {batch: ''},
   section: {section: ''},
   branch: {branchName: ''},
   department: {name: ''},
@@ -68,7 +66,7 @@ type AddStudentPageProps = AddStudentPageOwnProps & {
 };
 
 const AddStudentPage: any = ({mutate, history}: AddStudentPageProps) => (
-  <section className="">
+  <section className="student-grid">
     <StudentEditForm
       initialStudent={emptyStudent()}
       formTitle="Add Student"

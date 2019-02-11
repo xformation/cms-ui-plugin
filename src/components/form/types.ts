@@ -43,6 +43,7 @@ export type ElementComponentFactoryFn = (
 export type FormElement = {
   label: string;
   name: string;
+  className: string;
   constraint: Constraint;
   elementComponentFactory: ElementComponentFactoryFn;
 };

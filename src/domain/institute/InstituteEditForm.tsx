@@ -1,36 +1,39 @@
-import * as React from "react";
+import * as React from 'react';
 
-import { MutationFunc } from "react-apollo";
-import EditForm from "../../components/form/EditForm";
-import { InputFactory } from "../../components/form/FormElements";
-import { NotEmpty } from "../../components/form/Constraints";
-import { InstituteData } from "../types";
+import {MutationFunc} from 'react-apollo';
+import EditForm from '../../components/form/EditForm';
+import {InputFactory} from '../../components/form/FormElements';
+import {NotEmpty} from '../../components/form/Constraints';
+import {InstituteData} from '../types';
 
 const copyInstitute = (institute: InstituteData): InstituteData => ({
   name: institute.name,
   code: institute.code,
-  year: institute.year
+  year: institute.year,
 });
 
 const instituteFormElements = [
   {
-    name: "name",
-    label: "Name",
+    name: 'name',
+    label: 'Name',
+    className: 'testing',
     constraint: NotEmpty,
-    elementComponentFactory: InputFactory
+    elementComponentFactory: InputFactory,
   },
   {
     elementComponentFactory: InputFactory,
-    name: "code",
-    label: "Code",
-    constraint: NotEmpty
+    name: 'code',
+    label: 'Code',
+    className: 'testing',
+    constraint: NotEmpty,
   },
   {
     elementComponentFactory: InputFactory,
-    name: "year",
-    label: "Year",
-    constraint: NotEmpty
-  }
+    name: 'year',
+    label: 'Year',
+    className: 'testing',
+    constraint: NotEmpty,
+  },
 ];
 
 type InstituteEditFormProps = {
@@ -39,7 +42,11 @@ type InstituteEditFormProps = {
   onFormSubmit: (institute: InstituteData) => void | Promise<string | void>;
 };
 
-const InstituteEditForm = <M, MI>({ formTitle, initialInstitute, onFormSubmit }: InstituteEditFormProps) => {
+const InstituteEditForm = <M, MI>({
+  formTitle,
+  initialInstitute,
+  onFormSubmit,
+}: InstituteEditFormProps) => {
   return (
     <EditForm
       formTitle={formTitle}

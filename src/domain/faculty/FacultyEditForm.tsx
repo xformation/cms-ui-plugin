@@ -1,10 +1,10 @@
-import * as React from "react";
+import * as React from 'react';
 
-import { MutationFunc } from "react-apollo";
-import EditForm from "../../components/form/EditForm";
-import { InputFactory } from "../../components/form/FormElements";
-import { NotEmpty } from "../../components/form/Constraints";
-import { FacultyData } from "../types";
+import {MutationFunc} from 'react-apollo';
+import EditForm from '../../components/form/EditForm';
+import {InputFactory} from '../../components/form/FormElements';
+import {NotEmpty} from '../../components/form/Constraints';
+import {FacultyData} from '../types';
 
 const copyFaculty = (faculty: FacultyData): FacultyData => ({
   name: faculty.name,
@@ -13,52 +13,59 @@ const copyFaculty = (faculty: FacultyData): FacultyData => ({
   mail: faculty.mail,
   designation: faculty.designation,
   mobile: faculty.mobile,
-  status: faculty.status
+  status: faculty.status,
 });
 
 const facultyFormElements = [
   {
     elementComponentFactory: InputFactory,
-    name: "name",
-    label: "First Name",
-    constraint: NotEmpty
+    name: 'name',
+    label: 'First Name',
+    className: 'testing',
+    constraint: NotEmpty,
   },
   {
     elementComponentFactory: InputFactory,
-    name: "lastName",
-    label: "Last Name",
-    constraint: NotEmpty
+    name: 'lastName',
+    label: 'Last Name',
+    className: 'testing',
+    constraint: NotEmpty,
   },
   {
     elementComponentFactory: InputFactory,
-    name: "address",
-    label: "Address",
-    constraint: NotEmpty
+    name: 'address',
+    label: 'Address',
+    className: 'testing',
+    constraint: NotEmpty,
   },
   {
     elementComponentFactory: InputFactory,
-    name: "mail",
-    label: "Email",
-    constraint: NotEmpty
+    name: 'mail',
+    label: 'Email',
+    className: 'testing',
+    constraint: NotEmpty,
   },
   {
     elementComponentFactory: InputFactory,
-    name: "designation",
-    label: "Designation",
-    constraint: NotEmpty
+    name: 'designation',
+    label: 'Designation',
+    className: 'testing',
+    constraint: NotEmpty,
   },
   {
     elementComponentFactory: InputFactory,
-    name: "mobile",
-    label: "Mobile",
-    constraint: NotEmpty
+    name: 'mobile',
+    label: 'Mobile',
+    className: 'testing',
+    constraint: NotEmpty,
   },
   {
     elementComponentFactory: InputFactory,
-    name: "status",
-    label: "Status",
-    constraint: NotEmpty
-  }
+    name: 'status',
+    label: 'Status',
+    className: 'testing',
+    constraint: NotEmpty,
+  },
 ];
 
 type FacultyEditFormProps = {
@@ -67,7 +74,11 @@ type FacultyEditFormProps = {
   onFormSubmit: (faculty: FacultyData) => void | Promise<string | void>;
 };
 
-const FacultyEditForm = <M, MI>({ formTitle, initialFaculty, onFormSubmit }: FacultyEditFormProps) => {
+const FacultyEditForm = <M, MI>({
+  formTitle,
+  initialFaculty,
+  onFormSubmit,
+}: FacultyEditFormProps) => {
   return (
     <EditForm
       formTitle={formTitle}

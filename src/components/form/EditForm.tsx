@@ -102,7 +102,7 @@ export default class EditForm<MODEL extends FormModel> extends React.Component<
     const fieldErrors = this.validateCurrentModel();
 
     return (
-      <span>
+      <div>
         <h2>{formTitle}</h2>
         <form className="form-horizontal" method="POST">
           <div className="form-group has-feedback">
@@ -117,7 +117,7 @@ export default class EditForm<MODEL extends FormModel> extends React.Component<
             )}
           </div>
           <div className="form-group">
-            <div className="col-sm-offset-2 col-sm-10">
+            <div className="">
               <button className="btn customButton" type="submit" onClick={this.onSubmit}>
                 {formTitle}
               </button>
@@ -129,7 +129,7 @@ export default class EditForm<MODEL extends FormModel> extends React.Component<
             </div>
           )}
         </form>
-      </span>
+      </div>
     );
   }
 }
