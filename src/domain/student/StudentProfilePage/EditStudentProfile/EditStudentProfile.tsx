@@ -10,11 +10,13 @@ import './student_profile.css';
 
 import {
     UpdateStudentMutation,
+    UpdateStudentInput,
+    UpdateStudentMutationVariables,
     StudentDetailsFragment,
 } from '../../../types';
 
 import * as UpdateStudentMutationGql from './UpdateStudentMutation.graphql';
-import withStudentFromRouteParams from '../../withStudentFromRouteParams';
+import withStudentFromRouteParams from './withStudentFromRouteParams';
 
 var queryString = require('query-string');
 
@@ -68,7 +70,7 @@ function onClickHeader(e: any) {
 const EditStudentProfile = ({ student, history, match, mutate }: UpdateStudentFullPageProps) => (
     <div className="student-profile-container">
         <div className="row m-0">
-            <div className="col-sm-12 profile-header m-b-2">
+            <div className="col-sm-12 col-xs-12 profile-header m-b-2">
                 <div className="pull-left">Student Profile</div>
                 <div className="pull-right">
                     <button className="btn bs">Save</button>
@@ -76,9 +78,48 @@ const EditStudentProfile = ({ student, history, match, mutate }: UpdateStudentFu
             </div>
         </div>
         <div className="row form-main-container m-0">
-            <div className="col-md-3 col-sm-12 student-photo-container">
+            <div className="col-lg-3 col-md-12 col-sm-12 col-xs-12 student-photo-container">
+                <div className="row p-1">
+                    <div className="col-md-6 col-lg-12 col-xs-12 col-sm-6 student-photo">
+                        <div className="photo"></div>
+                    </div>
+                    <div className="col-sm-6 col-xs-12 col-md-6 col-lg-12">
+                        <div className="gf-form">
+                            <span className="gf-form-label width-8">Admission No</span>
+                            <input type="text" className="gf-form-input max-width-22" />
+                        </div>
+                        <div className="gf-form">
+                            <span className="gf-form-label width-8">Student Id</span>
+                            <input type="text" className="gf-form-input max-width-22" />
+                        </div>
+                        <div className="gf-form">
+                            <span className="gf-form-label width-8">Roll No</span>
+                            <input type="text" className="gf-form-input max-width-22" />
+                        </div>
+                        <div className="gf-form">
+                            <span className="gf-form-label width-8">Department</span>
+                            <input type="text" className="gf-form-input max-width-22" />
+                        </div>
+                        <div className="gf-form">
+                            <span className="gf-form-label width-8">Year</span>
+                            <input type="text" className="gf-form-input max-width-22" />
+                        </div>
+                        <div className="gf-form">
+                            <span className="gf-form-label width-8">Branch</span>
+                            <input type="text" className="gf-form-input max-width-22" />
+                        </div>
+                        <div className="gf-form">
+                            <span className="gf-form-label width-8">Section</span>
+                            <input type="text" className="gf-form-input max-width-22" />
+                        </div>
+                        <div className="gf-form">
+                            <span className="gf-form-label width-8">Student Type</span>
+                            <input type="text" className="gf-form-input max-width-22" />
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div className="col-md-9 col-sm-12 student-profile-form">
+            <div className="col-lg-9 col-md-12 col-sm-12 col-xs-12 student-profile-form">
                 <form className="gf-form-group" onSubmit={student => onFormSubmit(student, mutate)}>
                     <div className="collapse-container">
                         <div className="collapse-header">

@@ -4,25 +4,25 @@ import { GrafanaInputFactory } from '../../../../../components/form/FormElements
 import { NotEmpty } from '../../../../../components/form/Constraints';
 import PartialForm from '../../../../../components/form/PartialForm';
 
-const contactData = [
+const otherContactData = [
     {
         elementComponentFactory: GrafanaInputFactory,
         name: 'addressLineOne',
-        label: 'address One',
+        label: 'Address One',
         constraint: NotEmpty,
         className: 'gf-form--grow form-control-container',
     },
     {
         elementComponentFactory: GrafanaInputFactory,
         name: 'addressLineTwo',
-        label: 'address Two',
+        label: 'Address Two',
         constraint: NotEmpty,
         className: 'gf-form--grow form-control-container',
     },
     {
         elementComponentFactory: GrafanaInputFactory,
         name: 'addressLineThree',
-        label: 'address Three',
+        label: 'Address Three',
         constraint: NotEmpty,
         className: 'gf-form--grow form-control-container',
     },
@@ -84,8 +84,8 @@ const contactData = [
     }
 ];
 
-const ContactData = (modelData: any) => {
-    return (<PartialForm formElements={contactData} modelData={modelData} className="gf-form-inline" />);
+const OtherContactData = (modelData: any) => {
+    return (<PartialForm formElements={otherContactData} modelData={modelData} className="gf-form-inline" />);
 };
 
-export default ContactData;
+export default OtherContactData;

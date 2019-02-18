@@ -57,28 +57,28 @@ const contactData = [
     {
         elementComponentFactory: GrafanaInputFactory,
         name: 'studentContactNumber',
-        label: 'student Contact Number',
+        label: 'Student Contact Number',
         constraint: NotEmpty,
         className: 'gf-form--grow form-control-container',
     },
     {
         elementComponentFactory: GrafanaInputFactory,
         name: 'alternateContactNumber',
-        label: 'alternateContactNumber',
+        label: 'Alternate Contact Number',
         constraint: NotEmpty,
         className: 'gf-form--grow form-control-container',
     },
     {
         elementComponentFactory: GrafanaInputFactory,
         name: 'studentEmailAddress',
-        label: 'student email',
+        label: 'Student Email',
         constraint: NotEmpty,
         className: 'gf-form--grow form-control-container',
     },
     {
         elementComponentFactory: GrafanaInputFactory,
         name: 'alternateEmailAddress',
-        label: 'alternate email',
+        label: 'Alternate Email',
         constraint: NotEmpty,
         className: 'gf-form--grow form-control-container',
     }

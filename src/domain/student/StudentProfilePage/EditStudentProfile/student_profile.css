@@ -26,6 +26,15 @@
   border-left: 1px solid #ababab;
 }
 
+.student-profile-container .student-photo-container .photo {
+  height: 200px;
+  max-width: 200px;
+  width: 100%;
+  border: 1px solid #ababab;
+  margin: auto;
+  margin-bottom: 10px;
+}
+
 .collapse-container .collapse-header {
   border: 1px solid #ababab;
   background-color: #f6f6f6;
