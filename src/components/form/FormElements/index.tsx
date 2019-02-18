@@ -11,7 +11,9 @@ import {
 import Input from './elements/Input';
 import DateInput from './elements/DateInput';
 import SelectInput from './elements/SelectInput';
-
+import CheckInput from './elements/CheckInput';
+import GrafanaInput from './elements/GrafanaInput';
+ 
 export function InputFactory(
   element: FormElement,
   object: FormModel,
@@ -69,6 +71,51 @@ export function SelectInputFactory(
       fieldError={fieldError}
       label={element.label}
       name={element.name}
+      onChange={onInputChange}
+      onBlur={onBlur}
+    />
+  );
+}
+
+export function GrafanaInputFactory(
+  element: FormElement,
+  object: FormModel,
+  fieldError: FieldError | null,
+  onInputChange: any,
+  onBlur: any
+) {
+  return (
+    <GrafanaInput
+      key={element.name}
+      object={object}
+      fieldError={fieldError}
+      constraint={element.constraint}
+      label={element.label}
+      name={element.name}
+      className={element.className}
+      onChange={onInputChange}
+      onBlur={onBlur}
+    />
+  );
+}
+
+
+export function CheckInputFactory(
+  element: FormElement,
+  object: FormModel,
+  fieldError: FieldError | null,
+  onInputChange: any,
+  onBlur: any
+) {
+  return (
+    <CheckInput
+      key={element.name}
+      object={object}
+      fieldError={fieldError}
+      constraint={element.constraint}
+      label={element.label}
+      name={element.name}
+      className={element.className}
       onChange={onInputChange}
       onBlur={onBlur}
     />

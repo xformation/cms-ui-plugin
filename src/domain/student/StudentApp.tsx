@@ -10,6 +10,7 @@ import StudentListPage from './StudentListPage';
 import StudentProfilePage from './StudentProfilePage';
 import AddStudentPage from './AddStudentPage';
 import UpdateStudentPage from './UpdateStudentPage';
+import EditStudentProfile from './StudentProfilePage/EditStudentProfile';
 
 const graphQLClient = createGraphQLClient();
 
@@ -34,6 +35,10 @@ export default function init() {
             <Route
               path="/plugins/xformation-petclinic-panel/page/editstudent"
               component={UpdateStudentPage}
+            />
+            <Route
+              path="/plugins/xformation-petclinic-panel/page/editstudentprofile"
+              component={EditStudentProfile}
             />
           </Switch>
         </BrowserRouter>
