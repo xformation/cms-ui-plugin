@@ -84,8 +84,8 @@ const contactData = [
     }
 ];
 
-const ContactData = (modelData: any) => {
-    return (<PartialForm formElements={contactData} modelData={modelData} className="gf-form-inline" />);
+const ContactData = ({ modelData, onChange }: any) => {
+    return (<PartialForm onChange={onChange} formElements={contactData} modelData={modelData} className="gf-form-inline" />);
 };
 
 export default ContactData;

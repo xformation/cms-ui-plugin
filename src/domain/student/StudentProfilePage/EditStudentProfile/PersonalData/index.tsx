@@ -112,12 +112,13 @@ const personalDataForm = [
     }
 ];
 
-const PersonalData = ({ modelData }: any) => {
+const PersonalData = ({ modelData, onChange }: any) => {
     return (
         <PartialForm
             formElements={personalDataForm}
             modelData={modelData}
             className="gf-form-inline"
+            onChange = {onChange}
         />
     );
 };

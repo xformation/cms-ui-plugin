@@ -70,8 +70,8 @@ const facilityDataForm = [
     }
 ];
 
-const FacilityData = (modelData: any) => {
-    return (<PartialForm formElements={facilityDataForm} modelData={modelData} className="gf-form-inline"/>);
+const FacilityData = ({modelData, onChange}: any) => {
+    return (<PartialForm onChange={onChange} formElements={facilityDataForm} modelData={modelData} className="gf-form-inline"/>);
 };
 
 export default FacilityData;

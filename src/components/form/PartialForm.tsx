@@ -4,7 +4,8 @@ import { FieldErrors, FormModel, FormElement } from './types';
 type PartialFormProps<MODEL extends FormModel> = {
     formElements: FormElement[];
     modelData: MODEL,
-    className: any
+    className: any,
+    onChange: any
 };
 
 type PartialFormStates<MODEL extends FormModel> = {
@@ -31,6 +32,7 @@ export default class PartialForm<MODEL extends FormModel> extends React.Componen
 
     onInputChange = (name: string, value: string) => {
         const { model, visitedFields } = this.state as any;
+        let modelData = this.props.modelData as any;
         this.setState({
             model: {
                 ...model,
@@ -42,6 +44,7 @@ export default class PartialForm<MODEL extends FormModel> extends React.Componen
             },
             globalFormError: null,
         });
+        this.props.onChange(name, value);
     }
 
     onBlur = (name: string) => {
