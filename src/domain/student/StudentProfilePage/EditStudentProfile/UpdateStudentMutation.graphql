@@ -36,7 +36,11 @@ mutation updateStudent(
     $uploadPhoto: String!,
     $admissionNo: String!,
     $rollNo: String!,
-    $studentType: String!) {
+    $studentType: String!,
+    $department: JSON!,
+    $branch: JSON!,
+    $section: JSON!
+    ) {
   updateStudent(
       id: $id,
       studentName: $studentName,
@@ -76,6 +80,9 @@ mutation updateStudent(
       admissionNo: $admissionNo,
       rollNo: $rollNo,
       studentType: $studentType,
+      department: $department,
+      branch: $branch,
+      section: $section
     ) {
       id
       studentName
@@ -115,5 +122,9 @@ mutation updateStudent(
       admissionNo
       rollNo
       studentType
+      batch
+      section
+      branch 
+      department
   }
 }
