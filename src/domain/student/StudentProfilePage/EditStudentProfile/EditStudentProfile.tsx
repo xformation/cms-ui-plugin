@@ -69,6 +69,134 @@ function onClickHeader(e: any) {
     }
 }
 
+function getDepartments(){
+    let departments = [{
+        id: 1,
+        dep: "Mechanical"
+    },{
+        id: 2,
+        dep: "Computer"
+    }];
+
+    let departmentsOptions = [<option key={0} value="">Select department</option>];
+    for(let i=0; i< departments.length;i++){
+        departmentsOptions.push(
+            <option key={departments[i].id} value={departments[i].id}>{departments[i].dep}</option>
+        );
+    }
+    return departmentsOptions;
+}
+
+function getYears(){
+    let years = [
+    {
+        id: 1,
+        year: 2014
+    },{
+        id: 2,
+        year: 2015
+    },{
+        id: 3,
+        year: 2016
+    },{
+        id: 4,
+        year: 2017
+    }];
+
+    let yearsOptions = [<option key={0} value="">Select Year</option>];
+    for(let i=0; i< years.length;i++){
+        yearsOptions.push(
+            <option key={years[i].id} value={years[i].id}>{years[i].year}</option>
+        );
+    }
+    return yearsOptions;
+}
+
+function getBranches(){
+    let branches = [
+    {
+        id: 1,
+        branch: "CE"
+    },{
+        id: 2,
+        branch: "EC"
+    }];
+
+    let branchesOptions = [<option key={0} value="">Select Year</option>];
+    for(let i=0; i< branches.length;i++){
+        branchesOptions.push(
+            <option key={branches[i].id} value={branches[i].id}>{branches[i].branch}</option>
+        );
+    }
+    return branchesOptions;
+}
+
+function getSections(){
+    let sections = [
+    {
+        id: 1,
+        section: "Section1"
+    },{
+        id: 2,
+        section: "Section2"
+    }];
+
+    let sectionsOptions = [<option key={0} value="">Select Year</option>];
+    for(let i=0; i< sections.length;i++){
+        sectionsOptions.push(
+            <option key={sections[i].id} value={sections[i].id}>{sections[i].section}</option>
+        );
+    }
+    return sectionsOptions;
+}
+
+function getStudentTypes(){
+    let studentTypes = [
+    {
+        id: 1,
+        type: "type1"
+    },{
+        id: 2,
+        type: "type2"
+    }];
+
+    let studentTypesOptions = [<option key={0} value="">Select Year</option>];
+    for(let i=0; i< studentTypes.length;i++){
+        studentTypesOptions.push(
+            <option key={studentTypes[i].id} value={studentTypes[i].id}>{studentTypes[i].type}</option>
+        );
+    }
+    return studentTypesOptions;
+}
+
+function onChange(e: any, student:any){
+    const {name, value} = e.nativeEvent.target;
+    if(name === "department"){
+        student.department.name = value;
+    } else if(name === "branchName"){
+        student = {
+            ...student,
+            branch: {
+                "branchName": value
+            }
+        };
+    } else if(name === "section"){
+        student = {
+            ...student,
+            section: {
+                "section": value
+            }
+        };
+    } else if(name === "studentType"){
+        student = {
+            ...student,
+            studentType: value
+        };
+    }
+    console.log(student);
+    return student;
+}
+
 // The 'actual' component that receives all the props
 const EditStudentProfile = ({ student, history, match, mutate }: UpdateStudentFullPageProps) => (
     <div className="student-profile-container">
@@ -102,23 +230,33 @@ const EditStudentProfile = ({ student, history, match, mutate }: UpdateStudentFu
                             </div>
                             <div className="gf-form">
                                 <span className="gf-form-label width-8">Department</span>
-                                <input type="text" className="gf-form-input max-width-22" />
+                                <select name="department" onChange= {e=>{student = onChange(e, student); console.log(student);}} value={student.department.name}>
+                                    {getDepartments()}
+                                </select>
                             </div>
                             <div className="gf-form">
                                 <span className="gf-form-label width-8">Year</span>
-                                <input type="text" className="gf-form-input max-width-22" />
+                                <select>
+                                    {getYears()}
+                                </select>
                             </div>
                             <div className="gf-form">
                                 <span className="gf-form-label width-8">Branch</span>
-                                <input type="text" className="gf-form-input max-width-22" />
+                                <select name="branchName" onChange= {e=>{student = onChange(e, student)}} value={student.branch.branchName}>
+                                    {getBranches()}
+                                </select>
                             </div>
                             <div className="gf-form">
                                 <span className="gf-form-label width-8">Section</span>
-                                <input type="text" className="gf-form-input max-width-22" />
+                                <select name="section" onChange= {e=>{student = onChange(e, student)}} value={student.section.section}>
+                                    {getSections()}
+                                </select>
                             </div>
                             <div className="gf-form">
                                 <span className="gf-form-label width-8">Student Type</span>
-                                <input type="text" className="gf-form-input max-width-22" />
+                                <select name="studentType" onChange= {e=>{student = onChange(e, student)}} value={student.studentType}>
+                                    {getStudentTypes()}
+                                </select>
                             </div>
                         </div>
                     </div>
