@@ -171,7 +171,9 @@ class EditStudentProfile extends React.Component< UpdateStudentFullPageProps, Ed
         const {studentData} = this.state;
         e.preventDefault();
         let btn = e.target.querySelector("button[type='submit']");
-        btn.setAttribute("disabled",true)
+        btn.setAttribute("disabled",true);
+        let dataSavedMessage:any = document.querySelector(".data-saved-message");
+        dataSavedMessage.style.display = "none";
         return mutate({
             variables: {
                 id: queryString.parse(location.search).id,
@@ -179,9 +181,11 @@ class EditStudentProfile extends React.Component< UpdateStudentFullPageProps, Ed
             },
         }).then((data: any) => {
             btn.removeAttribute("disabled");
+            dataSavedMessage.style.display = "inline-block";
             // location.href = `${location.origin}/plugins/xformation-petclinic-panel/page/students`;
         }).catch((error: any) => {
             btn.removeAttribute("disabled");
+            dataSavedMessage.style.display = "inline-block";
             console.log('there was an error sending the update mutation', error);
             return Promise.reject(`Could not save student: ${error}`);
         });
@@ -235,6 +239,7 @@ class EditStudentProfile extends React.Component< UpdateStudentFullPageProps, Ed
                         <div className="col-sm-12 col-xs-12 profile-header m-b-2">
                             <div className="pull-left">Student Profile</div>
                             <div className="pull-right">
+                                <span className="m-r-2 data-saved-message" style={{fontSize: "13px", color: "#AA0000", display: "none"}}>Data Saved</span>
                                 <button className="btn bs" type="submit">Save</button>
                             </div>
                         </div>

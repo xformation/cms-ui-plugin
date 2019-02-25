@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { FieldErrors, FormModel, FormElement } from './types';
+import { FieldErrors, FormModel, FormElement, SelectFormElement } from './types';
 
 type PartialFormProps<MODEL extends FormModel> = {
-    formElements: FormElement[];
+    formElements: Array<any>;
     modelData: MODEL,
     className: any,
     onChange: any

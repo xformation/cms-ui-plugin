@@ -13,6 +13,7 @@ import DateInput from './elements/DateInput';
 import SelectInput from './elements/SelectInput';
 import CheckInput from './elements/CheckInput';
 import GrafanaInput from './elements/GrafanaInput';
+import GrafanaSelectInput from './elements/GrafanaSelectInput';
  
 export function InputFactory(
   element: FormElement,
@@ -95,6 +96,28 @@ export function GrafanaInputFactory(
       className={element.className}
       onChange={onInputChange}
       onBlur={onBlur}
+    />
+  );
+}
+
+export function GrafanaSelectInputFactory(
+  element: SelectFormElement,
+  object: FormModel,
+  fieldError: FieldError | null,
+  onInputChange: any,
+  onBlur: any
+) {
+  return (
+    <GrafanaSelectInput
+      key={element.name}
+      options={element.options}
+      object={object}
+      fieldError={fieldError}
+      label={element.label}
+      name={element.name}
+      onChange={onInputChange}
+      onBlur={onBlur}
+      className={element.className}
     />
   );
 }

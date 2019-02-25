@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { GrafanaInputFactory } from '../../../../../components/form/FormElements';
+import { GrafanaInputFactory, GrafanaSelectInputFactory } from '../../../../../components/form/FormElements';
 import { NotEmpty } from '../../../../../components/form/Constraints';
 import PartialForm from '../../../../../components/form/PartialForm';
 
@@ -28,8 +28,8 @@ const personalDataForm = [
     },
     {
         elementComponentFactory: GrafanaInputFactory,
-        name: 'father Last Name',
-        label: 'fatherLastName',
+        name: 'fatherLastName',
+        label: 'Father Last Name',
         constraint: NotEmpty,
         className: 'gf-form--grow form-control-container',
     },
@@ -76,18 +76,38 @@ const personalDataForm = [
         className: 'gf-form--grow form-control-container',
     },
     {
-        elementComponentFactory: GrafanaInputFactory,
+        elementComponentFactory: GrafanaSelectInputFactory,
         name: 'religion',
         label: 'Religion',
         constraint: NotEmpty,
         className: 'gf-form--grow form-control-container',
+        options: [
+            {
+                id: 1,
+                name: "R1"
+            },
+            {
+                id: 2,
+                name: "R2"
+            }
+        ]
     },
     {
-        elementComponentFactory: GrafanaInputFactory,
+        elementComponentFactory: GrafanaSelectInputFactory,
         name: 'caste',
         label: 'Caste',
         constraint: NotEmpty,
         className: 'gf-form--grow form-control-container',
+        options: [
+            {
+                id: 1,
+                name: "C1"
+            },
+            {
+                id: 2,
+                name: "C2"
+            }
+        ]
     },
     {
         elementComponentFactory: GrafanaInputFactory,
@@ -104,11 +124,21 @@ const personalDataForm = [
         className: 'gf-form--grow form-control-container',
     },
     {
-        elementComponentFactory: GrafanaInputFactory,
+        elementComponentFactory: GrafanaSelectInputFactory,
         name: 'bloodGroup',
         label: 'Blood Group',
         constraint: NotEmpty,
         className: 'gf-form--grow form-control-container',
+        options: [
+            {
+                id: 1,
+                name: "B1"
+            },
+            {
+                id: 2,
+                name: "B2"
+            }
+        ]
     }
 ];
 
