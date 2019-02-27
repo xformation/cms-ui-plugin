@@ -6,6 +6,7 @@ import ContactData from './ContactData';
 import OtherContactData from './OtherContactData';
 import FacilityData from './FacilityData';
 import { FormModel } from '../../../../components/form/types'
+import { StudentServices } from './_services';
 
 import './student_profile.css';
 
@@ -51,109 +52,13 @@ function onClickHeader(e: any) {
     }
 }
 
-function getDepartments(){
-    let departments = [{
-        id: "1",
-        dep: "Mechanical"
-    },{
-        id: "2",
-        dep: "Computer"
-    }];
-
-    let departmentsOptions = [<option key={0} value="">Select department</option>];
-    for(let i=0; i< departments.length;i++){
-        departmentsOptions.push(
-            <option key={departments[i].id} value={departments[i].id}>{departments[i].dep}</option>
-        );
-    }
-    return departmentsOptions;
-}
-
-function getYears(){
-    let years = [
-    {
-        id: 1,
-        year: 2014
-    },{
-        id: 2,
-        year: 2015
-    },{
-        id: 3,
-        year: 2016
-    },{
-        id: 4,
-        year: 2017
-    }];
-
-    let yearsOptions = [<option key={0} value="">Select Year</option>];
-    for(let i=0; i< years.length;i++){
-        yearsOptions.push(
-            <option key={years[i].id} value={years[i].id}>{years[i].year}</option>
-        );
-    }
-    return yearsOptions;
-}
-
-function getBranches(){
-    let branches = [
-    {
-        id: 1,
-        branch: "CE"
-    },{
-        id: 2,
-        branch: "EC"
-    }];
-
-    let branchesOptions = [<option key={0} value="">Select Branch</option>];
-    for(let i=0; i< branches.length;i++){
-        branchesOptions.push(
-            <option key={branches[i].id} value={branches[i].id}>{branches[i].branch}</option>
-        );
-    }
-    return branchesOptions;
-}
-
-function getSections(){
-    let sections = [
-    {
-        id: 1,
-        section: "Section1"
-    },{
-        id: 2,
-        section: "Section2"
-    }];
-
-    let sectionsOptions = [<option key={0} value="">Select Section</option>];
-    for(let i=0; i< sections.length;i++){
-        sectionsOptions.push(
-            <option key={sections[i].id} value={sections[i].id}>{sections[i].section}</option>
-        );
-    }
-    return sectionsOptions;
-}
-
-function getStudentTypes(){
-    let studentTypes = [
-    {
-        id: 1,
-        type: "type1"
-    },{
-        id: 2,
-        type: "type2"
-    }];
-
-    let studentTypesOptions = [<option key={0} value="">Select Year</option>];
-    for(let i=0; i< studentTypes.length;i++){
-        studentTypesOptions.push(
-            <option key={studentTypes[i].id} value={studentTypes[i].id}>{studentTypes[i].type}</option>
-        );
-    }
-    return studentTypesOptions;
-}
-
-
 type EditStudentProfileStates = {
-    studentData: any
+    studentData: any,
+    studentDepartments: any,
+    studentBranches: any,
+    studentSections: any,
+    studentYears: any,
+    studentTypes: any
 };
 
 class EditStudentProfile extends React.Component< UpdateStudentFullPageProps, EditStudentProfileStates>{
@@ -163,8 +68,96 @@ class EditStudentProfile extends React.Component< UpdateStudentFullPageProps, Ed
         this.state = {
             studentData: {
                 ...student
-            }
+            },
+            studentDepartments: <option key={0} value="">Select department</option>,
+            studentBranches: <option key={0} value="">Select Branch</option>,
+            studentSections: <option key={0} value="">Select Section</option>,
+            studentYears: <option key={0} value="">Select Year</option>,
+            studentTypes: <option key={0} value="">Select Type</option>
         };
+        StudentServices.getStudentDepartments().then(
+            departments=>{
+                let departmentsOptions = [<option key={0} value="">Select department</option>];
+                for(let i=0; i< departments.length;i++){
+                    departmentsOptions.push(
+                        <option key={departments[i].id} value={departments[i].id}>{departments[i].dep}</option>
+                    );
+                }
+                this.setState({
+                    studentDepartments: departmentsOptions
+                });
+            },
+            error=>{
+                console.log(error);
+            }
+        );
+        StudentServices.getStudentBranches().then(
+            branches=>{
+                let branchesOptions = [<option key={0} value="">Select Branch</option>];
+                for(let i=0; i< branches.length;i++){
+                    branchesOptions.push(
+                        <option key={branches[i].id} value={branches[i].id}>{branches[i].branch}</option>
+                    );
+                }
+                this.setState({
+                    studentBranches: branchesOptions
+                });
+            },
+            error=>{
+                console.log(error);
+            }
+        );
+        StudentServices.getStudentSections().then(
+            sections=>{
+                let sectionsOptions = [<option key={0} value="">Select Section</option>];
+                for(let i=0; i< sections.length;i++){
+                    sectionsOptions.push(
+                        <option key={sections[i].id} value={sections[i].id}>{sections[i].section}</option>
+                    );
+                }
+                this.setState({
+                    studentSections: sectionsOptions
+                });
+            },
+            error=>{
+                console.log(error);
+            }
+        );
+        StudentServices.getStudentYears().then(
+            years=>{
+                let yearsOptions = [<option key={0} value="">Select Year</option>];
+                for(let i=0; i< years.length;i++){
+                    yearsOptions.push(
+                        <option key={years[i].id} value={years[i].id}>{years[i].year}</option>
+                    );
+                }
+                this.setState({
+                    studentYears: yearsOptions
+                });
+            },
+            error=>{
+                console.log(error);
+            }
+        );
+        StudentServices.getStudentTypes().then(
+            studentTypes=>{
+                let studentTypesOptions = [<option key={0} value="">Select Type</option>];
+                for(let i=0; i< studentTypes.length;i++){
+                    studentTypesOptions.push(
+                        <option key={studentTypes[i].id} value={studentTypes[i].id}>{studentTypes[i].type}</option>
+                    );
+                }
+                this.setState({
+                    studentTypes: studentTypesOptions
+                });
+            },
+            error=>{
+                console.log(error);
+            }
+        );
+    }
+    componentWillMount(){
+
     }
     onFormSubmit = (e: any) => {
         const {mutate} = this.props;
@@ -231,7 +224,7 @@ class EditStudentProfile extends React.Component< UpdateStudentFullPageProps, Ed
     }
     render(){
         const { history, match, mutate } = this.props;
-        const { studentData } = this.state;
+        const { studentData, studentDepartments, studentBranches, studentSections, studentTypes, studentYears } = this.state;
         return (
             <div className="student-profile-container">
                 <form className="gf-form-group" onSubmit={this.onFormSubmit}>
@@ -266,31 +259,31 @@ class EditStudentProfile extends React.Component< UpdateStudentFullPageProps, Ed
                                     <div className="gf-form">
                                         <span className="gf-form-label width-8">Department</span>
                                         <select name="department" onChange= {this.onChange} value={studentData.department.name}>
-                                            {getDepartments()}
+                                            {studentDepartments}
                                         </select>
                                     </div>
                                     <div className="gf-form">
                                         <span className="gf-form-label width-8">Year</span>
                                         <select>
-                                            {getYears()}
+                                            {studentYears}
                                         </select>
                                     </div>
                                     <div className="gf-form">
                                         <span className="gf-form-label width-8">Branch</span>
                                         <select name="branchName" onChange= {this.onChange} value={studentData.branch.branchName}>
-                                            {getBranches()}
+                                            {studentBranches}
                                         </select>
                                     </div>
                                     <div className="gf-form">
                                         <span className="gf-form-label width-8">Section</span>
                                         <select name="section" onChange= {this.onChange} value={studentData.section.section}>
-                                            {getSections()}
+                                            {studentSections}
                                         </select>
                                     </div>
                                     <div className="gf-form">
                                         <span className="gf-form-label width-8">Student Type</span>
                                         <select name="studentType" onChange= {this.onChange} value={studentData.studentType}>
-                                            {getStudentTypes()}
+                                            {studentTypes}
                                         </select>
                                     </div>
                                 </div>
