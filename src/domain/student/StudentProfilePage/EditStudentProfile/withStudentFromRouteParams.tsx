@@ -36,7 +36,7 @@ const withStudentFromRouteParams = (
     options: ({ match }) => (
       {
         variables: {
-          studentId: queryString.parse(location.search).id
+          id: queryString.parse(location.search).id
         }
       })
   })(withLoadingHandler(withStudentFromRouteParamsWrapper));

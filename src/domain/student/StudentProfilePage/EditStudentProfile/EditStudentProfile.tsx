@@ -75,12 +75,14 @@ class EditStudentProfile extends React.Component< UpdateStudentFullPageProps, Ed
             studentYears: <option key={0} value="">Select Year</option>,
             studentTypes: <option key={0} value="">Select Type</option>
         };
+    }
+    componentDidMount(){
         StudentServices.getStudentDepartments().then(
             departments=>{
                 let departmentsOptions = [<option key={0} value="">Select department</option>];
                 for(let i=0; i< departments.length;i++){
                     departmentsOptions.push(
-                        <option key={departments[i].id} value={departments[i].id}>{departments[i].dep}</option>
+                        <option key={departments[i].id} value={departments[i].id}>{departments[i].name}</option>
                     );
                 }
                 this.setState({
@@ -96,7 +98,7 @@ class EditStudentProfile extends React.Component< UpdateStudentFullPageProps, Ed
                 let branchesOptions = [<option key={0} value="">Select Branch</option>];
                 for(let i=0; i< branches.length;i++){
                     branchesOptions.push(
-                        <option key={branches[i].id} value={branches[i].id}>{branches[i].branch}</option>
+                        <option key={branches[i].id} value={branches[i].id}>{branches[i].branchName}</option>
                     );
                 }
                 this.setState({
@@ -128,7 +130,7 @@ class EditStudentProfile extends React.Component< UpdateStudentFullPageProps, Ed
                 let yearsOptions = [<option key={0} value="">Select Year</option>];
                 for(let i=0; i< years.length;i++){
                     yearsOptions.push(
-                        <option key={years[i].id} value={years[i].id}>{years[i].year}</option>
+                        <option key={years[i].id} value={years[i].id}>{years[i].batch}</option>
                     );
                 }
                 this.setState({
@@ -139,25 +141,26 @@ class EditStudentProfile extends React.Component< UpdateStudentFullPageProps, Ed
                 console.log(error);
             }
         );
-        StudentServices.getStudentTypes().then(
-            studentTypes=>{
-                let studentTypesOptions = [<option key={0} value="">Select Type</option>];
-                for(let i=0; i< studentTypes.length;i++){
-                    studentTypesOptions.push(
-                        <option key={studentTypes[i].id} value={studentTypes[i].id}>{studentTypes[i].type}</option>
-                    );
-                }
-                this.setState({
-                    studentTypes: studentTypesOptions
-                });
-            },
-            error=>{
-                console.log(error);
-            }
-        );
-    }
-    componentWillMount(){
 
+        let studentTypes: any = {
+            REGULAR : "REGULAR",
+            STAFF_CONCESSION : "STAFF_CONCESSION",
+            BENEFITS : "BENEFITS",
+            SCHOLARSHIP : "SCHOLARSHIP",
+            OTHER_BENEFITS : "OTHER_BENEFITS"
+        }
+        let studentTypesOptions = [<option key={0} value="">Select Type</option>];
+        for(let i in studentTypes){
+            let studentType = studentTypes[i];
+            studentTypesOptions.push(
+                <option key={studentType} value={studentType}>studentType</option>
+            );
+        }
+        this.setState({
+            studentTypes: studentTypesOptions
+        });
+
+        
     }
     onFormSubmit = (e: any) => {
         const {mutate} = this.props;
@@ -169,8 +172,10 @@ class EditStudentProfile extends React.Component< UpdateStudentFullPageProps, Ed
         dataSavedMessage.style.display = "none";
         return mutate({
             variables: {
-                id: queryString.parse(location.search).id,
-                ...studentData,
+                input:{
+                    id: queryString.parse(location.search).id,
+                    ...studentData
+                }
             },
         }).then((data: any) => {
             btn.removeAttribute("disabled");

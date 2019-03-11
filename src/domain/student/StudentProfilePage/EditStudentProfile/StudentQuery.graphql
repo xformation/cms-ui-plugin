@@ -1,7 +1,6 @@
-query student($studentId: ID!) {
-  Student(id: $studentId){
+query student($id: Long!) {
+  student(id: $id){
     id
-    studentName
     fatherName
     fatherMiddleName
     fatherLastName
@@ -29,18 +28,26 @@ query student($studentId: ID!) {
     studentEmailAddress
     alternateEmailAddress
     relationWithStudent
-    name
-    middleName
-    lastName
-    contactNo
-    emailAddress
+    studentName
+    studentMiddleName
+    studentLastName
+    studentContactNumber
+    studentEmailAddress
     uploadPhoto
     admissionNo
     rollNo
     studentType
-    batch
-    section
-    branch 
-    department
+    batch {
+      id
+    }
+    section {
+      id
+    }
+    branch {
+      id
+    } 
+    department {
+      id
+    }
   }
 }

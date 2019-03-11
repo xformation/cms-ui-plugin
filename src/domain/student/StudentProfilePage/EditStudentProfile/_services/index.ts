@@ -6,7 +6,7 @@ export const StudentServices = {
   getStudentTypes,
 };
 
-const url = 'http://localhost:8089/';
+const url = 'http://54.196.130.160:8080/api/';
 
 function getRequestOptions(method: any) {
   let requestOptions = {
@@ -25,7 +25,7 @@ function getStudentDepartments() {
 
 function getStudentYears() {
   let requestOptions = getRequestOptions('GET');
-  return fetch(`${url}years`, requestOptions).then(response => response.json());
+  return fetch(`${url}batches`, requestOptions).then(response => response.json());
 }
 
 function getStudentBranches() {

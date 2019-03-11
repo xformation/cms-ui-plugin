@@ -83,12 +83,16 @@ const personalDataForm = [
         className: 'gf-form--grow form-control-container',
         options: [
             {
-                id: 1,
-                name: "R1"
+                id: "HINDU",
+                name: "HINDU"
             },
             {
-                id: 2,
-                name: "R2"
+                id: "MUSLIM",
+                name: "MUSLIM"
+            },
+            {
+                id: "CHIRSTIAN",
+                name: "CHIRSTIAN"
             }
         ]
     },
@@ -100,12 +104,20 @@ const personalDataForm = [
         className: 'gf-form--grow form-control-container',
         options: [
             {
-                id: 1,
-                name: "C1"
+                id: "OC",
+                name: "OC"
             },
             {
-                id: 2,
-                name: "C2"
+                id: "BC",
+                name: "BC"
+            },
+            {
+                id: "SC",
+                name: "SC"
+            },
+            {
+                id: "ST",
+                name: "ST"
             }
         ]
     },
@@ -131,12 +143,24 @@ const personalDataForm = [
         className: 'gf-form--grow form-control-container',
         options: [
             {
-                id: 1,
-                name: "B1"
+                id: "ABPOSITIVE",
+                name: "ABPOSITIVE"
             },
             {
-                id: 2,
-                name: "B2"
+                id: "ABNEGATIVE",
+                name: "ABNEGATIVE"
+            },
+            {
+                id: "OPOSITIVE",
+                name: "OPOSITIVE"
+            },
+            {
+                id: "BPOSITIVE",
+                name: "BPOSITIVE"
+            },
+            {
+                id: "BNEGATIVE",
+                name: "BNEGATIVE"
             }
         ]
     }
