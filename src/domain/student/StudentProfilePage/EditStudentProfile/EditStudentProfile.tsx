@@ -41,7 +41,7 @@ function onClickHeader(e: any) {
     const collapseContainer = currentTarget.closest(".collapse-container");
     const formContainer = collapseContainer.querySelector(".gf-form-inline");
     const style = window.getComputedStyle(formContainer);
-    if(style.display === "none"){
+    if (style.display === "none") {
         formContainer.style.display = "flex";
         minusSign.style.display = "block";
         plusSign.style.display = "none";
@@ -54,182 +54,202 @@ function onClickHeader(e: any) {
 
 type EditStudentProfileStates = {
     studentData: any,
-    studentDepartments: any,
-    studentBranches: any,
-    studentSections: any,
-    studentYears: any,
-    studentTypes: any
+    departments: any,
+    branches: any,
+    batches: any,
+    sections: any,
+    submitted: any
 };
 
-class EditStudentProfile extends React.Component< UpdateStudentFullPageProps, EditStudentProfileStates>{
-    constructor(props:any){
+class EditStudentProfile extends React.Component<UpdateStudentFullPageProps, EditStudentProfileStates>{
+    constructor(props: any) {
         super(props);
-        const {student} = props;
+        const { student } = props;
         this.state = {
             studentData: {
                 ...student
             },
-            studentDepartments: <option key={0} value="">Select department</option>,
-            studentBranches: <option key={0} value="">Select Branch</option>,
-            studentSections: <option key={0} value="">Select Section</option>,
-            studentYears: <option key={0} value="">Select Year</option>,
-            studentTypes: <option key={0} value="">Select Type</option>
+            departments: [],
+            branches: [],
+            batches: [],
+            sections: [],
+            submitted: false
         };
+        this.createDepartments = this.createDepartments.bind(this);
+        this.createBranches = this.createBranches.bind(this);
+        this.createBatches = this.createBatches.bind(this);
+        this.createSections = this.createSections.bind(this);
+        this.createStudentTypeOptions = this.createStudentTypeOptions.bind(this);
     }
-    componentDidMount(){
-        StudentServices.getStudentDepartments().then(
-            departments=>{
-                let departmentsOptions = [<option key={0} value="">Select department</option>];
-                for(let i=0; i< departments.length;i++){
-                    departmentsOptions.push(
-                        <option key={departments[i].id} value={departments[i].id}>{departments[i].name}</option>
-                    );
-                }
+    componentDidMount() {
+        Promise.all([StudentServices.getStudentDepartments(), StudentServices.getStudentBranches(), StudentServices.getStudentYears(), StudentServices.getStudentSections()]).then(
+            data => {
+                let departments = data[0];
+                let branches = data[1];
+                let batches = data[2];
+                let sections = data[3];
                 this.setState({
-                    studentDepartments: departmentsOptions
+                    departments,
+                    branches,
+                    batches,
+                    sections
                 });
             },
-            error=>{
+            error => {
                 console.log(error);
             }
         );
-        StudentServices.getStudentBranches().then(
-            branches=>{
-                let branchesOptions = [<option key={0} value="">Select Branch</option>];
-                for(let i=0; i< branches.length;i++){
-                    branchesOptions.push(
-                        <option key={branches[i].id} value={branches[i].id}>{branches[i].branchName}</option>
-                    );
-                }
-                this.setState({
-                    studentBranches: branchesOptions
-                });
-            },
-            error=>{
-                console.log(error);
-            }
-        );
-        StudentServices.getStudentSections().then(
-            sections=>{
-                let sectionsOptions = [<option key={0} value="">Select Section</option>];
-                for(let i=0; i< sections.length;i++){
-                    sectionsOptions.push(
-                        <option key={sections[i].id} value={sections[i].id}>{sections[i].section}</option>
-                    );
-                }
-                this.setState({
-                    studentSections: sectionsOptions
-                });
-            },
-            error=>{
-                console.log(error);
-            }
-        );
-        StudentServices.getStudentYears().then(
-            years=>{
-                let yearsOptions = [<option key={0} value="">Select Year</option>];
-                for(let i=0; i< years.length;i++){
-                    yearsOptions.push(
-                        <option key={years[i].id} value={years[i].id}>{years[i].batch}</option>
-                    );
-                }
-                this.setState({
-                    studentYears: yearsOptions
-                });
-            },
-            error=>{
-                console.log(error);
-            }
-        );
-
-        let studentTypes: any = {
-            REGULAR : "REGULAR",
-            STAFF_CONCESSION : "STAFF_CONCESSION",
-            BENEFITS : "BENEFITS",
-            SCHOLARSHIP : "SCHOLARSHIP",
-            OTHER_BENEFITS : "OTHER_BENEFITS"
-        }
-        let studentTypesOptions = [<option key={0} value="">Select Type</option>];
-        for(let i in studentTypes){
-            let studentType = studentTypes[i];
-            studentTypesOptions.push(
-                <option key={studentType} value={studentType}>studentType</option>
+    }
+    createDepartments(departments: any, selectedDepartmentId: any) {
+        let departmentsOptions = [<option key={0} value="">Select department</option>];
+        for (let i = 0; i < departments.length; i++) {
+            departmentsOptions.push(
+                <option key={departments[i].id} value={departments[i].id}>{departments[i].name}</option>
             );
         }
-        this.setState({
-            studentTypes: studentTypesOptions
-        });
-
-        
+        return departmentsOptions;
+    }
+    createBranches(branches: any, selectedBranchID: any) {
+        let branchesOptions = [<option key={0} value="">Select Branch</option>];
+        for (let i = 0; i < branches.length; i++) {
+            branchesOptions.push(
+                <option key={branches[i].id} value={branches[i].id}>{branches[i].branchName}</option>
+            );
+        }
+        return branchesOptions;
+    }
+    createBatches(batches: any, selectedBatchId: any, selectedDepartmentId: any) {
+        let batchesOptions = [<option key={0} value="">Select Year</option>];
+        for (let i = 0; i < batches.length; i++) {
+            let id = batches[i].id;
+            if (batches[i].departmentId == selectedDepartmentId) {
+                batchesOptions.push(
+                    <option key={id} value={id}>{batches[i].batch}</option>
+                );
+            }
+        }
+        return batchesOptions;
+    }
+    createSections(sections: any, selectedSectionId: any, selectedBatchId: any) {
+        let sectionsOptions = [<option key={0} value="">Select Section</option>];
+        for (let i = 0; i < sections.length; i++) {
+            if (sections[i].batchId == selectedBatchId) {
+                let id = sections[i].id;
+                sectionsOptions.push(
+                    <option key={id} value={id}>{sections[i].section}</option>
+                );
+            }
+        }
+        return sectionsOptions;
+    }
+    createStudentTypeOptions(selectedType: any) {
+        let studentTypes: any = {
+            REGULAR: "REGULAR",
+            STAFF_CONCESSION: "STAFF_CONCESSION",
+            BENEFITS: "BENEFITS",
+            SCHOLARSHIP: "SCHOLARSHIP",
+            OTHER_BENEFITS: "OTHER_BENEFITS"
+        }
+        let studentTypesOptions = [<option key={0} value="">Select Type</option>];
+        for (let i in studentTypes) {
+            let studentType = studentTypes[i];
+            studentTypesOptions.push(
+                <option key={studentType} value={studentType} selected={selectedType === studentType}>{studentType}</option>
+            );
+        }
+        return studentTypesOptions;
     }
     onFormSubmit = (e: any) => {
-        const {mutate} = this.props;
-        const {studentData} = this.state;
-        e.preventDefault();
-        let btn = e.target.querySelector("button[type='submit']");
-        btn.setAttribute("disabled",true);
-        let dataSavedMessage:any = document.querySelector(".data-saved-message");
-        dataSavedMessage.style.display = "none";
-        return mutate({
-            variables: {
-                input:{
-                    id: queryString.parse(location.search).id,
-                    ...studentData
-                }
-            },
-        }).then((data: any) => {
-            btn.removeAttribute("disabled");
-            dataSavedMessage.style.display = "inline-block";
-            // location.href = `${location.origin}/plugins/xformation-petclinic-panel/page/students`;
-        }).catch((error: any) => {
-            btn.removeAttribute("disabled");
-            dataSavedMessage.style.display = "inline-block";
-            console.log('there was an error sending the update mutation', error);
-            return Promise.reject(`Could not save student: ${error}`);
+        this.setState({
+            submitted: true
         });
+        const { mutate } = this.props;
+        const { studentData } = this.state;
+        e.preventDefault();
+        if (studentData.department.id && studentData.branch.id && studentData.batch.id && studentData.studentType && studentData.section.id) {
+            let btn = e.target.querySelector("button[type='submit']");
+            btn.setAttribute("disabled", true);
+            let dataSavedMessage: any = document.querySelector(".data-saved-message");
+            dataSavedMessage.style.display = "none";
+            return mutate({
+                variables: {
+                    input: {
+                        id: queryString.parse(location.search).id,
+                        ...studentData
+                    }
+                },
+            }).then((data: any) => {
+                btn.removeAttribute("disabled");
+                dataSavedMessage.style.display = "inline-block";
+                // location.href = `${location.origin}/plugins/xformation-petclinic-panel/page/students`;
+            }).catch((error: any) => {
+                btn.removeAttribute("disabled");
+                dataSavedMessage.style.display = "inline-block";
+                console.log('there was an error sending the update mutation', error);
+                return Promise.reject(`Could not save student: ${error}`);
+            });
+        }
     }
     onChange = (e: any) => {
-        const {name, value} = e.nativeEvent.target;
-        const {studentData} = this.state;
-        if(name === "department"){
-            this.setState({
-                studentData:{
-                    ...studentData,
-                    department:{
-                        name: value
-                    }
-                }
-            });
-        } else if(name === "branchName"){
+        const { name, value } = e.nativeEvent.target;
+        const { studentData } = this.state;
+        if (name === "department") {
             this.setState({
                 studentData: {
                     ...studentData,
-                    branch:{
-                        branchName: value
+                    department: {
+                        id: value
+                    },
+                    batch: {
+                        id: ""
+                    },
+                    section: {
+                        id: ""
                     }
                 }
             });
-        } else if(name === "section"){
+        } else if (name === "branch") {
             this.setState({
-                studentData:{
+                studentData: {
                     ...studentData,
-                    section:{
-                        section: value
+                    branch: {
+                        id: value
                     }
                 }
             });
-        } else if(name === "studentType"){
+        } else if (name === "section") {
             this.setState({
-                studentData:{
+                studentData: {
+                    ...studentData,
+                    section: {
+                        id: value
+                    }
+                }
+            });
+        } else if (name === "studentType") {
+            this.setState({
+                studentData: {
                     ...studentData,
                     studentType: value
                 }
             });
+        } else if (name === "batch") {
+            this.setState({
+                studentData: {
+                    ...studentData,
+                    batch: {
+                        id: value
+                    },
+                    section: {
+                        id: ""
+                    }
+                }
+            });
         }
     }
-    render(){
+    render() {
         const { history, match, mutate } = this.props;
-        const { studentData, studentDepartments, studentBranches, studentSections, studentTypes, studentYears } = this.state;
+        const { studentData, departments, batches, branches, sections, submitted } = this.state;
         return (
             <div className="student-profile-container">
                 <form className="gf-form-group" onSubmit={this.onFormSubmit}>
@@ -237,7 +257,7 @@ class EditStudentProfile extends React.Component< UpdateStudentFullPageProps, Ed
                         <div className="col-sm-12 col-xs-12 profile-header m-b-2">
                             <div className="pull-left">Student Profile</div>
                             <div className="pull-right">
-                                <span className="m-r-2 data-saved-message" style={{fontSize: "13px", color: "#AA0000", display: "none"}}>Data Saved</span>
+                                <span className="m-r-2 data-saved-message" style={{ fontSize: "13px", color: "#AA0000", display: "none" }}>Data Saved</span>
                                 <button className="btn bs" type="submit">Save</button>
                             </div>
                         </div>
@@ -263,111 +283,141 @@ class EditStudentProfile extends React.Component< UpdateStudentFullPageProps, Ed
                                     </div>
                                     <div className="gf-form">
                                         <span className="gf-form-label width-8">Department</span>
-                                        <select name="department" onChange= {this.onChange} value={studentData.department.name}>
-                                            {studentDepartments}
+                                        <select name="department" onChange={this.onChange} value={studentData.department.id} className="gf-form-input max-width-22">
+                                            {this.createDepartments(departments, studentData.department.id)}
                                         </select>
                                     </div>
+                                    {
+                                        submitted && !studentData.department.id &&
+                                        <div>
+                                            Student department needed.
+                                        </div>
+                                    }
                                     <div className="gf-form">
                                         <span className="gf-form-label width-8">Year</span>
-                                        <select>
-                                            {studentYears}
+                                        <select name="batch" onChange={this.onChange} value={studentData.batch.id} className="gf-form-input max-width-22">
+                                            {this.createBatches(batches, studentData.batch.id, studentData.department.id)}
                                         </select>
                                     </div>
+                                    {
+                                        submitted && !studentData.batch.id &&
+                                        <div>
+                                            Student batch needed.
+                                        </div>
+                                    }
                                     <div className="gf-form">
                                         <span className="gf-form-label width-8">Branch</span>
-                                        <select name="branchName" onChange= {this.onChange} value={studentData.branch.branchName}>
-                                            {studentBranches}
+                                        <select name="branch" onChange={this.onChange} value={studentData.branch.id} className="gf-form-input max-width-22">
+                                            {this.createBranches(branches, studentData.branch.id)}
                                         </select>
                                     </div>
+                                    {
+                                        submitted && !studentData.branch.id &&
+                                        <div>
+                                            Student branch needed.
+                                        </div>
+                                    }
                                     <div className="gf-form">
                                         <span className="gf-form-label width-8">Section</span>
-                                        <select name="section" onChange= {this.onChange} value={studentData.section.section}>
-                                            {studentSections}
+                                        <select name="section" onChange={this.onChange} value={studentData.section.id} className="gf-form-input max-width-22">
+                                            {this.createSections(sections, studentData.section.id, studentData.batch.id)}
                                         </select>
                                     </div>
+                                    {
+                                        submitted && !studentData.section.id &&
+                                        <div>
+                                            Student section needed.
+                                        </div>
+                                    }
                                     <div className="gf-form">
                                         <span className="gf-form-label width-8">Student Type</span>
-                                        <select name="studentType" onChange= {this.onChange} value={studentData.studentType}>
-                                            {studentTypes}
+                                        <select name="studentType" onChange={this.onChange} value={studentData.studentType} className="gf-form-input max-width-22">
+                                            {this.createStudentTypeOptions(studentData.studentType)}
                                         </select>
                                     </div>
+                                    {
+                                        submitted && !studentData.studentType &&
+                                        <div>
+                                            Student type needed.
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         </div>
                         <div className="col-lg-9 col-md-12 col-sm-12 col-xs-12 student-profile-form">
-                            
-                                <div className="collapse-container">
-                                    <div className="collapse-header">
-                                        <div className="collapse-title">Personal Details</div>
-                                        <div className="collapse-icon" onClick={onClickHeader}>
-                                            <i className="fa fa-fw fa-plus"></i>
-                                            <i className="fa fa-fw fa-minus"></i>
-                                        </div>
-                                        <div className="clear-both"></div>
+
+                            <div className="collapse-container">
+                                <div className="collapse-header">
+                                    <div className="collapse-title">Personal Details</div>
+                                    <div className="collapse-icon" onClick={onClickHeader}>
+                                        <i className="fa fa-fw fa-plus"></i>
+                                        <i className="fa fa-fw fa-minus"></i>
                                     </div>
-                                    <PersonalData modelData={studentData} onChange={(name:any,value:any)=>{
-                                        this.setState({
-                                            studentData:{
-                                                ...studentData,
-                                                [name]: value
-                                            }
-                                        });
-                                    }}/>
+                                    <div className="clear-both"></div>
                                 </div>
-                                <div className="collapse-container">
-                                    <div className="collapse-header">
-                                        <div className="collapse-title">Contact Details</div>
-                                        <div className="collapse-icon" onClick={onClickHeader}>
-                                            <i className="fa fa-fw fa-plus"></i>
-                                            <i className="fa fa-fw fa-minus"></i>
-                                        </div>
-                                        <div className="clear-both"></div>
+                                <PersonalData modelData={studentData} onChange={(name: any, value: any) => {
+                                    this.setState({
+                                        studentData: {
+                                            ...studentData,
+                                            [name]: value
+                                        }
+                                    });
+                                }} />
+                            </div>
+                            <div className="collapse-container">
+                                <div className="collapse-header">
+                                    <div className="collapse-title">Contact Details</div>
+                                    <div className="collapse-icon" onClick={onClickHeader}>
+                                        <i className="fa fa-fw fa-plus"></i>
+                                        <i className="fa fa-fw fa-minus"></i>
                                     </div>
-                                    <ContactData modelData={studentData} onChange={(name:any,value:any)=>{
-                                        this.setState({
-                                            studentData:{
-                                                ...studentData,
-                                                [name]: value
-                                            }
-                                        });
-                                    }}/>
+                                    <div className="clear-both"></div>
                                 </div>
-                                <div className="collapse-container">
-                                    <div className="collapse-header">
-                                        <div className="collapse-title">Primary and Emergency Contact Details</div>
-                                        <div className="collapse-icon" onClick={onClickHeader}>
-                                            <i className="fa fa-fw fa-plus"></i>
-                                            <i className="fa fa-fw fa-minus"></i>
-                                        </div>
-                                        <div className="clear-both"></div>
+                                <ContactData modelData={studentData} onChange={(name: any, value: any) => {
+                                    this.setState({
+                                        studentData: {
+                                            ...studentData,
+                                            [name]: value
+                                        }
+                                    });
+                                }} />
+                            </div>
+                            <div className="collapse-container">
+                                <div className="collapse-header">
+                                    <div className="collapse-title">Primary and Emergency Contact Details</div>
+                                    <div className="collapse-icon" onClick={onClickHeader}>
+                                        <i className="fa fa-fw fa-plus"></i>
+                                        <i className="fa fa-fw fa-minus"></i>
                                     </div>
-                                    <OtherContactData modelData={studentData} onChange={(name:any,value:any)=>{
-                                        this.setState({
-                                            studentData:{
-                                                ...studentData,
-                                                [name]: value
-                                            }
-                                        });
-                                    }}/>
+                                    <div className="clear-both"></div>
                                 </div>
-                                <div className="collapse-container">
-                                    <div className="collapse-header">
-                                        <div className="collapse-title">Facilities</div>
-                                        <div className="collapse-icon" onClick={onClickHeader}>
-                                            <i className="fa fa-fw fa-plus"></i>
-                                            <i className="fa fa-fw fa-minus"></i>
-                                        </div>
-                                        <div className="clear-both"></div>
+                                <OtherContactData modelData={studentData} onChange={(name: any, value: any) => {
+                                    this.setState({
+                                        studentData: {
+                                            ...studentData,
+                                            [name]: value
+                                        }
+                                    });
+                                }} />
+                            </div>
+                            <div className="collapse-container">
+                                <div className="collapse-header">
+                                    <div className="collapse-title">Facilities</div>
+                                    <div className="collapse-icon" onClick={onClickHeader}>
+                                        <i className="fa fa-fw fa-plus"></i>
+                                        <i className="fa fa-fw fa-minus"></i>
                                     </div>
-                                    <FacilityData modelData={studentData} onChange={(name:any,value:any)=>{
-                                        this.setState({
-                                            studentData:{
-                                                ...studentData,
-                                                [name]: value
-                                            }
-                                        });
-                                    }}/>
+                                    <div className="clear-both"></div>
                                 </div>
+                                <FacilityData modelData={studentData} onChange={(name: any, value: any) => {
+                                    this.setState({
+                                        studentData: {
+                                            ...studentData,
+                                            [name]: value
+                                        }
+                                    });
+                                }} />
+                            </div>
                         </div>
                     </div>
                 </form>
