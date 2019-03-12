@@ -167,6 +167,19 @@ class EditStudentProfile extends React.Component<UpdateStudentFullPageProps, Edi
         const { studentData } = this.state;
         e.preventDefault();
         if (studentData.department.id && studentData.branch.id && studentData.batch.id && studentData.studentType && studentData.section.id) {
+
+            let dplStudentData = {
+                ...studentData,
+                batchId: studentData.batch.id,
+                sectionId: studentData.section.id,
+                branchId: studentData.branch.id,
+                departmentId: studentData.department.id
+            };
+            delete dplStudentData.batch;
+            delete dplStudentData.section;
+            delete dplStudentData.branch;
+            delete dplStudentData.department;
+            delete dplStudentData.__typename;
             let btn = e.target.querySelector("button[type='submit']");
             btn.setAttribute("disabled", true);
             let dataSavedMessage: any = document.querySelector(".data-saved-message");
@@ -175,7 +188,7 @@ class EditStudentProfile extends React.Component<UpdateStudentFullPageProps, Edi
                 variables: {
                     input: {
                         id: queryString.parse(location.search).id,
-                        ...studentData
+                        ...dplStudentData
                     }
                 },
             }).then((data: any) => {
@@ -271,15 +284,15 @@ class EditStudentProfile extends React.Component<UpdateStudentFullPageProps, Edi
                                 <div className="col-sm-6 col-xs-12 col-md-6 col-lg-12">
                                     <div className="gf-form">
                                         <span className="gf-form-label width-8">Admission No</span>
-                                        <input type="text" className="gf-form-input max-width-22" />
+                                        <input name="admissionNo" value={studentData.admissionNo} onChange={this.onChange} type="text" className="gf-form-input max-width-22" />
                                     </div>
                                     <div className="gf-form">
                                         <span className="gf-form-label width-8">Student Id</span>
-                                        <input type="text" className="gf-form-input max-width-22" />
+                                        <input type="text" className="gf-form-input max-width-22" name="id" value={studentData.id} onChange={this.onChange} />
                                     </div>
                                     <div className="gf-form">
                                         <span className="gf-form-label width-8">Roll No</span>
-                                        <input type="text" className="gf-form-input max-width-22" />
+                                        <input name="rollNo" type="text" className="gf-form-input max-width-22" value={studentData.rollNo} onChange={this.onChange}/>
                                     </div>
                                     <div className="gf-form">
                                         <span className="gf-form-label width-8">Department</span>

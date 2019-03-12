@@ -31,12 +31,15 @@ query student($id: Long!) {
     studentName
     studentMiddleName
     studentLastName
-    studentContactNumber
-    studentEmailAddress
     uploadPhoto
     admissionNo
     rollNo
     studentType
+    emergencyContactName
+    emergencyContactMiddleName
+    emergencyContactLastName
+    emergencyContactNo
+    emergencyContactEmailAddress
     batch {
       id
     }
