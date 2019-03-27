@@ -1,5 +1,0 @@
-#import "./faculty.graphql"
-
-fragment facultyDetails on Faculty {
-  ...faculty
-}

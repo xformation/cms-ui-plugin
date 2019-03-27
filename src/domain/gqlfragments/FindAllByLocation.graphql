@@ -1,6 +1,0 @@
-fragment location on Location {
- id
-    name
-    address
-    appliesTo
-}

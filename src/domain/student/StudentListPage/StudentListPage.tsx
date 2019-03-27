@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-import {withRouter, RouteComponentProps, Link} from 'react-router-dom';
-import {graphql, QueryProps} from 'react-apollo';
+import { withRouter, RouteComponentProps, Link } from 'react-router-dom';
+import { graphql, QueryProps } from 'react-apollo';
 
 import * as StudentListQueryGql from './StudentListQuery.graphql';
-import {StudentListQuery, StudentSummaryFragment} from '../../types';
+import { StudentListQuery, StudentSummaryFragment } from '../../types';
 import withLoadingHandler from '../../../components/withLoadingHandler';
 
 const w180 = {
@@ -12,7 +12,7 @@ const w180 = {
   marginRight: '10px',
 };
 
-const StudentRow = ({student}: {student: StudentSummaryFragment}) => (
+const StudentRow = ({ student }: { student: StudentSummaryFragment }) => (
   <tr key={student.id}>
     <td>
       <input type="checkbox" name="" id="" />
@@ -20,7 +20,7 @@ const StudentRow = ({student}: {student: StudentSummaryFragment}) => (
     <td>
       <Link
         className="table-link"
-        to={`/plugins/xformation-petclinic-panel/page/student?id=${student.id}`}
+        to={`/plugins/xformation-cms-panel/page/student?id=${student.id}`}
       >
         {student.studentName}
       </Link>
@@ -32,11 +32,11 @@ const StudentRow = ({student}: {student: StudentSummaryFragment}) => (
     <td>{student.section.section}</td>
     <td>{student.sex}</td>
     <td>{student.studentType}</td>
-    <td>{student.contactNo}</td>
+    <td>{student.emergencyContactNo}</td>
   </tr>
 );
 
-const StudentsTable = ({students}: {students: StudentSummaryFragment[]}) => (
+const StudentsTable = ({ students }: { students: StudentSummaryFragment[] }) => (
   <div>
     <div className="student-flex">
       <div>
@@ -120,7 +120,7 @@ type StudentListPageProps = {
   data: QueryProps & StudentListQuery;
 };
 
-const StudentListPage = ({data: {students}}: StudentListPageProps) => (
+const StudentListPage = ({ data: { students } }: StudentListPageProps) => (
   <section className="customCss">
     <div className="m-b-1 dflex bg-heading">
       <h4 className="ptl-06">Class Setup</h4>

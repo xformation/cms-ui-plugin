@@ -194,7 +194,7 @@ class EditStudentProfile extends React.Component<UpdateStudentFullPageProps, Edi
             }).then((data: any) => {
                 btn.removeAttribute("disabled");
                 dataSavedMessage.style.display = "inline-block";
-                // location.href = `${location.origin}/plugins/xformation-petclinic-panel/page/students`;
+                // location.href = `${location.origin}/plugins/xformation-cms-panel/page/students`;
             }).catch((error: any) => {
                 btn.removeAttribute("disabled");
                 dataSavedMessage.style.display = "inline-block";

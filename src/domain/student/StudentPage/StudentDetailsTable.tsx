@@ -1,9 +1,9 @@
 import * as React from 'react';
-import {StudentFragment} from '../../types';
+import { StudentFragment } from '../../types';
 
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-export default ({student}: {student: StudentFragment}) => (
+export default ({ student }: { student: StudentFragment }) => (
   <section>
     <h2 className="heading">Student Information</h2>
     <section className="plugin-bg-white p-1">
@@ -20,7 +20,7 @@ export default ({student}: {student: StudentFragment}) => (
             <div className="heading-flex">
               <h3>{student.studentName}</h3>
               <h5 className="hflex-h5">
-                Contact No: <span>{student.contactNo}</span>
+                Contact No: <span>{student.emergencyContactNo}</span>
               </h5>
               <h5>
                 Primary Contact No: <span>{student.studentContactNumber}</span>
@@ -78,7 +78,7 @@ export default ({student}: {student: StudentFragment}) => (
               Fathers Name: <span>{student.fatherName}</span>
             </h5>
             <h5>
-              Fathers Contact:<span>{student.contactNo}</span>
+              Fathers Contact:<span>{student.emergencyContactNo}</span>
             </h5>
             <h5>
               Email Address:<span>{student.alternateEmailAddress}</span>
@@ -146,7 +146,7 @@ export default ({student}: {student: StudentFragment}) => (
       </div>
     </section>
     <Link
-      to={`/plugins/xformation-petclinic-panel/page/editstudent?id=${student.id}`}
+      to={`/plugins/xformation-cms-panel/page/editstudent?id=${student.id}`}
       className="btn customButton"
     >
       <span />

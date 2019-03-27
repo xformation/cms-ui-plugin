@@ -1,6 +1,0 @@
-#import "./institute.graphql"
-
-
-fragment instituteDetails on Institute {
-  ...institute
-}

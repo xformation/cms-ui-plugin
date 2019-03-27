@@ -44,7 +44,7 @@ const StudentProfilePage = ({data: {students}}: StudentListPageProps) => (
   //     Students found
   //   </h2>
   //   <StudentsTable students={students} />
-  //   <Link to={`/plugins/xformation-petclinic-panel/page/addstudent`} className="btn customButton">
+  //   <Link to={`/plugins/xformation-cms-panel/page/addstudent`} className="btn customButton">
   //     Add Student
   //     </Link>
   // </section>

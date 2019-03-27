@@ -1,7 +1,0 @@
-#import "../gqlfragments/FindAllByLocationDetails.graphql"
-
-query location($locationId: Long!) {
-  location(id: $locationId){
-  ...locationDetails
-  }
-}

@@ -28,11 +28,11 @@ fragment student on Student {
   studentEmailAddress
   alternateEmailAddress
   relationWithStudent
-  name
-  middleName
-  lastName
-  contactNo
-  emailAddress
+  emergencyContactName
+  emergencyContactMiddleName
+  emergencyContactLastName
+  emergencyContactNo
+  emergencyContactEmailAddress
   uploadPhoto
   admissionNo
   rollNo

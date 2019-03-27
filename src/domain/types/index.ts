@@ -1,2 +1,2 @@
-export * from "./query-types-generated";
-export * from "./petclinic-types";
+export * from './query-types-generated';
+export * from './cms-types';

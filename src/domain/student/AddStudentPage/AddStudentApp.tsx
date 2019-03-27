@@ -17,7 +17,7 @@ export default function init() {
         <BrowserRouter>
           <Switch>
             <Route
-              path="/plugins/xformation-petclinic-panel/page/addstudent"
+              path="/plugins/xformation-cms-panel/page/addstudent"
               component={AddStudentPage}
             />
           </Switch>

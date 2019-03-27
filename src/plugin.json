@@ -1,18 +1,18 @@
 {
   "type": "app",
   "name": "CMS",
-  "id": "xformation-petclinic-panel",
+  "id": "xformation-cms-panel",
   "css": {
     "dark": "css/dark.css",
     "light": "css/light.css"
   },
   "info": {
-    "description": "Petclinic for grafana",
+    "description": "cms for grafana",
     "author": {
       "name": "Synectiks",
       "url": "https://xformation.com"
     },
-    "keywords": ["petclinic", "panel"],
+    "keywords": ["cms", "panel"],
     "version": "1.0.6",
     "updated": "2018-10-12",
     "logos": {
@@ -30,62 +30,6 @@
     },
     {
       "type": "page",
-      "name": "Institutes",
-      "addToNav": false,
-      "defaultNav": false,
-      "component": "InstitutesPage"
-    },
-    {
-      "type": "page",
-      "name": "AddInstitute",
-      "addToNav": false,
-      "defaultNav": false,
-      "component": "AddInstitutePage"
-    },
-    {
-      "type": "page",
-      "name": "EditInstitute",
-      "addToNav": false,
-      "defaultNav": false,
-      "component": "EditInstitutePage"
-    },
-    {
-      "type": "page",
-      "name": "Institute",
-      "addToNav": false,
-      "defaultNav": false,
-      "component": "InstitutePage"
-    },
-    {
-      "type": "page",
-      "name": "Faculties",
-      "addToNav": false,
-      "defaultNav": false,
-      "component": "FacultiesPage"
-    },
-    {
-      "type": "page",
-      "name": "AddFaculty",
-      "addToNav": false,
-      "defaultNav": false,
-      "component": "AddFacultyPage"
-    },
-    {
-      "type": "page",
-      "name": "Faculty",
-      "addToNav": false,
-      "defaultNav": false,
-      "component": "FacultyPage"
-    },
-    {
-      "type": "page",
-      "name": "EditFaculty",
-      "addToNav": false,
-      "defaultNav": false,
-      "component": "EditFacultyPage"
-    },
-    {
-      "type": "page",
       "name": "EditStudent",
       "addToNav": false,
       "defaultNav": false,
@@ -97,13 +41,6 @@
       "addToNav": false,
       "defaultNav": false,
       "component": "EditStudentProfilePage"
-    },
-    {
-      "type": "page",
-      "name": "findStudentYears",
-      "addToNav": false,
-      "defaultNav": false,
-      "component": "FindStudentYearsPage"
     },
     {
       "type": "page",

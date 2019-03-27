@@ -4,28 +4,6 @@ export type ReactFunctionOrComponentClass<P> =
   | React.StatelessComponent<P>;
 
 // --------------------------------------
-export type InstituteData = {
-  name: string;
-  code: string;
-  year: any;
-};
-
-export type FacultyData = {
-  name: string;
-  lastName: string;
-  address: string;
-  mail: string;
-  designation: string;
-  mobile: any;
-  status: string;
-};
-
-export type location = {
-  id: any;
-  name: string;
-  address: string;
-  appliesTo: string;
-};
 
 export type StudentData = {
   // id: string;
@@ -57,11 +35,11 @@ export type StudentData = {
   studentEmailAddress: string;
   alternateEmailAddress: string;
   relationWithStudent: string;
-  name: string;
-  middleName: string;
-  lastName: string;
-  contactNo: number;
-  emailAddress: string;
+  emergencyContactName: string;
+  emergencyContactMiddleName: string;
+  emergencyContactLastName: string;
+  emergencyContactNo: string;
+  emergencyContactEmailAddress: string;
   uploadPhoto: string;
   admissionNo: number;
   rollNo: number;

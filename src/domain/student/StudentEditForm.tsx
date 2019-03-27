@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-import {MutationFunc} from 'react-apollo';
+import { MutationFunc } from 'react-apollo';
 import EditForm from '../../components/form/EditForm';
-import {InputFactory} from '../../components/form/FormElements';
-import {NotEmpty} from '../../components/form/Constraints';
-import {StudentData} from '../types';
+import { InputFactory } from '../../components/form/FormElements';
+import { NotEmpty } from '../../components/form/Constraints';
+import { StudentData } from '../types';
 
 const copyStudent = (student: StudentData): StudentData => ({
   // id: student.id,
@@ -36,11 +36,11 @@ const copyStudent = (student: StudentData): StudentData => ({
   studentEmailAddress: student.studentEmailAddress,
   alternateEmailAddress: student.alternateEmailAddress,
   relationWithStudent: student.relationWithStudent,
-  name: student.name,
-  middleName: student.middleName,
-  lastName: student.lastName,
-  contactNo: student.contactNo,
-  emailAddress: student.emailAddress,
+  emergencyContactName: student.emergencyContactName,
+  emergencyContactMiddleName: student.emergencyContactMiddleName,
+  emergencyContactLastName: student.emergencyContactLastName,
+  emergencyContactNo: student.emergencyContactNo,
+  emergencyContactEmailAddress: student.emergencyContactEmailAddress,
   uploadPhoto: student.uploadPhoto,
   admissionNo: student.admissionNo,
   rollNo: student.rollNo,
@@ -243,35 +243,36 @@ const studentFormElements = [
   },
   {
     elementComponentFactory: InputFactory,
-    name: 'name',
+    name: 'emergencyContactName',
     label: 'Name',
     constraint: NotEmpty,
     className: 'testing',
   },
+
   {
     elementComponentFactory: InputFactory,
-    name: 'middleName',
+    name: 'emergencyContactMiddleName',
     label: 'Middle Name',
     constraint: NotEmpty,
     className: 'testing',
   },
   {
     elementComponentFactory: InputFactory,
-    name: 'lastName',
+    name: 'emergencyContactLastName',
     label: 'Last Name',
     constraint: NotEmpty,
     className: 'testing',
   },
   {
     elementComponentFactory: InputFactory,
-    name: 'contactNo',
+    name: 'emergencyContactNo',
     label: 'Contact',
     constraint: NotEmpty,
     className: 'testing',
   },
   {
     elementComponentFactory: InputFactory,
-    name: 'emailAddress',
+    name: 'emergencyContactEmailAddress',
     label: 'Email Id',
     constraint: NotEmpty,
     className: 'testing',

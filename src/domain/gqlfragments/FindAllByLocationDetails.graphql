@@ -1,5 +1,0 @@
-#import "./FindAllByLocation.graphql"
-
-fragment locationDetails on Location {
-  ...location
-}
