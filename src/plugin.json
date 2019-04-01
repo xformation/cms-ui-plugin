@@ -1,13 +1,13 @@
 {
   "type": "app",
   "name": "CMS",
-  "id": "xformation-cms-panel",
+  "id": "ems-attendance",
   "css": {
     "dark": "css/dark.css",
     "light": "css/light.css"
   },
   "info": {
-    "description": "cms for grafana",
+    "description": "EMS Attendance Plugin",
     "author": {
       "name": "Synectiks",
       "url": "https://xformation.com"
