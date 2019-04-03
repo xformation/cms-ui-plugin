@@ -14,6 +14,20 @@ const personalDataForm = [
     },
     {
         elementComponentFactory: GrafanaInputFactory,
+        name: 'studentMiddleName',
+        label: 'Student Middle Name',
+        constraint: NotEmpty,
+        className: 'gf-form--grow form-control-container',
+    },
+    {
+        elementComponentFactory: GrafanaInputFactory,
+        name: 'studentLastName',
+        label: 'Student Last Name',
+        constraint: NotEmpty,
+        className: 'gf-form--grow form-control-container',
+    },
+    {
+        elementComponentFactory: GrafanaInputFactory,
         name: 'fatherName',
         label: 'Father Name',
         constraint: NotEmpty,
@@ -134,6 +148,27 @@ const personalDataForm = [
         label: 'Age',
         constraint: NotEmpty,
         className: 'gf-form--grow form-control-container',
+    },
+    {
+        elementComponentFactory: GrafanaSelectInputFactory,
+        name: 'sex',
+        label: 'Gender',
+        constraint: NotEmpty,
+        className: 'gf-form--grow form-control-container',
+        options: [
+            {
+                id: "MALE",
+                name: "MALE"
+            },
+            {
+                id: "FEMALE",
+                name: "FEMALE"
+            },
+            {
+                id: "OTHER",
+                name: "OTHER"
+            }
+        ]
     },
     {
         elementComponentFactory: GrafanaSelectInputFactory,

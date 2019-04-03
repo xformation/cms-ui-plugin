@@ -172,7 +172,8 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
                 batchId: studentData.batch.id,
                 sectionId: studentData.section.id,
                 branchId: studentData.branch.id,
-                departmentId: studentData.department.id
+                departmentId: studentData.department.id,
+                uploadPhoto: ""
             };
             delete dplStudentData.batch;
             delete dplStudentData.section;
@@ -184,13 +185,7 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
             let dataSavedMessage: any = document.querySelector(".data-saved-message");
             dataSavedMessage.style.display = "none";
             return mutate({
-                // variables: {
-                //     input: {
-                //         id: queryString.parse(location.search).id,
-                //         ...dplStudentData
-                //     }
-                // },
-                variables: { input: studentData, dplStudentData },
+                variables: { input: dplStudentData },
             }).then((data: any) => {
                 btn.removeAttribute("disabled");
                 dataSavedMessage.style.display = "inline-block";
@@ -258,6 +253,13 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
                     }
                 }
             });
+        } else {
+            this.setState({
+                studentData: {
+                    ...studentData,
+                    [name]: value
+                }
+            });
         }
     }
     render() {
@@ -285,10 +287,6 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
                                     <div className="gf-form">
                                         <span className="gf-form-label width-8">Admission No</span>
                                         <input name="admissionNo" value={studentData.admissionNo} onChange={this.onChange} type="text" className="gf-form-input max-width-22" />
-                                    </div>
-                                    <div className="gf-form">
-                                        <span className="gf-form-label width-8">Student Id</span>
-                                        <input type="text" className="gf-form-input max-width-22" name="id" value={studentData.id} onChange={this.onChange} />
                                     </div>
                                     <div className="gf-form">
                                         <span className="gf-form-label width-8">Roll No</span>
