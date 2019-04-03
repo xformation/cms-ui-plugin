@@ -78,239 +78,239 @@ const AttendanceOverview = () =>
                         <td rowSpan={2}>1st Year</td>
                         <td>A</td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-<a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+<a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-<a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+<a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-<a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+<a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-<a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+<a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td><span className="btn btn-danger-bg p-1 hasTooltip"><i className="fa fa-close" aria-hidden="true"></i> Unmarked
-<a className="tooltip-red" href="/plugins/xformation-cms-panel/page/markattendance">Take Attendance</a>
+<a className="tooltip-red" href="/plugins/ems-attendance/page/markattendance">Take Attendance</a>
                         </span></td>
                         <td></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-                        <a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+                        <a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-                        <a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+                        <a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-                        <a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+                        <a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                     </tr>
                     <tr>
 
                         <td>B</td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-<a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+<a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-<a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+<a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-<a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+<a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-<a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+<a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td><span className="btn btn-danger-bg p-1 hasTooltip"><i className="fa fa-close" aria-hidden="true"></i> Unmarked
-<a className="tooltip-red" href="/plugins/xformation-cms-panel/page/markattendance">Take Attendance</a>
+<a className="tooltip-red" href="/plugins/ems-attendance/page/markattendance">Take Attendance</a>
                         </span></td>
                         <td></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-                        <a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+                        <a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-                        <a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+                        <a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-                        <a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+                        <a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                     </tr>
                     <tr>
                         <td rowSpan={2}>2nd Year</td>
                         <td>A</td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-<a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+<a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-<a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+<a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-<a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+<a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-<a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+<a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td><span className="btn btn-danger-bg p-1 hasTooltip"><i className="fa fa-close" aria-hidden="true"></i> Unmarked
-<a className="tooltip-red" href="/plugins/xformation-cms-panel/page/markattendance">Take Attendance</a>
+<a className="tooltip-red" href="/plugins/ems-attendance/page/markattendance">Take Attendance</a>
                         </span></td>
                         <td></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-                        <a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+                        <a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-                        <a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+                        <a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-                        <a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+                        <a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                     </tr>
                     <tr>
 
                         <td>B</td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-<a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+<a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-<a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+<a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-<a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+<a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-<a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+<a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td><span className="btn btn-danger-bg p-1 hasTooltip"><i className="fa fa-close" aria-hidden="true"></i> Unmarked
-<a className="tooltip-red" href="/plugins/xformation-cms-panel/page/markattendance">Take Attendance</a>
+<a className="tooltip-red" href="/plugins/ems-attendance/page/markattendance">Take Attendance</a>
                         </span></td>
                         <td></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-                        <a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+                        <a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-                        <a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+                        <a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-                        <a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+                        <a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                     </tr>
                     <tr>
                         <td rowSpan={2}>3rd Year</td>
                         <td>A</td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-<a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+<a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-<a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+<a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-<a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+<a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-<a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+<a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td><span className="btn btn-danger-bg p-1 hasTooltip"><i className="fa fa-close" aria-hidden="true"></i> Unmarked
-<a className="tooltip-red" href="/plugins/xformation-cms-panel/page/markattendance">Take Attendance</a>
+<a className="tooltip-red" href="/plugins/ems-attendance/page/markattendance">Take Attendance</a>
                         </span></td>
                         <td></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-                        <a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+                        <a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-                        <a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+                        <a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-                        <a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+                        <a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                     </tr>
                     <tr>
 
                         <td>B</td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-<a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+<a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-<a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+<a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-<a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+<a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-<a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+<a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td><span className="btn btn-danger-bg p-1 hasTooltip"><i className="fa fa-close" aria-hidden="true"></i> Unmarked
-<a className="tooltip-red" href="/plugins/xformation-cms-panel/page/markattendance">Take Attendance</a>
+<a className="tooltip-red" href="/plugins/ems-attendance/page/markattendance">Take Attendance</a>
                         </span></td>
                         <td></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-                        <a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+                        <a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-                        <a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+                        <a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-                        <a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+                        <a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                     </tr>
                     <tr>
                         <td rowSpan={2}>4th Year</td>
                         <td>A</td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-<a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+<a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-<a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+<a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-<a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+<a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-<a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+<a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td><span className="btn btn-danger-bg p-1 hasTooltip"><i className="fa fa-close" aria-hidden="true"></i> Unmarked
-<a className="tooltip-red" href="/plugins/xformation-cms-panel/page/markattendance">Take Attendance</a>
+<a className="tooltip-red" href="/plugins/ems-attendance/page/markattendance">Take Attendance</a>
                         </span></td>
                         <td></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-                        <a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+                        <a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-                        <a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+                        <a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-                        <a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+                        <a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                     </tr>
                     <tr>
                         <td>B</td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-<a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+<a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-<a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+<a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-<a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+<a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-<a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+<a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td><span className="btn btn-danger-bg p-1 hasTooltip"><i className="fa fa-close" aria-hidden="true"></i> Unmarked
-<a className="tooltip-red" href="/plugins/xformation-cms-panel/page/markattendance">Take Attendance</a>
+<a className="tooltip-red" href="/plugins/ems-attendance/page/markattendance">Take Attendance</a>
                         </span></td>
                         <td></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-                        <a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+                        <a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-                        <a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+                        <a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                         <td><span className="btn btn-success hasTooltip"><i className="fa fa-check" aria-hidden="true"></i> Marked
-                        <a href="/plugins/xformation-cms-panel/page/markattendance">Edit Attendance</a>
+                        <a href="/plugins/ems-attendance/page/markattendance">Edit Attendance</a>
                         </span></td>
                     </tr>
                 </tbody>

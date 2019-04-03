@@ -20,7 +20,7 @@ const StudentRow = ({ student }: { student: StudentSummaryFragment }) => (
     <td>
       <Link
         className="table-link"
-        to={`/plugins/xformation-cms-panel/page/student?id=${student.id}`}
+        to={`/plugins/ems-attendance/page/student?id=${student.id}`}
       >
         {student.studentName}
       </Link>

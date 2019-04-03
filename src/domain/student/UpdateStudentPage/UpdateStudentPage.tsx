@@ -46,12 +46,12 @@ const UpdateStudentPage = ({
           },
         })
           .then(({ data }) => {
-            // history.push(`/plugins/xformation-cms-panel/page/student?id=${data.updateStudent.student.id}`);
-            // history.push(`/plugins/xformation-cms-panel/page/students`);
+            // history.push(`/plugins/ems-attendance/page/student?id=${data.updateStudent.student.id}`);
+            // history.push(`/plugins/ems-attendance/page/students`);
             location.href = `${
               location.origin
-              }/plugins/xformation-cms-panel/page/students`;
-            // location.pathname = `/plugins/xformation-cms-panel/page/student?id=${data.updateStudent.student.id}`;
+              }/plugins/ems-attendance/page/students`;
+            // location.pathname = `/plugins/ems-attendance/page/student?id=${data.updateStudent.student.id}`;
           })
           .catch(error => {
             console.log('there was an error sending the update mutation', error);

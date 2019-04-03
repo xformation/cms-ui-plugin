@@ -146,7 +146,7 @@ export default ({ student }: { student: StudentFragment }) => (
       </div>
     </section>
     <Link
-      to={`/plugins/xformation-cms-panel/page/editstudent?id=${student.id}`}
+      to={`/plugins/ems-attendance/page/editstudent?id=${student.id}`}
       className="btn customButton"
     >
       <span />

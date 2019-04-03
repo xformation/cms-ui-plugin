@@ -184,7 +184,7 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
             }).then((data: any) => {
                 btn.removeAttribute("disabled");
                 dataSavedMessage.style.display = "inline-block";
-                // location.href = `${location.origin}/plugins/xformation-cms-panel/page/students`;
+                // location.href = `${location.origin}/plugins/ems-attendance/page/students`;
             }).catch((error: any) => {
                 btn.removeAttribute("disabled");
                 dataSavedMessage.style.display = "inline-block";
@@ -442,7 +442,7 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
 //             history.push(`/students/${data.addStudent.student.id}`);
 //             location.href = `${
 //               location.origin
-//               }/plugins/xformation-cms-panel/page/students`;
+//               }/plugins/ems-attendance/page/students`;
 //           })
 //           .catch(error => {
 //             console.log('there was an error sending the query', error);

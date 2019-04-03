@@ -18,7 +18,7 @@ export default function init() {
         <BrowserRouter>
           <Switch>
             <Route
-              path="/plugins/xformation-cms-panel/page/editstudent"
+              path="/plugins/ems-attendance/page/editstudent"
               component={UpdateStudentPage}
             />
           </Switch>

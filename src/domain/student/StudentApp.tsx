@@ -21,23 +21,23 @@ export default function init() {
         <BrowserRouter>
           <Switch>
             <Route
-              path="/plugins/xformation-cms-panel/page/students"
+              path="/plugins/ems-attendance/page/students"
               component={StudentListPage}
             />
             <Route
-              path="/plugins/xformation-cms-panel/page/studentsprofile"
+              path="/plugins/ems-attendance/page/studentsprofile"
               component={StudentProfilePage}
             />
             <Route
-              path="/plugins/xformation-cms-panel/page/addstudent"
+              path="/plugins/ems-attendance/page/addstudent"
               component={AddStudentPage}
             />
             <Route
-              path="/plugins/xformation-cms-panel/page/editstudent"
+              path="/plugins/ems-attendance/page/editstudent"
               component={UpdateStudentPage}
             />
             <Route
-              path="/plugins/xformation-cms-panel/page/editstudentprofile"
+              path="/plugins/ems-attendance/page/editstudentprofile"
               component={EditStudentProfile}
             />
           </Switch>
