@@ -258,6 +258,13 @@ class EditStudentProfile extends React.Component<UpdateStudentFullPageProps, Edi
                     }
                 }
             });
+        } else {
+            this.setState({
+                studentData: {
+                    ...studentData,
+                    [name]: value
+                }
+            });
         }
     }
     render() {
