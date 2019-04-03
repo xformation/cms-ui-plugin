@@ -53,10 +53,20 @@ type EditStudentProfileStates = {
 class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentProfileStates>{
     constructor(props: any) {
         super(props);
-        const { student } = props;
         this.state = {
             studentData: {
-                ...student
+                department: {
+                    id: ""
+                },
+                batch: {
+                    id: ""
+                },
+                branch: {
+                    id: ""
+                },
+                section: {
+                    id: ""
+                }
             },
             departments: [],
             branches: [],
@@ -89,7 +99,7 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
             }
         );
     }
-    createDepartments(departments: any, selectedDepartmentId: any) {
+    createDepartments(departments: any) {
         let departmentsOptions = [<option key={0} value="">Select department</option>];
         for (let i = 0; i < departments.length; i++) {
             departmentsOptions.push(
@@ -98,7 +108,7 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
         }
         return departmentsOptions;
     }
-    createBranches(branches: any, selectedBranchID: any) {
+    createBranches(branches: any) {
         let branchesOptions = [<option key={0} value="">Select Branch</option>];
         for (let i = 0; i < branches.length; i++) {
             branchesOptions.push(
@@ -107,7 +117,7 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
         }
         return branchesOptions;
     }
-    createBatches(batches: any, selectedBatchId: any, selectedDepartmentId: any) {
+    createBatches(batches: any, selectedDepartmentId: any) {
         let batchesOptions = [<option key={0} value="">Select Year</option>];
         for (let i = 0; i < batches.length; i++) {
             let id = batches[i].id;
@@ -119,7 +129,7 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
         }
         return batchesOptions;
     }
-    createSections(sections: any, selectedSectionId: any, selectedBatchId: any) {
+    createSections(sections: any, selectedBatchId: any) {
         let sectionsOptions = [<option key={0} value="">Select Section</option>];
         for (let i = 0; i < sections.length; i++) {
             if (sections[i].batchId == selectedBatchId) {
@@ -287,7 +297,7 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
                                     <div className="gf-form">
                                         <span className="gf-form-label width-8">Department</span>
                                         <select name="department" onChange={this.onChange} value={studentData.department.id} className="gf-form-input max-width-22">
-                                            {this.createDepartments(departments, studentData.department.id)}
+                                            {this.createDepartments(departments)}
                                         </select>
                                     </div>
                                     {
@@ -299,7 +309,7 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
                                     <div className="gf-form">
                                         <span className="gf-form-label width-8">Year</span>
                                         <select name="batch" onChange={this.onChange} value={studentData.batch.id} className="gf-form-input max-width-22">
-                                            {this.createBatches(batches, studentData.batch.id, studentData.department.id)}
+                                            {this.createBatches(batches, studentData.department.id)}
                                         </select>
                                     </div>
                                     {
@@ -311,7 +321,7 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
                                     <div className="gf-form">
                                         <span className="gf-form-label width-8">Branch</span>
                                         <select name="branch" onChange={this.onChange} value={studentData.branch.id} className="gf-form-input max-width-22">
-                                            {this.createBranches(branches, studentData.branch.id)}
+                                            {this.createBranches(branches)}
                                         </select>
                                     </div>
                                     {
@@ -323,7 +333,7 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
                                     <div className="gf-form">
                                         <span className="gf-form-label width-8">Section</span>
                                         <select name="section" onChange={this.onChange} value={studentData.section.id} className="gf-form-input max-width-22">
-                                            {this.createSections(sections, studentData.section.id, studentData.batch.id)}
+                                            {this.createSections(sections, studentData.batch.id)}
                                         </select>
                                     </div>
                                     {
