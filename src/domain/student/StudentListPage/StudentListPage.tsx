@@ -19,8 +19,8 @@ const StudentRow = ({ student }: { student: StudentSummaryFragment }) => (
     </td>
     <td>
       <Link
-        className="table-link"
-        to={`/plugins/ems-attendance/page/student?id=${student.id}`}
+        className="table-link link-color"
+        to={`/plugins/ems-student/page/student?id=${student.id}`}
       >
         {student.studentName}
       </Link>
@@ -95,7 +95,7 @@ const StudentsTable = ({ students }: { students: StudentSummaryFragment[] }) => 
       <thead>
         <tr>
           <th>
-            <input type="checkbox" name="" id="" />
+            <input type="checkbox" value="checkedall" name="" id="" />
           </th>
           <th>Student Name</th>
           <th>Roll No</th>
@@ -122,17 +122,23 @@ type StudentListPageProps = {
 
 const StudentListPage = ({ data: { students } }: StudentListPageProps) => (
   <section className="customCss">
-    <div className="m-b-1 dflex bg-heading">
-      <h4 className="ptl-06">Class Setup</h4>
-      <div>
-        <a className="btn btn-primary" style={w180}>
-          Create New Student
-        </a>
-        <a className="btn btn-primary">Save</a>
+    <h3 className="bg-heading p-1 m-b-0">
+      <i className="fa fa-university stroke-transparent mr-1" aria-hidden="true" />{' '}
+      Admin - Student Management
+      </h3>
+    <div className="plugin-bg-white p-1">
+      <div className="m-b-1 dflex bg-heading">
+        <h4 className="ptl-06">Student Details</h4>
+        <div>
+          <Link
+            to={`/plugins/ems-student/page/addstudent`}
+            className="btn btn-primary m-r-1" style={w180}>Create New Student
+        </Link>
+          <a className="btn btn-primary">Export</a>
+        </div>
       </div>
+      <StudentsTable students={students} />
     </div>
-    <StudentsTable students={students} />
-    {/* <StudentsTable students={students} /> */}
   </section>
 );
 

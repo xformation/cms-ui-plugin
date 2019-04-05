@@ -6,7 +6,7 @@ export const StudentServices = {
   getStudentTypes,
 };
 
-const url = 'http://localhost:8080/api/';
+const url = 'http://18.234.66.133:8080/api/';
 
 function getRequestOptions(method: any) {
   let requestOptions = {

@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { GrafanaInputFactory } from '../../../../../components/form/FormElements';
-import { NotEmpty } from '../../../../../components/form/Constraints';
-import PartialForm from '../../../../../components/form/PartialForm';
+import { GrafanaInputFactory } from '../../../../components/form/FormElements';
+import { NotEmpty } from '../../../../components/form/Constraints';
+import PartialForm from '../../../../components/form/PartialForm';
 
 const contactData = [
     {

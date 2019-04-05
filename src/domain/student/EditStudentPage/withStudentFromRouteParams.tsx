@@ -3,8 +3,8 @@ import { RouteComponentProps } from "react-router";
 import { gql, graphql, QueryProps } from "react-apollo";
 
 import * as StudentQueryGql from "./StudentQuery.graphql";
-import { ReactFunctionOrComponentClass, StudentQuery, StudentDetailsFragment } from "../../../types";
-import withLoadingHandler from "../../../../components/withLoadingHandler";
+import { ReactFunctionOrComponentClass, StudentQuery, StudentDetailsFragment } from "../../types";
+import withLoadingHandler from "../../../components/withLoadingHandler";
 
 var queryString = require('query-string');
 
@@ -31,7 +31,7 @@ const withStudentFromRouteParams = (
     student: StudentDetailsFragment;
   }>
 ) => {
-  const withStudentFromRouteParamsWrapper = (props:any) => <TheStudentComponent student={props.data.student || props.data.Student} />;
+  const withStudentFromRouteParamsWrapper = (props: any) => <TheStudentComponent student={props.data.student || props.data.Student} />;
   return graphql<StudentQuery, StudentPageProps, StudentPageFullProps>(StudentQueryGql, {
     options: ({ match }) => (
       {

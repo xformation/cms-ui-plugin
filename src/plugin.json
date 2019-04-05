@@ -1,7 +1,7 @@
 {
   "type": "app",
-  "name": "CMS",
-  "id": "ems-attendance",
+  "name": "Student",
+  "id": "ems-student",
   "css": {
     "dark": "css/dark.css",
     "light": "css/light.css"
@@ -13,7 +13,7 @@
       "url": "https://xformation.com"
     },
     "keywords": ["cms", "panel"],
-    "version": "1.0.6",
+    "version": "1.0",
     "updated": "2018-10-12",
     "logos": {
       "small": "img/students.png",
@@ -27,20 +27,6 @@
       "addToNav": false,
       "defaultNav": false,
       "component": "WelcomePage"
-    },
-    {
-      "type": "page",
-      "name": "EditStudent",
-      "addToNav": false,
-      "defaultNav": false,
-      "component": "EditStudentPage"
-    },
-    {
-      "type": "page",
-      "name": "EditStudentProfile",
-      "addToNav": false,
-      "defaultNav": false,
-      "component": "EditStudentProfilePage"
     },
     {
       "type": "page",
@@ -65,31 +51,10 @@
     },
     {
       "type": "page",
-      "name": "StudentsProfile",
-      "addToNav": true,
+      "name": "EditStudentPage",
+      "addToNav": false,
       "defaultNav": false,
-      "component": "StudentsProfile"
-    },
-    {
-      "type": "page",
-      "name": "Attendance",
-      "addToNav": true,
-      "defaultNav": false,
-      "component": "AttendanceOverview"
-    },
-    {
-      "type": "page",
-      "name": "MarkAttendance",
-      "addToNav": true,
-      "defaultNav": false,
-      "component": "MarkAttendance"
-    },
-    {
-      "type": "page",
-      "name": "TeacherAttendance",
-      "addToNav": true,
-      "defaultNav": false,
-      "component": "TeacherAttendance"
+      "component": "EditStudentPage"
     }
   ],
   "dependencies": {

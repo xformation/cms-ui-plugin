@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { CheckInputFactory } from '../../../../../components/form/FormElements';
-import { NotEmpty } from '../../../../../components/form/Constraints';
-import PartialForm from '../../../../../components/form/PartialForm';
+import { CheckInputFactory } from '../../../../components/form/FormElements';
+import { NotEmpty } from '../../../../components/form/Constraints';
+import PartialForm from '../../../../components/form/PartialForm';
 
 const facilityDataForm = [
     {
@@ -70,8 +70,8 @@ const facilityDataForm = [
     }
 ];
 
-const FacilityData = ({modelData, onChange}: any) => {
-    return (<PartialForm onChange={onChange} formElements={facilityDataForm} modelData={modelData} className="gf-form-inline"/>);
+const FacilityData = ({ modelData, onChange }: any) => {
+    return (<PartialForm onChange={onChange} formElements={facilityDataForm} modelData={modelData} className="gf-form-inline" />);
 };
 
 export default FacilityData;

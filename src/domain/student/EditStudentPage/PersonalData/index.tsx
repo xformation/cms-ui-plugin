@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { GrafanaInputFactory, GrafanaSelectInputFactory } from '../../../../../components/form/FormElements';
-import { NotEmpty } from '../../../../../components/form/Constraints';
-import PartialForm from '../../../../../components/form/PartialForm';
+import { GrafanaInputFactory, GrafanaSelectInputFactory } from '../../../../components/form/FormElements';
+import { NotEmpty } from '../../../../components/form/Constraints';
+import PartialForm from '../../../../components/form/PartialForm';
 
 const personalDataForm = [
     {
@@ -172,7 +172,7 @@ const PersonalData = ({ modelData, onChange }: any) => {
             formElements={personalDataForm}
             modelData={modelData}
             className="gf-form-inline"
-            onChange = {onChange}
+            onChange={onChange}
         />
     );
 };

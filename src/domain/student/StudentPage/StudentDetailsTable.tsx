@@ -4,13 +4,24 @@ import { StudentFragment } from '../../types';
 import { Link } from 'react-router-dom';
 
 export default ({ student }: { student: StudentFragment }) => (
-  <section>
-    <h2 className="heading">Student Information</h2>
-    <section className="plugin-bg-white p-1">
-      <h3 className="bg-heading p-1">
-        <i className="fa fa-university stroke-transparent mr-1" aria-hidden="true" />{' '}
-        Admin - Student Overview
+  <section className="customCss">
+    <h3 className="bg-heading p-1 m-b-0">
+      <i className="fa fa-university stroke-transparent mr-1" aria-hidden="true" />{' '}
+      Admin - Student Management
       </h3>
+    <div className="plugin-bg-white p-1">
+      <div className="m-b-1 dflex bg-heading">
+        <h4 className="ptl-06">Student Profile</h4>
+        <div>
+          <a className="btn btn-primary m-r-1">
+            Print
+          </a>
+          <Link
+            to={`/plugins/ems-student/page/editstudentpage?id=${student.id}`}
+            className="btn btn-primary m-r-1">Edit Student
+          </Link>
+        </div>
+      </div>
       <div className="b-1 m-1">
         <div className="main-grid p-2">
           <div className="left-grid">
@@ -144,13 +155,6 @@ export default ({ student }: { student: StudentFragment }) => (
           </div>
         </div>
       </div>
-    </section>
-    <Link
-      to={`/plugins/ems-attendance/page/editstudent?id=${student.id}`}
-      className="btn customButton"
-    >
-      <span />
-      Edit Student
-    </Link>
+    </div>
   </section>
 );

@@ -3,8 +3,8 @@ import * as ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import { ApolloProvider } from 'react-apollo';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import {createGraphQLClient} from '../../../../createGraphQLClient';
-import EditStudentProfile from './EditStudentProfile';
+import { createGraphQLClient } from '../../../createGraphQLClient';
+import EditStudentPage from './EditStudentPage';
 
 const graphQLClient = createGraphQLClient();
 
@@ -15,13 +15,13 @@ export default function init() {
         <BrowserRouter>
           <Switch>
             <Route
-              path="/plugins/ems-attendance/page/editstudentprofile"
-              component={EditStudentProfile}
+              path="/plugins/ems-student/page/editstudentpage"
+              component={EditStudentPage}
             />
           </Switch>
         </BrowserRouter>
       </ApolloProvider>,
-      document.getElementById('mountEditStudentProfile')
+      document.getElementById('mountEditStudentPage')
     );
   }, 100);
 }

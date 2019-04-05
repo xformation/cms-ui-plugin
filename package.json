@@ -1,7 +1,7 @@
 {
-  "name": "ems-attendance",
+  "name": "ems-student",
   "version": "1.1.0-dev",
-  "description": "Grafana xformation cms data",
+  "description": "Ems Student data",
   "scripts": {
     "build": "webpack --config webpack.config.prod.js",
     "dev": "webpack --mode development",

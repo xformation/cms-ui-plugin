@@ -463,7 +463,7 @@ ul.ul-attend > li:last-child {
   border-right: 1px solid #cecece;
   padding-left: 2rem;
   padding-right: 2rem;
-  padding-top: 10px;
+  padding-top: 0px;
   padding-bottom: 10px;
 }
 
@@ -602,7 +602,7 @@ td {
 .bg-heading {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  /* justify-content: space-between; */
 }
 .bg-heading h2 {
   flex-grow: 1;
@@ -610,4 +610,8 @@ td {
 .bg-heading button:first-child {
   width: 180px;
   margin-right: 15px;
+}
+
+.link-color {
+  color: #4e8fc9;
 }
