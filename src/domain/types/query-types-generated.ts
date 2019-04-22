@@ -1,545 +1,395 @@
-/* tslint:disable */
-//  This file was automatically generated and should not be edited.
-export type AddStudentInput = {
+export type AddFeeInput = {
   id?: number | null;
-  studentName?: string | null;
-  fatherName?: string | null;
-  fatherMiddleName?: string | null;
-  fatherLastName?: string | null;
-  motherName?: string | null;
-  motherMiddleName?: string | null;
-  motherLastName?: string | null;
-  aadharNo?: number | null;
-  dateOfBirth?: number | null;
-  placeOfBirth?: string | null;
-  religion?: string | null;
-  caste?: string | null;
-  subCaste?: string | null;
-  age?: number | null;
-  sex?: string | null;
-  bloodGroup?: string | null;
-  addressLineOne?: string | null;
-  addressLineTwo?: string | null;
-  addressLineThree?: string | null;
-  town?: string | null;
-  state?: string | null;
-  country?: string | null;
-  pincode?: number | null;
-  studentContactNumber?: number | null;
-  alternateContactNumber?: number | null;
-  studentEmailAddress?: string | null;
-  alternateEmailAddress?: string | null;
-  relationWithStudent?: string | null;
-  name?: string | null;
-  middleName?: string | null;
-  lastName?: string | null;
-  contactNo?: number | null;
-  emailAddress?: string | null;
-  uploadPhoto?: string | null;
-  admissionNo?: number | null;
-  rollNo?: number | null;
-  studentType?: string | null;
-  batch: {
-    batch?: any | null;
-  };
-  section: {
-    section?: any | null;
-  };
-  branch: {
-    branchName?: any | null;
-  };
-  department: {
-    name?: any | null;
-  };
+  feeParticularsName?: number | null;
+  feeParticularDesc?: number | null;
+  studentType?: number | null;
+  gender?: number | null;
+  amount?: number | null;
+  feeCategory?: number | null;
+  batch?: number | null;
+  facility?: number | null;
+  transportRoute?: number | null;
+  college?: number | null;
+  department?: number | null;
+  branch?: number | null;
+  academicYear?: number | null;
 };
 
-export type AddStudentMutationVariables = {
-  input: AddStudentInput;
+export type AddFeeMutationVariables = {
+  input: AddFeeInput;
 };
 
-export type AddStudentMutation = {
-  addStudent: {
-    student: {
+export type AddFeeMutation = {
+  addFee: {
+    fee: {
       id: number;
-      studentName: string;
-      fatherName: string;
-      fatherMiddleName: string;
-      fatherLastName: string;
-      motherName: string;
-      motherMiddleName: string;
-      motherLastName: string;
-      aadharNo: number;
-      dateOfBirth: number;
-      placeOfBirth: string;
-      religion: string;
-      caste: string;
-      subCaste: string;
-      age: number;
-      sex: string;
-      bloodGroup: string;
-      addressLineOne: string;
-      addressLineTwo: string;
-      addressLineThree: string;
-      town: string;
-      state: string;
-      country: string;
-      pincode: number;
-      studentContactNumber: number;
-      alternateContactNumber: number;
-      studentEmailAddress: string;
-      alternateEmailAddress: string;
-      relationWithStudent: string;
-      name: string;
-      middleName: string;
-      lastName: string;
-      contactNo: number;
-      emailAddress: string;
-      uploadPhoto: string;
-      admissionNo: number;
-      rollNo: number;
-      studentType: string;
-      batch: {
-        batch: any;
-      };
-      section: {
-        section: any;
-      };
-      branch: {
-        branchName: any;
-      };
-      department: {
-        name: any;
-      };
+      feeParticularsName: number;
+      feeParticularDesc: number;
+      studentType: number;
+      gender: number;
+      amount: number;
+      feeCategory: number;
+      batch: number;
+      facility: number;
+      transportRoute: number;
+      college: number;
+      department: number;
+      branch: number;
+      academicYear: number;
     };
   };
 };
 
-/* Location */
-
-export type locationListQuery = {
-  locations: Array<{
-    id: string;
-    name: string;
-    address: string;
-    appliesTo: string;
+export type FeeListQuery = {
+  fees: Array<{
+    id: number;
+    feeParticularsName: number;
+    feeParticularDesc: number;
+    studentType: number;
+    gender: number;
+    amount: number;
+    feeCategory: number;
+    batch: number;
+    facility: number;
+    transportRoute: number;
+    college: number;
+    department: number;
+    branch: number;
+    academicYear: number;
   }>;
 };
 
-export type locationQueryVariables = {
-  locationId: any;
+export type FeeQueryVariables = {
+  feeId: number;
 };
 
-export type locationQuery = {
-  location: {
-    id: any;
-    name: string;
-    address: string;
-    appliesTo: string;
-  };
-};
-
-export type locationDetailsFragment = {
-  id: any;
-  name: string;
-  address: string;
-  appliesTo: string;
-};
-
-export type locationSummaryFragment = {
-  id: any;
-  name: string;
-  address: string;
-  appliesTo: string;
-};
-
-/* Student */
-
-export type StudentListQuery = {
-  // Return all known Pet Institutes
-  students: Array<{
+export type FeeQuery = {
+  fee: {
     id: number;
-    studentName: string;
-    fatherName: string;
-    fatherMiddleName: string;
-    fatherLastName: string;
-    motherName: string;
-    motherMiddleName: string;
-    motherLastName: string;
-    aadharNo: number;
-    dateOfBirth: number;
-    placeOfBirth: string;
-    religion: string;
-    caste: string;
-    subCaste: string;
-    age: number;
-    sex: string;
-    bloodGroup: string;
-    addressLineOne: string;
-    addressLineTwo: string;
-    addressLineThree: string;
-    town: string;
-    state: string;
-    country: string;
-    pincode: number;
-    studentContactNumber: number;
-    alternateContactNumber: number;
-    studentEmailAddress: string;
-    alternateEmailAddress: string;
-    relationWithStudent: string;
-    emergencyContactName: string;
-    emergencyContactMiddleName: string;
-    emergencyContactLastName: string;
-    emergencyContactNo: string;
-    emergencyContactEmailAddress: string;
-    uploadPhoto: string;
-    admissionNo: number;
-    rollNo: number;
-    studentType: string;
-    batch: {
-      batch: any;
-    };
-    section: {
-      section: any;
-    };
-    branch: {
-      branchName: any;
-    };
-    department: {
-      name: any;
-    };
-  }>;
-};
-
-export type StudentQueryVariables = {
-  studentId: number;
-};
-
-export type StudentQuery = {
-  student: {
-    id: number;
-    studentName: string;
-    fatherName: string;
-    fatherMiddleName: string;
-    fatherLastName: string;
-    motherName: string;
-    motherMiddleName: string;
-    motherLastName: string;
-    aadharNo: number;
-    dateOfBirth: number;
-    placeOfBirth: string;
-    religion: string;
-    caste: string;
-    subCaste: string;
-    age: number;
-    sex: string;
-    bloodGroup: string;
-    addressLineOne: string;
-    addressLineTwo: string;
-    addressLineThree: string;
-    town: string;
-    state: string;
-    country: string;
-    pincode: number;
-    studentContactNumber: number;
-    alternateContactNumber: number;
-    studentEmailAddress: string;
-    alternateEmailAddress: string;
-    relationWithStudent: string;
-    emergencyContactName: string;
-    emergencyContactMiddleName: string;
-    emergencyContactLastName: string;
-    emergencyContactNo: string;
-    emergencyContactEmailAddress: string;
-    uploadPhoto: string;
-    admissionNo: number;
-    rollNo: number;
-    studentType: string;
-    batch: {
-      batch: any;
-    };
-    section: {
-      section: any;
-    };
-    branch: {
-      branchName: string;
-    };
-    department: {
-      name: string;
-    };
+    feeParticularsName: number;
+    feeParticularDesc: number;
+    studentType: number;
+    gender: number;
+    amount: number;
+    feeCategory: number;
+    batch: number;
+    facility: number;
+    transportRoute: number;
+    college: number;
+    department: number;
+    branch: number;
+    academicYear: number;
   };
 };
 
-export type StudentFragment = {
+export type FeeFragment = {
   id: number;
-  studentName: string;
-  fatherName: string;
-  fatherMiddleName: string;
-  fatherLastName: string;
-  motherName: string;
-  motherMiddleName: string;
-  motherLastName: string;
-  aadharNo: number;
-  dateOfBirth: number;
-  placeOfBirth: string;
-  religion: string;
-  caste: string;
-  subCaste: string;
-  age: number;
-  sex: string;
-  bloodGroup: string;
-  addressLineOne: string;
-  addressLineTwo: string;
-  addressLineThree: string;
-  town: string;
-  state: string;
-  country: string;
-  pincode: number;
-  studentContactNumber: number;
-  alternateContactNumber: number;
-  studentEmailAddress: string;
-  alternateEmailAddress: string;
-  relationWithStudent: string;
-  emergencyContactName: string;
-  emergencyContactMiddleName: string;
-  emergencyContactLastName: string;
-  emergencyContactNo: string;
-  emergencyContactEmailAddress: string;
-  uploadPhoto: string;
-  admissionNo: number;
-  rollNo: number;
-  studentType: string;
-  batch: {
-    batch: any;
-  };
-  section: {
-    section: any;
-  };
-  branch: {
-    branchName: string;
-  };
-  department: {
-    name: string;
-  };
+  feeParticularsName: number;
+  feeParticularDesc: number;
+  studentType: number;
+  gender: number;
+  amount: number;
+  feeCategory: number;
+  batch: number;
+  facility: number;
+  transportRoute: number;
+  college: number;
+  department: number;
+  branch: number;
+  academicYear: number;
 };
 
-export type StudentDetailsFragment = {
+export type FeeDetailsFragment = {
   id: number;
-  studentName: string;
-  fatherName: string;
-  fatherMiddleName: string;
-  fatherLastName: string;
-  motherName: string;
-  motherMiddleName: string;
-  motherLastName: string;
-  aadharNo: number;
-  dateOfBirth: number;
-  placeOfBirth: string;
-  religion: string;
-  caste: string;
-  subCaste: string;
-  age: number;
-  sex: string;
-  bloodGroup: string;
-  addressLineOne: string;
-  addressLineTwo: string;
-  addressLineThree: string;
-  town: string;
-  state: string;
-  country: string;
-  pincode: number;
-  studentContactNumber: number;
-  alternateContactNumber: number;
-  studentEmailAddress: string;
-  alternateEmailAddress: string;
-  relationWithStudent: string;
-  emergencyContactName: string;
-  emergencyContactMiddleName: string;
-  emergencyContactLastName: string;
-  emergencyContactNo: string;
-  emergencyContactEmailAddress: string;
-  uploadPhoto: string;
-  admissionNo: number;
-  rollNo: number;
-  studentType: string;
-  batch: {
-    batch: any;
-  };
-  section: {
-    section: any;
-  };
-  branch: {
-    branchName: string;
-  };
-  department: {
-    name: string;
-  };
+  feeParticularsName: number;
+  feeParticularDesc: number;
+  studentType: number;
+  gender: number;
+  amount: number;
+  feeCategory: number;
+  batch: number;
+  facility: number;
+  transportRoute: number;
+  college: number;
+  department: number;
+  branch: number;
+  academicYear: number;
 };
 
-export type StudentSummaryFragment = {
+export type FeeSummaryFragment = {
   id: number;
-  studentName: string;
-  fatherName: string;
-  fatherMiddleName: string;
-  fatherLastName: string;
-  motherName: string;
-  motherMiddleName: string;
-  motherLastName: string;
-  aadharNo: number;
-  dateOfBirth: number;
-  placeOfBirth: string;
-  religion: string;
-  caste: string;
-  subCaste: string;
-  age: number;
-  sex: string;
-  bloodGroup: string;
-  addressLineOne: string;
-  addressLineTwo: string;
-  addressLineThree: string;
-  town: string;
-  state: string;
-  country: string;
-  pincode: number;
-  studentContactNumber: number;
-  alternateContactNumber: number;
-  studentEmailAddress: string;
-  alternateEmailAddress: string;
-  relationWithStudent: string;
-  emergencyContactName: string;
-  emergencyContactMiddleName: string;
-  emergencyContactLastName: string;
-  emergencyContactNo: string;
-  emergencyContactEmailAddress: string;
-  uploadPhoto: string;
-  admissionNo: number;
-  rollNo: number;
-  studentType: string;
-  batch: {
-    batch: any;
-  };
-  section: {
-    section: any;
-  };
-  branch: {
-    branchName: string;
-  };
-  department: {
-    name: string;
-  };
+  feeParticularsName: number;
+  feeParticularDesc: number;
+  studentType: number;
+  gender: number;
+  amount: number;
+  feeCategory: number;
+  batch: number;
+  facility: number;
+  transportRoute: number;
+  college: number;
+  department: number;
+  branch: number;
+  academicYear: number;
 };
 
-export type UpdateStudentInput = {
-  studentId: number;
-  studentName?: string | null;
-  fatherName?: string | null;
-  fatherMiddleName?: string | null;
-  fatherLastName?: string | null;
-  motherName?: string | null;
-  motherMiddleName?: string | null;
-  motherLastName?: string | null;
-  aadharNo?: number | null;
-  dateOfBirth?: number | null;
-  placeOfBirth?: string | null;
-  religion?: string | null;
-  caste?: string | null;
-  subCaste?: string | null;
-  age?: number | null;
-  sex?: string | null;
-  bloodGroup?: string | null;
-  addressLineOne?: string | null;
-  addressLineTwo?: string | null;
-  addressLineThree?: string | null;
-  town?: string | null;
-  state?: string | null;
-  country?: string | null;
-  pincode?: number | null;
-  studentContactNumber?: number | null;
-  alternateContactNumber?: number | null;
-  studentEmailAddress?: string | null;
-  alternateEmailAddress?: string | null;
-  relationWithStudent?: string | null;
-  name?: string | null;
-  middleName?: string | null;
-  lastName?: string | null;
-  contactNo?: number | null;
-  emailAddress?: string | null;
-  uploadPhoto?: string | null;
-  admissionNo?: number | null;
-  rollNo?: number | null;
-  studentType?: string | null;
-  batch: {
-    batch?: any | null;
-  };
-  section: {
-    section?: any | null;
-  };
-  branch: {
-    branchName?: any | null;
-  };
-  department: {
-    name?: any | null;
-  };
+export type UpdateFeeInput = {
+  id?: number | null;
+  feeParticularsName?: number | null;
+  feeParticularDesc?: number | null;
+  studentType?: number | null;
+  gender?: number | null;
+  amount?: number | null;
+  feeCategory?: number | null;
+  batch?: number | null;
+  facility?: number | null;
+  transportRoute?: number | null;
+  college?: number | null;
+  department?: number | null;
+  branch?: number | null;
+  academicYear?: number | null;
 };
 
-export type UpdateStudentMutationVariables = {
-  input: UpdateStudentInput;
+export type UpdateFeeMutationVariables = {
+  input: UpdateFeeInput;
 };
 
-export type UpdateStudentMutation = {
-  updateStudent: {
-    student: {
+export type UpdateFeeMutation = {
+  updateFee: {
+    fee: {
       id: number;
-      studentName: string;
-      fatherName: string;
-      fatherMiddleName: string;
-      fatherLastName: string;
-      motherName: string;
-      motherMiddleName: string;
-      motherLastName: string;
-      aadharNo: number;
-      dateOfBirth: number;
-      placeOfBirth: string;
-      religion: string;
-      caste: string;
-      subCaste: string;
-      age: number;
-      sex: string;
-      bloodGroup: string;
-      addressLineOne: string;
-      addressLineTwo: string;
-      addressLineThree: string;
-      town: string;
-      state: string;
-      country: string;
-      pincode: number;
-      studentContactNumber: number;
-      alternateContactNumber: number;
-      studentEmailAddress: string;
-      alternateEmailAddress: string;
-      relationWithStudent: string;
-      emergencyContactName: string;
-      emergencyContactMiddleName: string;
-      emergencyContactLastName: string;
-      emergencyContactNo: string;
-      emergencyContactEmailAddress: string;
-      uploadPhoto: string;
-      admissionNo: number;
-      rollNo: number;
-      studentType: string;
-      batch: {
-        batch: any;
-      };
-      section: {
-        section: any;
-      };
-      branch: {
-        branchName: string;
-      };
-      department: {
-        name: string;
-      };
+      feeParticularsName: number;
+      feeParticularDesc: number;
+      studentType: number;
+      gender: number;
+      amount: number;
+      feeCategory: number;
+      batch: number;
+      facility: number;
+      transportRoute: number;
+      college: number;
+      department: number;
+      branch: number;
+      academicYear: number;
     };
   };
 };
 
 /* tslint:enable */
+// Invoice
+export type InvoiceQuery = {
+  invoice: {
+    id: number;
+    invoiceNumber: any;
+    amountPaid: number;
+    paymentDate: number;
+    nextPaymentDate: number;
+    outStandingAmount: number;
+    modeOfPayment: string;
+    chequeNumber: number;
+    demandDraftNumber: number;
+    onlineTxnRefNumber: number;
+    paymentStatus: string;
+    comments: string;
+    updatedBy: string;
+    feeCategory: {
+      id: any;
+    };
+    feeDetails: {
+      id: any;
+    };
+
+    dueDate: {
+      id: any;
+    };
+    paymentRemainder: {
+      id: any;
+    };
+
+    college: {
+      id: any;
+    };
+    branch: {
+      id: any;
+    };
+    student: {
+      id: any;
+    };
+    academicYear: {
+      id: any;
+    };
+  };
+};
+
+export type InvoiceSummaryFragment = {
+  id: number;
+  invoiceNumber: any;
+  amountPaid: number;
+  paymentDate: number;
+  nextPaymentDate: number;
+  outStandingAmount: number;
+  modeOfPayment: string;
+  chequeNumber: number;
+  demandDraftNumber: number;
+  onlineTxnRefNumber: number;
+  paymentStatus: string;
+  comments: string;
+  updatedBy: string;
+  feeCategory: {
+    id: any;
+  };
+  feeDetails: {
+    id: any;
+  };
+
+  dueDate: {
+    id: any;
+  };
+  paymentRemainder: {
+    id: any;
+  };
+
+  college: {
+    id: any;
+  };
+  branch: {
+    id: any;
+  };
+  student: {
+    id: any;
+  };
+  academicYear: {
+    id: any;
+  };
+};
+
+export type InvoiceDetailsFragment = {
+  id: number;
+  invoiceNumber: any;
+  amountPaid: number;
+  paymentDate: number;
+  nextPaymentDate: number;
+  outStandingAmount: number;
+  modeOfPayment: string;
+  chequeNumber: number;
+  demandDraftNumber: number;
+  onlineTxnRefNumber: number;
+  paymentStatus: string;
+  comments: string;
+  updatedBy: string;
+  feeCategory: {
+    id: any;
+  };
+  feeDetails: {
+    id: any;
+  };
+
+  dueDate: {
+    id: any;
+  };
+  paymentRemainder: {
+    id: any;
+  };
+
+  college: {
+    id: any;
+  };
+  branch: {
+    id: any;
+  };
+  student: {
+    id: any;
+  };
+  academicYear: {
+    id: any;
+  };
+};
+export type InvoiceFragment = {
+  id: number;
+  invoiceNumber: any;
+  amountPaid: number;
+  paymentDate: number;
+  nextPaymentDate: number;
+  outStandingAmount: number;
+  modeOfPayment: string;
+  chequeNumber: number;
+  demandDraftNumber: number;
+  onlineTxnRefNumber: number;
+  paymentStatus: string;
+  comments: string;
+  updatedBy: string;
+  feeCategory: {
+    id: any;
+  };
+  feeDetails: {
+    id: any;
+  };
+
+  dueDate: {
+    id: any;
+  };
+  paymentRemainder: {
+    id: any;
+  };
+
+  college: {
+    id: any;
+  };
+  branch: {
+    id: any;
+  };
+  student: {
+    id: any;
+  };
+  academicYear: {
+    id: any;
+  };
+};
+
+export type InvoiceQueryVariables = {
+  invoiceId: number;
+};
+export type InvoiceListQuery = {
+  invoices: Array<{
+    id: number;
+    invoiceNumber: any;
+    amountPaid: number;
+    paymentDate: number;
+    nextPaymentDate: number;
+    outStandingAmount: number;
+    modeOfPayment: string;
+    chequeNumber: number;
+    demandDraftNumber: number;
+    onlineTxnRefNumber: number;
+    paymentStatus: string;
+    comments: string;
+    updatedBy: string;
+    feeCategory: {
+      id: any;
+    };
+    feeDetails: {
+      id: any;
+    };
+
+    dueDate: {
+      id: any;
+    };
+    paymentRemainder: {
+      id: any;
+    };
+
+    college: {
+      id: any;
+    };
+    branch: {
+      id: any;
+    };
+    student: {
+      id: any;
+    };
+    academicYear: {
+      id: any;
+    };
+  }>;
+};
+// Invoice

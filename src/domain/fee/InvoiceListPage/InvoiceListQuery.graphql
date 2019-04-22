@@ -1,0 +1,11 @@
+#import "../../gqlfragments/invoice.graphql"
+
+fragment invoiceSummary on Invoice {
+  ...invoice
+}
+
+query invoiceList {
+  invoices {
+    ...invoiceSummary
+  }
+}

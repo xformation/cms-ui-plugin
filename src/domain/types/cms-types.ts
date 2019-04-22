@@ -57,3 +57,61 @@ export type StudentData = {
     name: any;
   };
 };
+
+export type InvoiceData = {
+  // id: number;
+  invoiceNumber: any;
+  amountPaid: number;
+  paymentDate: number;
+  nextPaymentDate: number;
+  outStandingAmount: number;
+  modeOfPayment: string;
+  chequeNumber: number;
+  demandDraftNumber: number;
+  onlineTxnRefNumber: number;
+  paymentStatus: string;
+  comments: string;
+  updatedBy: string;
+  feeCategory: {
+    id: any;
+  };
+  feeDetails: {
+    id: any;
+  };
+
+  dueDate: {
+    id: any;
+  };
+  paymentRemainder: {
+    id: any;
+  };
+
+  college: {
+    id: any;
+  };
+  branch: {
+    id: any;
+  };
+  student: {
+    id: any;
+  };
+  academicYear: {
+    id: any;
+  };
+};
+export type FeeData = {
+  id: number;
+  feeParticularsName: number;
+  feeParticularDesc: number;
+  studentType: number;
+  gender: number;
+  amount: number;
+  feeCategory: number;
+  batch: number;
+  facility: number;
+  transportRoute: number;
+  college: number;
+  department: number;
+  branch: number;
+  academicYear: number;
+};

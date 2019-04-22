@@ -1,15 +1,6 @@
 import {WelcomePage} from './ui/WelcomePage';
 import {ConfigCtrl} from './ui/Config';
-import {AddStudentPage} from './ui/AddStudentPage';
-import {StudentsPage} from './ui/StudentsPage';
-import {StudentPage} from './ui/StudentPage';
-import {EditStudentPage} from './ui/EditStudentPage';
+import {FeeSetup} from './ui/FeeSetup';
+import {Invoice} from './ui/Invoice';
 
-export {
-  WelcomePage,
-  ConfigCtrl,
-  StudentsPage,
-  AddStudentPage,
-  StudentPage,
-  EditStudentPage,
-};
+export {WelcomePage, ConfigCtrl, FeeSetup, Invoice};

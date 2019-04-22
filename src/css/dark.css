@@ -1,82 +1,3 @@
-/* .heading{
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-}
-
-.striped-table{
-    width: 100%;
-    border-collapse: separate;
-    margin-bottom: 2rem;
-}
-
-.striped-table th{
-    width: auto;
-    text-align: left;
-    height: 30px;
-    white-space: nowrap;
-    font-weight: bold;
-    background-color: #3C3834 !important;
-    color: white;
-    padding-left: 10px;
-}
-
-.striped-table tr{
-    height: 40px;
-}
-
-.striped-table tbody tr td{
-    padding-left: 10px;
-    border-top: 1px solid #34302D;
-}
-.striped-table tbody tr:nth-child(odd) {
-    background: #F1F1F1;
-}
-
-.striped-table .table-link{
-    text-decoration: underline;
-    color: #5fa134;
-}
-
-.striped-table .table-link:hover{
-    text-decoration: none !important;
-}
-
-.customButton{
-    background-color: #34302D !important;
-    border: 1px solid #5fa134 !important;
-    color: white;
-    border-radius: 0px !important;
-}
-
-.customButton:hover {
-    border: 1px solid #34302D !important;
-    color: white;
-}
-
-.page-container {
-    margin: 0px !important;
-    max-width: 100%;
-    background-color: white;
-    padding: 10px !important;
-}
-
-.main-view {
-    padding: 20px;
-    background: #EFEFEF;
-}
-
-.page-header{
- padding: 0px;
-}
-
-.page-header__inner{
-    margin-bottom: 0px;
-}
-.page-header__logo {
-    margin: 0px;
-    height: 30px;
-}
- */
 .plugin-bg-white {
   background: white;
   min-height: 96vh;
@@ -467,22 +388,6 @@ ul.ul-attend > li:last-child {
   padding-bottom: 10px;
 }
 
-/* .hflex-h5::before {
-  content: '';
-  display: block;
-  width: 2px;
-  height: 6px;
-  background-color: #cecece;
-  position: absolute;
-}
-.hflex-h5::after {
-  content: '';
-  display: block;
-  width: 2px;
-  height: 6px;
-  background-color: #cecece;
-  position: absolute;
-} */
 .next-div {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -534,9 +439,7 @@ h5 {
 .buttons a {
   border-radius: 10px;
 }
-/* .buttons {
-  background-color: rgba(0, 153, 224, 0.4);
-} */
+
 .b-1 {
   border: 1px solid #cecece;
 }
@@ -615,3 +518,210 @@ td {
 .link-color {
   color: #4e8fc9;
 }
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-gap: 20px;
+}
+
+/* Fee Setup */
+.inDashboard {
+  display: flex;
+  justify-content: space-between;
+}
+.b-1 {
+  border: 1px solid darkgray;
+  border-radius: 5px;
+}
+.invoiceDashboard {
+  border: 1px solid gray;
+  border-radius: 5px;
+  width: 18rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+.invoiceDashboard h2 {
+  padding: 1rem;
+}
+.invoiceHeader {
+  background: #1870c2;
+  display: flex;
+  justify-content: space-between;
+  text-align: left;
+  padding: 5px 5px;
+  width: 100%;
+}
+.invoiceHeader h6 {
+  flex-grow: 1;
+  color: white;
+}
+.belowDashboard {
+  display: grid;
+  padding: 8px 0;
+  grid-gap: 11rem;
+  grid-template-columns: auto auto;
+}
+.h5-fee-bg {
+  background-color: #d6d6d8;
+  color: #8b8b8b;
+}
+
+.white {
+  color: white !important;
+}
+.searchInvoice,
+.searchInvoiceButton {
+  display: flex;
+  justify-content: space-evenly;
+}
+.invoiceDetails {
+  display: flex;
+  justify-content: space-between;
+  margin: 5px 10px;
+}
+.w50 {
+  width: 55%;
+}
+.p05 {
+  padding: 5px;
+}
+.hr-top {
+  border-top: 1px solid #9acbf7;
+}
+.fee-blue {
+  color: #3697ef;
+}
+.fee-green {
+  color: #7adaa7;
+}
+.fee-orange {
+  color: #f68253;
+}
+.fee-red {
+  color: #e55a5a;
+}
+.remainder {
+  background: #1870c2;
+}
+
+.feeCategory form {
+  display: grid;
+  grid-gap: 10px 40px;
+  grid-template-columns: 1fr;
+  margin: 1rem;
+}
+.feeAppHead {
+  grid-column: 1/3;
+  grid-row: 3;
+}
+.feeSelect {
+  grid-column: 1/3;
+  grid-row: 4;
+}
+.feeSelect {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.feeSelect select {
+  width: 150px;
+  margin-right: 1.2rem;
+}
+.feeSelect input {
+  padding: 8px 0px;
+  margin-right: 0.5rem;
+}
+.f-12 {
+  width: 12%;
+}
+.f-25 {
+  width: 25%;
+}
+.f-20 {
+  width: 20%;
+}
+.m-1 {
+  margin: 10px;
+}
+.dfinline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.mtf-8 {
+  margin-top: 8px;
+}
+.dark-gray {
+  color: #4d4d4d !important;
+}
+.px-1 {
+  padding: 0 10px;
+}
+.feeApplicable {
+  display: flex;
+}
+.mt-20 {
+  margin-top: 20px;
+}
+.mlb {
+  margin-left: 1rem;
+  margin-bottom: 1rem;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(1fr, 4);
+  grid-template-rows: 3;
+}
+.border {
+  border: 1px solid #8b8b8b;
+}
+.ReminderColumn _ {
+  grid-column: 1/5;
+}
+.FirstColumn,
+.SecondColumn,
+.ThirdColumn {
+  grid-column: 1/3;
+}
+.border.FirstRow {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.border.SecondRow {
+}
+.border.ThirdRow {
+}
+.Srow {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.feeFlex {
+  display: flex;
+  justify-content: flexStart;
+}
+.feeFlex > .input[checkbox] {
+  margin-right: 0.8rem;
+}
+.feeFlex > .input[radio] {
+  margin-right: 0.8rem;
+}
+.feeMx {
+  margin-right: 1rem;
+  margin-left: 1rem;
+}
+.feeMr {
+  margin-right: 1rem;
+}
+.feeMy {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.feeFlexEnd {
+  display: flex;
+  justify-content: flex-end;
+}
+/* Fee Setup */

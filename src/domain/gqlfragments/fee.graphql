@@ -1,0 +1,16 @@
+fragment fee on Fee {
+id
+feeParticularsName
+feeParticularDesc
+studentType
+gender
+amount
+feeCategory
+batch
+facility
+transportRoute
+college
+department
+branch
+academicYear
+}

@@ -1,0 +1,41 @@
+fragment invoice on Invoice{
+      id
+			invoiceNumber
+      amountPaid
+      paymentDate
+      nextPaymentDate
+      outStandingAmount
+      modeOfPayment
+      chequeNumber
+      demandDraftNumber
+      onlineTxnRefNumber
+      paymentStatus
+      comments
+      updatedBy
+      feeCategory{
+        id
+      }
+      feeDetails{
+        id
+      }
+
+      dueDate{
+        id
+      }
+      paymentRemainder{
+        id
+      }
+
+      college{
+        id
+      }
+       branch{
+        id
+      }
+      student{
+        id
+      }
+      academicYear{
+        id
+      }
+    }

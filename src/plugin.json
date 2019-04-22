@@ -1,13 +1,13 @@
 {
   "type": "app",
-  "name": "Student",
-  "id": "ems-student",
+  "name": "Fee",
+  "id": "ems-fee",
   "css": {
     "dark": "css/dark.css",
     "light": "css/light.css"
   },
   "info": {
-    "description": "EMS Attendance Plugin",
+    "description": "EMS Fee Plugin",
     "author": {
       "name": "Synectiks",
       "url": "https://xformation.com"
@@ -16,8 +16,8 @@
     "version": "1.0",
     "updated": "2018-10-12",
     "logos": {
-      "small": "img/students.png",
-      "large": "img/students.png"
+      "small": "img/fee.png",
+      "large": "img/fee.png"
     }
   },
   "includes": [
@@ -30,31 +30,17 @@
     },
     {
       "type": "page",
-      "name": "Students",
+      "name": "FeeSetup",
       "addToNav": true,
       "defaultNav": true,
-      "component": "StudentsPage"
+      "component": "FeeSetup"
     },
     {
       "type": "page",
-      "name": "Student",
-      "addToNav": false,
-      "defaultNav": false,
-      "component": "StudentPage"
-    },
-    {
-      "type": "page",
-      "name": "AddStudent",
+      "name": "Invoice",
       "addToNav": true,
       "defaultNav": false,
-      "component": "AddStudentPage"
-    },
-    {
-      "type": "page",
-      "name": "EditStudentPage",
-      "addToNav": false,
-      "defaultNav": false,
-      "component": "EditStudentPage"
+      "component": "Invoice"
     }
   ],
   "dependencies": {

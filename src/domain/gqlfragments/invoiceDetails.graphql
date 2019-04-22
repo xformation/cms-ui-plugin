@@ -1,0 +1,6 @@
+#import "./invoice.graphql"
+
+
+fragment invoiceDetails on Invoice {
+  ...invoice
+}
