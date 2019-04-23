@@ -31,7 +31,9 @@ function onClickHeader(e: any) {
     const formContainer = collapseContainer.querySelector(".gf-form-inline");
     const style = window.getComputedStyle(formContainer);
     if (style.display === "none") {
-        formContainer.style.display = "flex";
+        formContainer.style.display = "grid";
+        formContainer.style.gridGap = "10px";
+        formContainer.style.gridTemplateColumns = "auto auto auto";
         minusSign.style.display = "block";
         plusSign.style.display = "none";
     } else {

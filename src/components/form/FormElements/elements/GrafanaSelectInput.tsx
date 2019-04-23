@@ -14,15 +14,15 @@ export default ({
   onBlur,
   className
 }: {
-    object: any;
-    fieldError: FieldError | null;
-    name: string;
-    label: string;
-    options: SelectOption[];
-    onChange: InputChangeHandler;
-    className: string;
-    onBlur: (x: string) => void;
-  }) => {
+  object: any;
+  fieldError: FieldError | null;
+  name: string;
+  label: string;
+  options: SelectOption[];
+  onChange: InputChangeHandler;
+  className: string;
+  onBlur: (x: string) => void;
+}) => {
   const handleOnChange = (event: React.SyntheticEvent<HTMLSelectElement>) => {
     const value = event.currentTarget.value;
     onChange(name, value);
@@ -36,7 +36,7 @@ export default ({
   return (
     <div className={className}>
       <label className="gf-form-label b-0 bg-transparent">{label}</label>
-      <select className="gf-form-select-box" name={name} onChange={handleOnChange} onBlur={e => onBlur(e.currentTarget.name)} value={selectedValue}>
+      <select className="gf-form-select-box select-fWidth" name={name} onChange={handleOnChange} onBlur={e => onBlur(e.currentTarget.name)} value={selectedValue}>
         <option value="" key="">{`Select ${name}`}</option>
         {options.map(option =>
           <option key={option.id} value={option.id}>

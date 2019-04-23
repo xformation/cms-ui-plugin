@@ -615,3 +615,13 @@ td {
 .link-color {
   color: #4e8fc9;
 }
+
+.form-grid {
+  display: grid !important;
+  grid-gap: 10px !important;
+  grid-template-columns: 1fr 1fr 1fr !important;
+}
+
+.select-fWidth {
+  width: 100% !important;
+}
