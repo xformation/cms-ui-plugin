@@ -1,3 +1,18 @@
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .section-to-print,
+  .section-to-print * {
+    visibility: visible;
+  }
+  .section-to-print {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+}
+
 /* .striped-table{
     width: 100%;
     border-collapse: separate;
@@ -28,26 +43,26 @@
 /* .page-container {
     margin: 0px !important;
 } */
+
 .tooltip {
-    position: relative;
-    display: inline-block;
-    border-bottom: 1px dotted black;
-    }
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
 
-    .tooltip .tooltiptext {
-    visibility: hidden;
-    width: 120px;
-    background-color: black;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  /* / Position the tooltip / / */
+  position: absolute;
+  z-index: 1;
+}
 
-    /* / Position the tooltip / / */
-    position: absolute;
-    z-index: 1;
-    }
-
-    .tooltip:hover .tooltiptext {
-    visibility: visible;
-    }
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}

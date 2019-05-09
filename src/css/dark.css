@@ -1,3 +1,22 @@
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  body .dont-print,
+  body .dont-print * {
+    visibility: hidden !important;
+  }
+  .section-to-print,
+  .section-to-print * {
+    visibility: visible;
+  }
+  .section-to-print {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+}
+
 /* .heading{
     margin-top: 2rem;
     margin-bottom: 2rem;
@@ -624,4 +643,28 @@ td {
 
 .select-fWidth {
   width: 100% !important;
+}
+
+/******************************** Student profile page *************************************/
+
+.student-profile-container .student-photo-container .buttons-container {
+  display: inline-block;
+}
+
+.student-profile-container .student-photo-container .buttons-container .btn {
+  margin-right: 3px;
+  margin-bottom: 3px;
+}
+
+.student-profile-container .profile-label {
+  color: rgb(78, 144, 203) !important;
+  padding-right: 4px;
+}
+
+.student-profile-container .details-container {
+  border-bottom: 1px solid #cecece;
+}
+
+.student-profile-container .details-container:last-child {
+  border-bottom: 0px;
 }
