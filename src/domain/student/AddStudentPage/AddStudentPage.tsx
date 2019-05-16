@@ -191,7 +191,7 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
             }).then((data: any) => {
                 btn.removeAttribute("disabled");
                 dataSavedMessage.style.display = "inline-block";
-                // location.href = `${location.origin}/plugins/ems-student/page/students`;
+                location.href = `${location.origin}/plugins/ems-student/page/students`;
             }).catch((error: any) => {
                 btn.removeAttribute("disabled");
                 dataSavedMessage.style.display = "inline-block";
