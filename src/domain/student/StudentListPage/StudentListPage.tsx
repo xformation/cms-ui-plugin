@@ -12,108 +12,229 @@ const w180 = {
   marginRight: '10px',
 };
 
-const StudentRow = ({ student }: { student: StudentSummaryFragment }) => (
-  <tr key={student.id}>
-    <td>
-      <input type="checkbox" name="" id="" />
-    </td>
-    <td>
-      <Link
-        className="table-link link-color"
-        to={`/plugins/ems-student/page/student?id=${student.id}`}
-      >
-        {student.studentName}
-      </Link>
-    </td>
-    <td>{student.rollNo}</td>
-    <td>{student.id}</td>
-    <td>{student.department.name}</td>
-    <td>{student.batch.batch}</td>
-    <td>{student.section.section}</td>
-    <td>{student.sex}</td>
-    <td>{student.studentType}</td>
-    <td>{student.emergencyContactNo}</td>
-  </tr>
-);
+type StudentTableProps = {
+  students: any
+};
 
-const StudentsTable = ({ students }: { students: StudentSummaryFragment[] }) => (
-  <div>
-    <div className="student-flex">
-      <div>
-        <label htmlFor="">Department</label>
-        <select>
-          <option value="">Computer Science</option>
-          <option value="">Electric Engineering</option>
-          <option value="">Petroleum Engineering</option>
-          <option value="">Electronic Engineering</option>
-        </select>
-      </div>
-      <div>
-        <label htmlFor="">Year</label>
-        <select>
-          <option value="">First Year</option>
-          <option value="">Second Year</option>
-          <option value="">Third Year</option>
-          <option value="">Fourth Year</option>
-        </select>
-      </div>
-      <div>
-        <label htmlFor="">Section</label>
-        <select>
-          <option value="">A</option>
-          <option value="">B</option>
-        </select>
-      </div>
-      <div>
-        <label htmlFor="">Branch</label>
-        <select>
-          <option value="">Hyderabad</option>
-          <option value="">Secunderabad</option>
-        </select>
-      </div>
-      <div>
-        <label htmlFor="">Gender</label>
-        <select>
-          <option value="">Male</option>
-          <option value="">Female</option>
-        </select>
-      </div>
-      <div>
-        <label htmlFor="">Student Type</label>
-        <select>
-          <option value="">Scholarship</option>
-          <option value="">Management</option>
-        </select>
-      </div>
-      <div className="margin-bott">
-        <label htmlFor="">Search</label>
-        <input type="search" name="" id="" />
-      </div>
-    </div>
+type StudentTableStates = {
+  students: any
+};
 
-    <table id="studentlistpage" className="striped-table fwidth bg-white">
-      <thead>
-        <tr>
-          <th>
-            <input type="checkbox" value="checkedall" name="" id="" />
-          </th>
-          <th>Student Name</th>
-          <th>Roll No</th>
-          <th>Student Id</th>
-          <th>Department</th>
-          <th>Year</th>
-          <th>Section</th>
-          <th>Gender</th>
-          <th>Type</th>
-          <th>Primary Contact</th>
+class StudentsTable extends React.Component<StudentTableProps, StudentTableStates> {
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      students: props.students
+    };
+    this.checkAllStudents = this.checkAllStudents.bind(this);
+    this.onClickCheckbox = this.onClickCheckbox.bind(this);
+  }
+
+  checkAllStudents(e: any) {
+    const target = e.target;
+    const { students } = this.state;
+    const length = students.length;
+    for (let i = 0; i < length; i++) {
+      students[i].isChecked = target.checked;
+    }
+    this.setState({
+      students
+    });
+  }
+
+  onClickCheckbox(index: any, e: any) {
+    const { target } = e;
+    const { students } = this.state;
+    const student = students[index];
+    if (student) {
+      student.isChecked = target.checked;
+      this.setState({
+        students
+      });
+    }
+  }
+
+  createStudentRows(students: any) {
+    const length = students.length;
+    const retVal = [];
+    for (let i = 0; i < length; i++) {
+      const student = students[i];
+      retVal.push(
+        <tr key={student.id}>
+          <td>
+            <input onClick={(e: any) => this.onClickCheckbox(i, e)} checked={student.isChecked} type="checkbox" name="" id="" />
+          </td>
+          <td>
+            <Link
+              className="table-link link-color"
+              to={`/plugins/ems-student/page/student?id=${student.id}`}
+            >
+              {student.studentName}
+            </Link>
+          </td>
+          <td>{student.rollNo}</td>
+          <td>{student.id}</td>
+          <td>{student.department.name}</td>
+          <td>{student.batch.batch}</td>
+          <td>{student.section.section}</td>
+          <td>{student.sex}</td>
+          <td>{student.studentType}</td>
+          <td>{student.emergencyContactNo}</td>
         </tr>
-      </thead>
-      <tbody>
-        {students.map(student => <StudentRow key={student.id} student={student} />)}
-      </tbody>
-    </table>
-  </div>
-);
+      );
+    }
+    return retVal;
+  }
+
+  render() {
+    const { students } = this.state;
+    return (
+      <div>
+        <div className="student-flex">
+          <div>
+            <label htmlFor="">Department</label>
+            <select>
+              <option value="">Computer Science</option>
+              <option value="">Electric Engineering</option>
+              <option value="">Petroleum Engineering</option>
+              <option value="">Electronic Engineering</option>
+            </select>
+          </div>
+          <div>
+            <label htmlFor="">Year</label>
+            <select>
+              <option value="">First Year</option>
+              <option value="">Second Year</option>
+              <option value="">Third Year</option>
+              <option value="">Fourth Year</option>
+            </select>
+          </div>
+          <div>
+            <label htmlFor="">Section</label>
+            <select>
+              <option value="">A</option>
+              <option value="">B</option>
+            </select>
+          </div>
+          <div>
+            <label htmlFor="">Branch</label>
+            <select>
+              <option value="">Hyderabad</option>
+              <option value="">Secunderabad</option>
+            </select>
+          </div>
+          <div>
+            <label htmlFor="">Gender</label>
+            <select>
+              <option value="">Male</option>
+              <option value="">Female</option>
+            </select>
+          </div>
+          <div>
+            <label htmlFor="">Student Type</label>
+            <select>
+              <option value="">Scholarship</option>
+              <option value="">Management</option>
+            </select>
+          </div>
+          <div className="margin-bott">
+            <label htmlFor="">Search</label>
+            <input type="search" name="" id="" />
+          </div>
+        </div>
+
+        <table id="studentlistpage" className="striped-table fwidth bg-white">
+          <thead>
+            <tr>
+              <th>
+                <input type="checkbox" onClick={(e: any) => this.checkAllStudents(e)} value="checkedall" name="" id="" />
+              </th>
+              <th>Student Name</th>
+              <th>Roll No</th>
+              <th>Student Id</th>
+              <th>Department</th>
+              <th>Year</th>
+              <th>Section</th>
+              <th>Gender</th>
+              <th>Type</th>
+              <th>Primary Contact</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.createStudentRows(students)}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+}
+
+function exportStudents(students: any) {
+  const length = students.length;
+  const studentsToExport = [];
+  for (let i = 0; i < length; i++) {
+    const student = students[i];
+    if (student.isChecked) {
+      studentsToExport.push(student);
+    }
+  }
+  if (studentsToExport.length > 0) {
+    var csvContent = convertArrayOfObjectsToCSV(studentsToExport);
+    download(csvContent, "studentlist.csv", "text/csv;encoding:utf-8");
+  }
+}
+
+function convertArrayOfObjectsToCSV(data:any) {
+  var result:any, ctr:any, keys:any, columnDelimiter:any, lineDelimiter:any;
+
+  data = data || null;
+  if (data == null || !data.length) {
+    return null;
+  }
+
+  columnDelimiter = ',';
+  lineDelimiter = '\n';
+
+  keys = Object.keys(data[0]);
+
+  result = '';
+  result += keys.join(columnDelimiter);
+  result += lineDelimiter;
+
+  data.forEach(function (item:any) {
+    ctr = 0;
+    keys.forEach(function (key:any) {
+      if (ctr > 0) result += columnDelimiter;
+
+      result += item[key];
+      ctr++;
+    });
+    result += lineDelimiter;
+  });
+
+  return result;
+}
+
+function download(content: any, fileName: any, mimeType: any) {
+  var a = document.createElement('a');
+  mimeType = mimeType || 'application/octet-stream';
+
+  if (navigator.msSaveBlob) { // IE10
+    navigator.msSaveBlob(new Blob([content], {
+      type: mimeType
+    }), fileName);
+  } else if (URL && 'download' in a) { //html5 A[download]
+    a.href = URL.createObjectURL(new Blob([content], {
+      type: mimeType
+    }));
+    a.setAttribute('download', fileName);
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  } else {
+    location.href = 'data:application/octet-stream,' + encodeURIComponent(content); // only this mime type is supported
+  }
+}
 
 type StudentListPageOwnProps = RouteComponentProps<{}>;
 type StudentListPageProps = {
@@ -134,7 +255,7 @@ const StudentListPage = ({ data: { students } }: StudentListPageProps) => (
             to={`/plugins/ems-student/page/addstudent`}
             className="btn btn-primary m-r-1" style={w180}>Create New Student
         </Link>
-          <a className="btn btn-primary">Export</a>
+          <a className="btn btn-primary" onClick={(e: any) => exportStudents(students)}>Export</a>
         </div>
       </div>
       <StudentsTable students={students} />
