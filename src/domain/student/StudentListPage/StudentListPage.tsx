@@ -44,10 +44,14 @@ class StudentsTable extends React.Component<StudentTableProps, StudentTableState
 
   onClickCheckbox(index: any, e: any) {
     const { target } = e;
-    const { students } = this.state;
-    const student = students[index];
+    let { students } = this.state;
+    let student = students[index];
     if (student) {
-      student.isChecked = target.checked;
+      student = {
+        ...student,
+        isChecked: target.checked
+      };
+      students[index] = student;
       this.setState({
         students
       });
