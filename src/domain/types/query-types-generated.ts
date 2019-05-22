@@ -155,10 +155,11 @@ export type locationSummaryFragment = {
 /* Student */
 
 export type StudentListQuery = {
-  // Return all known Pet Institutes
-  students: Array<{
+  getStudentList: Array<{
     id: number;
     studentName: string;
+    studentMiddleName: string;
+    studentLastName: string;
     fatherName: string;
     fatherMiddleName: string;
     fatherLastName: string;
@@ -539,6 +540,47 @@ export type UpdateStudentMutation = {
         name: string;
       };
     };
+  };
+};
+
+export type LoadStudentFilterDataCacheType = {
+  createStudentFilterDataCache: {
+    branches: Array<{
+      id: number;
+      branchName: string;
+    }>;
+    departments: Array<{
+      id: number;
+      name: string;
+      branch: {
+        id: number;
+      };
+      academicyear: {
+        id: number;
+      };
+    }>;
+    batches: Array<{
+      id: number;
+      batch: string;
+      department: {
+        id: number;
+      };
+    }>;
+    sections: Array<{
+      id: number;
+      section: string;
+      batch: {
+        id: number;
+      };
+    }>;
+    studentTypes: Array<{
+      id: number;
+      description: string;
+    }>;
+    genders: Array<{
+      id: number;
+      description: string;
+    }>;
   };
 };
 

@@ -1,11 +1,56 @@
-#import "../../gqlfragments/student.graphql"
-
-fragment studentSummary on Student {
-  ...student
-}
-
-query studentList {
-  students {
-    ...studentSummary
-  }
+mutation getStudentList($filter:StudentListFilterInput!){
+    getStudentList(filter:$filter){
+      id
+      studentName
+      studentMiddleName
+      studentLastName
+      fatherName
+      fatherMiddleName
+      fatherLastName
+      motherName
+      motherMiddleName
+      motherLastName
+      aadharNo
+      dateOfBirth
+      placeOfBirth
+      religion
+      caste
+      subCaste
+      age
+      sex
+      bloodGroup
+      addressLineOne
+      addressLineTwo
+      addressLineThree
+      town
+      state
+      country
+      pincode
+      studentContactNumber
+      alternateContactNumber
+      studentEmailAddress
+      alternateEmailAddress
+      relationWithStudent
+      emergencyContactName
+      emergencyContactMiddleName
+      emergencyContactLastName
+      emergencyContactNo
+      emergencyContactEmailAddress
+      uploadPhoto
+      admissionNo
+      rollNo
+      studentType
+      batch {
+        batch
+      }
+      section {
+        section
+      }
+      branch {
+        branchName
+      }
+      department {
+        name
+      }
+    }
 }
