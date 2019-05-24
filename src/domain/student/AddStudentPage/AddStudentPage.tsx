@@ -209,12 +209,11 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
     
     getStudentImage = (e: any) => {
         const { studentData } = this.state;
-        studentData.fileName = e.target.files[0].name;
         studentData.uploadPhoto = URL.createObjectURL(e.target.files[0]);
         var r = new FileReader();
 		r.onload = function (e: any){
 			studentData.fileName = e.target.result;
-            console.log('Image converted to base 64 is on upload :\n\n' + studentData.fileName);
+            console.log('Image converted to base64 on upload :\n\n' + studentData.fileName);
 		};
 		r.readAsDataURL(e.target.files[0]);    
 
