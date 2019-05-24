@@ -203,6 +203,23 @@ class EditStudentPage extends React.Component<UpdateStudentFullPageProps, EditSt
             });
         }
     }
+
+    getStudentImage = (e: any) => {
+        const { studentData } = this.state;
+        studentData.fileName = e.target.files[0].name;
+        studentData.uploadPhoto = URL.createObjectURL(e.target.files[0]);
+        var r = new FileReader();
+        r.onload = function (e: any) {
+            studentData.fileName = e.target.result;
+            console.log('Image converted to base 64 is on upload :\n\n' + studentData.fileName);
+        };
+        r.readAsDataURL(e.target.files[0]);
+
+        this.setState({
+            studentData: studentData
+        })
+    }
+
     onChange = (e: any) => {
         const { name, value } = e.nativeEvent.target;
         const { studentData } = this.state;
@@ -291,9 +308,10 @@ class EditStudentPage extends React.Component<UpdateStudentFullPageProps, EditSt
                             <div className="col-lg-3 col-md-12 col-sm-12 col-xs-12 student-photo-container">
                                 <div className="row p-1">
                                     <div className="col-md-6 col-lg-12 col-xs-12 col-sm-6 student-photo">
-                                        <div className="photo"></div>
+                                        <img className="photo" id="stPhoto" src={studentData.uploadPhoto}></img>
                                     </div>
                                     <div className="col-sm-6 col-xs-12 col-md-6 col-lg-12">
+                                        <input type="file" accept="image/*" id="stImageUpload" onChange={this.getStudentImage} ></input>
                                         <div className="gf-form">
                                             <span className="gf-form-label width-8">Admission No</span>
                                             <input name="admissionNo" value={studentData.admissionNo} onChange={this.onChange} type="text" className="gf-form-input max-width-22" />

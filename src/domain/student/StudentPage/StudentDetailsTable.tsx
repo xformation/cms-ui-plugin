@@ -13,7 +13,7 @@ export default ({ student }: { student: StudentFragment }) => (
       <div className="m-b-1 dflex bg-heading">
         <h4 className="ptl-06">Student Profile</h4>
         <div className="dont-print">
-          <a className="btn btn-primary m-r-1" onClick={(e:any)=>{print()}}>
+          <a className="btn btn-primary m-r-1" onClick={(e: any) => { print() }}>
             Print
           </a>
           <Link to={`/plugins/ems-student/page/editstudentpage?id=${student.id}`} className="btn btn-primary">
@@ -24,7 +24,7 @@ export default ({ student }: { student: StudentFragment }) => (
       <div className="b-1 m-1">
         <div className="student-photo-container row p-l-1 p-r-1 p-b-1">
           <div className="col-xs-12 col-md-4 m-t-1 text-center">
-            <img src="/public/img/cubes.png" alt="" />
+            <img className="photo" id="stPhoto" src={student.uploadPhoto}></img>
           </div>
           <div className="col-xs-12 col-md-8 m-t-1">
             <div className="row">
