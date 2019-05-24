@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { graphql, MutationFunc } from 'react-apollo';
+import { graphql, QueryProps, MutationFunc, compose } from 'react-apollo';
 import { withRouter, RouteComponentProps, Link } from 'react-router-dom';
 import * as AddStudentMutationGql from './AddStudentMutation.graphql';
 import PersonalData from './PersonalData';
@@ -8,17 +8,23 @@ import OtherContactData from './OtherContactData';
 import FacilityData from './FacilityData';
 import { StudentServices } from './_services';
 import {
+    LoadStudentFilterDataCacheType,
     AddStudentMutation,
     AddStudentInput,
     AddStudentMutationVariables,
     StudentData,
 } from '../../types';
 
-import withLoadingHandler from '../../../components/withLoadingHandler';
-
+// import withLoadingHandler from '../../../components/withLoadingHandler';
+import withStudentFilterDataCacheLoader from "./withStudentFilterDataCacheLoader";
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
-type AddStudentPageOwnProps = RouteComponentProps<{}>;
+type AddStudentPageOwnProps = RouteComponentProps<{
+    collegeId: string;
+    academicYearId:  string;
+}> & {
+    data: QueryProps & LoadStudentFilterDataCacheType; 
+};
 type AddStudentPageProps = AddStudentPageOwnProps & {
     mutate: MutationFunc<AddStudentMutation>;
 };
@@ -49,7 +55,11 @@ type EditStudentProfileStates = {
     branches: any,
     batches: any,
     sections: any,
-    submitted: any
+    submitted: any,
+    studentTypes: any,
+    uploadPhoto: any,
+    fileName: any,
+    academicYearId: any
 };
 
 class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentProfileStates>{
@@ -57,6 +67,12 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
         super(props);
         this.state = {
             studentData: {
+                // college: {
+                //     id: 1801 
+                // },
+                // academicYear: {
+                //     id: 1701  
+                // },
                 department: {
                     id: ""
                 },
@@ -68,13 +84,20 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
                 },
                 section: {
                     id: ""
-                }
+                },
+                studentType: {
+                    id: ""
+                },
             },
             departments: [],
             branches: [],
             batches: [],
             sections: [],
-            submitted: false
+            studentTypes: [],
+            submitted: false,
+            uploadPhoto: null,
+            fileName: "",
+            academicYearId: 1701
         };
         this.createDepartments = this.createDepartments.bind(this);
         this.createBranches = this.createBranches.bind(this);
@@ -82,31 +105,15 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
         this.createSections = this.createSections.bind(this);
         this.createStudentTypeOptions = this.createStudentTypeOptions.bind(this);
     }
-    componentDidMount() {
-        Promise.all([StudentServices.getStudentDepartments(), StudentServices.getStudentBranches(), StudentServices.getStudentYears(), StudentServices.getStudentSections()]).then(
-            data => {
-                let departments = data[0];
-                let branches = data[1];
-                let batches = data[2];
-                let sections = data[3];
-                this.setState({
-                    departments,
-                    branches,
-                    batches,
-                    sections
-                });
-            },
-            error => {
-                console.log(error);
-            }
-        );
-    }
-    createDepartments(departments: any) {
+
+    createDepartments(departments: any, selectedBranchId: any) {
         let departmentsOptions = [<option key={0} value="">Select department</option>];
         for (let i = 0; i < departments.length; i++) {
+        if (selectedBranchId == departments[i].branch.id ) {
             departmentsOptions.push(
-                <option key={departments[i].id} value={departments[i].id}>{departments[i].name}</option>
+            <option key={departments[i].id} value={departments[i].id}>{departments[i].name}</option>
             );
+        }
         }
         return departmentsOptions;
     }
@@ -123,9 +130,10 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
         let batchesOptions = [<option key={0} value="">Select Year</option>];
         for (let i = 0; i < batches.length; i++) {
             let id = batches[i].id;
-            if (batches[i].departmentId == selectedDepartmentId) {
+            let dptId = ""+batches[i].department.id;
+            if (dptId == selectedDepartmentId) {
                 batchesOptions.push(
-                    <option key={id} value={id}>{batches[i].batch}</option>
+                <option key={id} value={id}>{batches[i].batch}</option>
                 );
             }
         }
@@ -134,32 +142,28 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
     createSections(sections: any, selectedBatchId: any) {
         let sectionsOptions = [<option key={0} value="">Select Section</option>];
         for (let i = 0; i < sections.length; i++) {
-            if (sections[i].batchId == selectedBatchId) {
-                let id = sections[i].id;
+            let id = sections[i].id;
+            let sbthId = ""+sections[i].batch.id;
+            if (sbthId == selectedBatchId) {
                 sectionsOptions.push(
-                    <option key={id} value={id}>{sections[i].section}</option>
+                <option key={id} value={id}>{sections[i].section}</option>
                 );
             }
         }
         return sectionsOptions;
     }
-    createStudentTypeOptions(selectedType: any) {
-        let studentTypes: any = {
-            REGULAR: "REGULAR",
-            STAFF_CONCESSION: "STAFF_CONCESSION",
-            BENEFITS: "BENEFITS",
-            SCHOLARSHIP: "SCHOLARSHIP",
-            OTHER_BENEFITS: "OTHER_BENEFITS"
-        }
-        let studentTypesOptions = [<option key={0} value="">Select Type</option>];
-        for (let i in studentTypes) {
+
+    createStudentTypeOptions(studentTypes: any) {
+        let studentTypesOptions = [<option key={""} value="">Select Student Type</option>];
+        for (let i = 0; i < studentTypes.length; i++) {
             let studentType = studentTypes[i];
             studentTypesOptions.push(
-                <option key={studentType} value={studentType} selected={selectedType === studentType}>{studentType}</option>
+                <option key={studentTypes[i].description} value={studentTypes[i].description}>{studentTypes[i].description}</option>
             );
         }
         return studentTypesOptions;
     }
+
     onFormSubmit = (e: any) => {
         this.setState({
             submitted: true
@@ -168,14 +172,16 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
         const { studentData } = this.state;
         e.preventDefault();
         if (studentData.department.id && studentData.branch.id && studentData.batch.id && studentData.studentType && studentData.section.id) {
-
+            
             let dplStudentData = {
                 ...studentData,
                 batchId: studentData.batch.id,
                 sectionId: studentData.section.id,
                 branchId: studentData.branch.id,
                 departmentId: studentData.department.id,
-                uploadPhoto: ""
+                uploadPhoto: studentData.uploadPhoto,
+                studentType: studentData.studentType.id,
+                fileName: studentData.fileName
             };
             delete dplStudentData.batch;
             delete dplStudentData.section;
@@ -200,10 +206,48 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
             });
         }
     }
+    
+    getStudentImage = (e: any) => {
+        const { studentData } = this.state;
+        studentData.fileName = e.target.files[0].name;
+        studentData.uploadPhoto = URL.createObjectURL(e.target.files[0]);
+        var r = new FileReader();
+		r.onload = function (e: any){
+			studentData.fileName = e.target.result;
+            console.log('Image converted to base 64 is on upload :\n\n' + studentData.fileName);
+		};
+		r.readAsDataURL(e.target.files[0]);    
+
+        this.setState({
+            studentData: studentData
+        })     
+    }
+
     onChange = (e: any) => {
         const { name, value } = e.nativeEvent.target;
         const { studentData } = this.state;
-        if (name === "department") {
+        if (name === "branch") {
+            this.setState({
+                studentData: {
+                    ...studentData,
+                    branch: {
+                        id: value
+                    },
+                    department: {
+                      id: ""
+                    },
+                    batch: {
+                      id: ""
+                    },
+                    section: {
+                        id: ""
+                    },
+                    studentType: {
+                        id: ""
+                    }
+                }
+            });
+        }else if (name === "department") {
             this.setState({
                 studentData: {
                     ...studentData,
@@ -215,32 +259,10 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
                     },
                     section: {
                         id: ""
+                    },
+                    studentType: {
+                        id: ""
                     }
-                }
-            });
-        } else if (name === "branch") {
-            this.setState({
-                studentData: {
-                    ...studentData,
-                    branch: {
-                        id: value
-                    }
-                }
-            });
-        } else if (name === "section") {
-            this.setState({
-                studentData: {
-                    ...studentData,
-                    section: {
-                        id: value
-                    }
-                }
-            });
-        } else if (name === "studentType") {
-            this.setState({
-                studentData: {
-                    ...studentData,
-                    studentType: value
                 }
             });
         } else if (name === "batch") {
@@ -252,10 +274,34 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
                     },
                     section: {
                         id: ""
+                    },
+                    studentType: {
+                        id: ""
                     }
                 }
             });
-        } else {
+        } else if (name === "section") {
+            this.setState({
+                studentData: {
+                    ...studentData,
+                    section: {
+                        id: value
+                    },
+                    studentType: {
+                        id: ""
+                    }
+                }
+            });
+        } else if (name === "studentType") {
+            this.setState({
+                studentData: {
+                    ...studentData,
+                    studentType: {
+                        id: value
+                    }
+                }
+            });
+        }  else {
             this.setState({
                 studentData: {
                     ...studentData,
@@ -265,7 +311,7 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
         }
     }
     render() {
-        const { history, match, mutate } = this.props;
+        const { data: { createStudentFilterDataCache, refetch }, history, match, mutate } = this.props;
         const { studentData, departments, batches, branches, sections, submitted } = this.state;
         return (
             <section className="customCss">
@@ -288,9 +334,14 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
                             <div className="col-lg-3 col-md-12 col-sm-12 col-xs-12 student-photo-container">
                                 <div className="row p-1">
                                     <div className="col-md-6 col-lg-12 col-xs-12 col-sm-6 student-photo">
-                                        <div className="photo"></div>
+                                        <img className="photo" id="stPhoto" src={studentData.uploadPhoto}></img>
                                     </div>
+                                    
                                     <div className="col-sm-6 col-xs-12 col-md-6 col-lg-12">
+                                        
+                                        <input type="file"  accept="image/*" id="stImageUpload" onChange={this.getStudentImage} ></input>
+                                        
+                                        
                                         <div className="gf-form">
                                             <span className="gf-form-label width-8">Admission No</span>
                                             <input name="admissionNo" value={studentData.admissionNo} onChange={this.onChange} type="text" className="gf-form-input max-width-22" />
@@ -300,33 +351,9 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
                                             <input name="rollNo" type="text" className="gf-form-input max-width-22" value={studentData.rollNo} onChange={this.onChange} />
                                         </div>
                                         <div className="gf-form">
-                                            <span className="gf-form-label width-8">Department</span>
-                                            <select name="department" onChange={this.onChange} value={studentData.department.id} className="gf-form-input max-width-22">
-                                                {this.createDepartments(departments)}
-                                            </select>
-                                        </div>
-                                        {
-                                            submitted && !studentData.department.id &&
-                                            <div>
-                                                Student department needed.
-                                        </div>
-                                        }
-                                        <div className="gf-form">
-                                            <span className="gf-form-label width-8">Year</span>
-                                            <select name="batch" onChange={this.onChange} value={studentData.batch.id} className="gf-form-input max-width-22">
-                                                {this.createBatches(batches, studentData.department.id)}
-                                            </select>
-                                        </div>
-                                        {
-                                            submitted && !studentData.batch.id &&
-                                            <div>
-                                                Student batch needed.
-                                        </div>
-                                        }
-                                        <div className="gf-form">
                                             <span className="gf-form-label width-8">Branch</span>
                                             <select name="branch" onChange={this.onChange} value={studentData.branch.id} className="gf-form-input max-width-22">
-                                                {this.createBranches(branches)}
+                                                {this.createBranches(this.props.data.createStudentFilterDataCache.branches)}
                                             </select>
                                         </div>
                                         {
@@ -336,9 +363,34 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
                                         </div>
                                         }
                                         <div className="gf-form">
+                                            <span className="gf-form-label width-8">Department</span>
+                                            <select name="department" onChange={this.onChange} value={studentData.department.id} className="gf-form-input max-width-22">
+                                                {this.createDepartments(this.props.data.createStudentFilterDataCache.departments, studentData.branch.id)}
+                                            </select>
+                                        </div>
+                                        {
+                                            submitted && !studentData.department.id &&
+                                            <div>
+                                                Student department needed.
+                                            </div>
+                                        }
+                                        <div className="gf-form">
+                                            <span className="gf-form-label width-8">Year</span>
+                                            <select name="batch" onChange={this.onChange} value={studentData.batch.id} className="gf-form-input max-width-22">
+                                                {this.createBatches(this.props.data.createStudentFilterDataCache.batches, studentData.department.id)}
+                                            </select>
+                                        </div>
+                                        {
+                                            submitted && !studentData.batch.id &&
+                                            <div>
+                                                Student batch needed.
+                                        </div>
+                                        }
+                                        
+                                        <div className="gf-form">
                                             <span className="gf-form-label width-8">Section</span>
                                             <select name="section" onChange={this.onChange} value={studentData.section.id} className="gf-form-input max-width-22">
-                                                {this.createSections(sections, studentData.batch.id)}
+                                                {this.createSections(this.props.data.createStudentFilterDataCache.sections, studentData.batch.id)}
                                             </select>
                                         </div>
                                         {
@@ -349,12 +401,12 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
                                         }
                                         <div className="gf-form">
                                             <span className="gf-form-label width-8">Student Type</span>
-                                            <select name="studentType" onChange={this.onChange} value={studentData.studentType} className="gf-form-input max-width-22">
-                                                {this.createStudentTypeOptions(studentData.studentType)}
+                                            <select name="studentType" onChange={this.onChange} value={studentData.studentType.id} className="gf-form-input max-width-22">
+                                                {this.createStudentTypeOptions(this.props.data.createStudentFilterDataCache.studentTypes)}
                                             </select>
                                         </div>
                                         {
-                                            submitted && !studentData.studentType &&
+                                            submitted && !this.props.data.createStudentFilterDataCache.studentTypes &&
                                             <div>
                                                 Student type needed.
                                         </div>
@@ -428,8 +480,19 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
     }
 }
 
-export default withRouter(
-    graphql<AddStudentMutation, AddStudentPageOwnProps>(AddStudentMutationGql)(
-        AddStudentPage
+// export default withRouter(
+//     graphql<AddStudentMutation, AddStudentPageOwnProps>(AddStudentMutationGql)(
+//         AddStudentPage
+//     )
+// );
+
+export default withStudentFilterDataCacheLoader( 
+  
+    compose(
+      graphql<AddStudentMutation, AddStudentPageOwnProps>(AddStudentMutationGql, {
+        name: "mutate"
+      })
+      
     )
-);
+    (AddStudentPage) as any
+  );
