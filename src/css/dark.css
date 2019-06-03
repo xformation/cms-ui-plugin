@@ -618,23 +618,20 @@ td {
 .margin-bott {
   margin-bottom: 25px;
 }
-.bg-heading {
-  display: flex;
-  align-items: center;
-  /* justify-content: space-between; */
+.bg-heading-bgStudent {
+  background-color: #f6f6f6;
 }
-.bg-heading h2 {
-  flex-grow: 1;
-}
-.bg-heading button:first-child {
-  width: 180px;
-  margin-right: 15px;
-}
-
 .link-color {
   color: #4e8fc9;
 }
-
+.studentSearch {
+  display: flex;
+  justify-content: flex-end;
+}
+.studentListFlex {
+  display: flex;
+  justify-content: space-between;
+}
 .form-grid {
   display: grid !important;
   grid-gap: 10px !important;
