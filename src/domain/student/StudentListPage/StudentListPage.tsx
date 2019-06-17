@@ -19,8 +19,8 @@ type StudentRootProps = RouteComponentProps<{
   collegeId: string;
   academicYearId: string;
 }> & {
-  data: QueryProps & LoadStudentFilterDataCacheType;
-}
+    data: QueryProps & LoadStudentFilterDataCacheType;
+  }
 type StudentPageProps = StudentRootProps & {
   mutate: MutationFunc<StudentListQuery>;
 };
@@ -69,6 +69,7 @@ class StudentsTable extends React.Component<StudentPageProps, StudentTableStates
           id: ""
         },
         mutateResult: [],
+        search: ""
       },
       branches: [],
       departments: [],
@@ -229,6 +230,8 @@ class StudentsTable extends React.Component<StudentPageProps, StudentTableStates
   // }
 
   createStudentRows(objAry: any) {
+    let { search } = this.state.studentData;
+    search = search.trim();
     const mutateResLength = objAry.length;
     const retVal = [];
     for (let x = 0; x < mutateResLength; x++) {
@@ -237,29 +240,57 @@ class StudentsTable extends React.Component<StudentPageProps, StudentTableStates
       const length = students.length;
       for (let i = 0; i < length; i++) {
         const student = students[i];
-        retVal.push(
-          <tr key={student.id}>
-            <td>
-              <input onClick={(e: any) => this.onClickCheckbox(i, e)} checked={student.isChecked} type="checkbox" name="" id={"chk" + student.id} />
-            </td>
-            <td>
-              <Link
-                className="table-link link-color"
-                to={`/plugins/ems-student/page/student?id=${student.id}`}
-              >
-                {student.studentName}
-              </Link>
-            </td>
-            <td>{student.rollNo}</td>
-            <td>{student.id}</td>
-            <td>{student.department.name}</td>
-            <td>{student.batch.batch}</td>
-            <td>{student.section.section}</td>
-            <td>{student.sex}</td>
-            <td>{student.studentType}</td>
-            <td>{student.emergencyContactNo}</td>
-          </tr>
-        );
+        if(search){
+          if(student.studentName.indexOf(search) !== -1){
+            retVal.push(
+              <tr key={student.id}>
+                <td>
+                  <input onClick={(e: any) => this.onClickCheckbox(i, e)} checked={student.isChecked} type="checkbox" name="" id={"chk" + student.id} />
+                </td>
+                <td>
+                  <Link
+                    className="table-link link-color"
+                    to={`/plugins/ems-student/page/student?id=${student.id}`}
+                  >
+                    {student.studentName}
+                  </Link>
+                </td>
+                <td>{student.rollNo}</td>
+                <td>{student.id}</td>
+                <td>{student.department.name}</td>
+                <td>{student.batch.batch}</td>
+                <td>{student.section.section}</td>
+                <td>{student.sex}</td>
+                <td>{student.studentType}</td>
+                <td>{student.emergencyContactNo}</td>
+              </tr>
+            );
+          }
+        } else{
+          retVal.push(
+            <tr key={student.id}>
+              <td>
+                <input onClick={(e: any) => this.onClickCheckbox(i, e)} checked={student.isChecked} type="checkbox" name="" id={"chk" + student.id} />
+              </td>
+              <td>
+                <Link
+                  className="table-link link-color"
+                  to={`/plugins/ems-student/page/student?id=${student.id}`}
+                >
+                  {student.studentName}
+                </Link>
+              </td>
+              <td>{student.rollNo}</td>
+              <td>{student.id}</td>
+              <td>{student.department.name}</td>
+              <td>{student.batch.batch}</td>
+              <td>{student.section.section}</td>
+              <td>{student.sex}</td>
+              <td>{student.studentType}</td>
+              <td>{student.emergencyContactNo}</td>
+            </tr>
+          );
+        }
       }
     }
 
@@ -568,7 +599,7 @@ class StudentsTable extends React.Component<StudentPageProps, StudentTableStates
               </div>
               <div className="margin-bott max-width-22">
                 <label htmlFor="">Search</label>
-                <input type="text" />
+                <input type="text" name="search" value={studentData.search} onChange={this.onChange} />
               </div>
             </div>
             <div className="m-b-1 bg-heading-bg studentSearch">
