@@ -313,8 +313,7 @@ export default ({ student }: { student: StudentFragment }) => (
     </div>
   </div>
   </div>
-  
-      </div>
+   </div>
     </div>
     </div>
   </section>
