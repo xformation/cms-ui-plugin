@@ -67,7 +67,7 @@
   display: none;
 }
 
-.form-container .form-control-container {
+.collapse-container .form-container .form-control-container {
   height: 90px;
   margin: 0px 10px;
 }
