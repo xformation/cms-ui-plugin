@@ -235,7 +235,7 @@ export default ({ student }: { student: StudentFragment }) => (
                         <span className="profile-label">
                           Date Of Birth:
           </span>
-                        <span>{student.dateOfBirth}</span>
+                        <span>{student.strDateOfBirth}</span>
                       </div>
                       <div className="col-sm-4 col-xs-12 m-b-1">
                         <span className="profile-label">
