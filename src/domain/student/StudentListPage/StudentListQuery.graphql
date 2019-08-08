@@ -12,6 +12,7 @@ mutation getStudentList($filter:StudentListFilterInput!){
       motherLastName
       aadharNo
       dateOfBirth
+      strDateOfBirth
       placeOfBirth
       religion
       caste

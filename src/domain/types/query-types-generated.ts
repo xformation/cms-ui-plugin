@@ -167,7 +167,8 @@ export type StudentListQuery = {
     motherMiddleName: string;
     motherLastName: string;
     aadharNo: number;
-    dateOfBirth: number;
+    dateOfBirth: any;
+    strDateOfBirth: string;
     placeOfBirth: string;
     religion: string;
     caste: string;
