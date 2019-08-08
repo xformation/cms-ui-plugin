@@ -1,4 +1,4 @@
-fragment student on Student {
+fragment student on CmsStudentVo {
   id
   studentName
   fatherName
@@ -9,6 +9,7 @@ fragment student on Student {
   motherLastName
   aadharNo
   dateOfBirth
+  strDateOfBirth
   placeOfBirth
   religion
   caste

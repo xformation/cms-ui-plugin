@@ -227,7 +227,8 @@ export type StudentQuery = {
     motherMiddleName: string;
     motherLastName: string;
     aadharNo: number;
-    dateOfBirth: number;
+    dateOfBirth: any;
+    strDateOfBirth: string;
     placeOfBirth: string;
     religion: string;
     caste: string;
@@ -281,7 +282,8 @@ export type StudentFragment = {
   motherMiddleName: string;
   motherLastName: string;
   aadharNo: number;
-  dateOfBirth: number;
+  dateOfBirth: any;
+  strDateOfBirth: string;
   placeOfBirth: string;
   religion: string;
   caste: string;
@@ -334,7 +336,8 @@ export type StudentDetailsFragment = {
   motherMiddleName: string;
   motherLastName: string;
   aadharNo: number;
-  dateOfBirth: number;
+  dateOfBirth: any;
+  strDateOfBirth: string;
   placeOfBirth: string;
   religion: string;
   caste: string;

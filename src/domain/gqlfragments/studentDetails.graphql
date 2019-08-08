@@ -1,6 +1,6 @@
 #import "./student.graphql"
 
 
-fragment studentDetails on Student {
+fragment studentDetails on CmsStudentVo {
   ...student
 }
