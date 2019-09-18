@@ -116,41 +116,41 @@ export type AddStudentMutation = {
 
 /* Location */
 
-export type locationListQuery = {
-  locations: Array<{
-    id: string;
-    name: string;
-    address: string;
-    appliesTo: string;
-  }>;
-};
+// export type locationListQuery = {
+//   locations: Array<{
+//     id: string;
+//     name: string;
+//     address: string;
+//     appliesTo: string;
+//   }>;
+// };
 
-export type locationQueryVariables = {
-  locationId: any;
-};
+// export type locationQueryVariables = {
+//   locationId: any;
+// };
 
-export type locationQuery = {
-  location: {
-    id: any;
-    name: string;
-    address: string;
-    appliesTo: string;
-  };
-};
+// export type locationQuery = {
+//   location: {
+//     id: any;
+//     name: string;
+//     address: string;
+//     appliesTo: string;
+//   };
+// };
 
-export type locationDetailsFragment = {
-  id: any;
-  name: string;
-  address: string;
-  appliesTo: string;
-};
+// export type locationDetailsFragment = {
+//   id: any;
+//   name: string;
+//   address: string;
+//   appliesTo: string;
+// };
 
-export type locationSummaryFragment = {
-  id: any;
-  name: string;
-  address: string;
-  appliesTo: string;
-};
+// export type locationSummaryFragment = {
+//   id: any;
+//   name: string;
+//   address: string;
+//   appliesTo: string;
+// };
 
 /* Student */
 
@@ -220,6 +220,8 @@ export type StudentQuery = {
   student: {
     id: number;
     studentName: string;
+    studentMiddleName: string;
+    studentLastName: string;
     fatherName: string;
     fatherMiddleName: string;
     fatherLastName: string;
@@ -275,6 +277,8 @@ export type StudentQuery = {
 export type StudentFragment = {
   id: number;
   studentName: string;
+  studentMiddleName: string;
+  studentLastName: string;
   fatherName: string;
   fatherMiddleName: string;
   fatherLastName: string;
@@ -329,6 +333,8 @@ export type StudentFragment = {
 export type StudentDetailsFragment = {
   id: number;
   studentName: string;
+  studentMiddleName: string;
+  studentLastName: string;
   fatherName: string;
   fatherMiddleName: string;
   fatherLastName: string;
@@ -383,6 +389,8 @@ export type StudentDetailsFragment = {
 export type StudentSummaryFragment = {
   id: number;
   studentName: string;
+  studentMiddleName: string;
+  studentLastName: string;
   fatherName: string;
   fatherMiddleName: string;
   fatherLastName: string;

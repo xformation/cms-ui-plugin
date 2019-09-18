@@ -1,6 +1,8 @@
 fragment student on CmsStudentVo {
   id
   studentName
+  studentMiddleName
+  studentLastName
   fatherName
   fatherMiddleName
   fatherLastName

@@ -83,7 +83,7 @@ export default ({ student }: { student: StudentFragment }) => (
             <div className="col-xs-12 col-md-10 m-t-1">
               <div className="row">
                 <div className="col-sm-4 col-xs-12 m-b-1">
-                  <h3>{student.studentName}</h3>
+                  <h1 className="dblue-text">{student.studentName} {student.studentMiddleName} {student.studentLastName}</h1>
                 </div>
                 <div className="col-sm-4 col-xs-12 m-b-1">
                   <span className="profile-label">Contact No: </span>
@@ -98,7 +98,7 @@ export default ({ student }: { student: StudentFragment }) => (
                 <div className="col-xs-12 col-sm-4 m-b-1">
                   <span className="profile-label">
                     Admission No:
-          </span>
+                  </span>
                   <span>{student.admissionNo}</span>
                 </div>
                 <div className="col-xs-12 col-sm-4 m-b-1">
@@ -136,47 +136,36 @@ export default ({ student }: { student: StudentFragment }) => (
           <div className="buttons-container dont-print">
             {/* <button onClick={logRandomValue} */}
             <Tabs>
-              <button className="btn btn-primary" >Profile</button>
+              <button className="btn btn-primary cust-height" >Profile <br /><span className="uparrow"></span></button>
+
               <span>
                 <div className="main-details m-1 p-2 b-1">
                   <div className="details-container">
                     <div className="row">
                       <div className="col-sm-4 col-xs-12 m-b-1">
-                        <span className="profile-label">
-                          Fathers Name:
-        </span>
+                        <span className="profile-label">Fathers Name:</span>
                         <span>{student.fatherName}</span>
                       </div>
                       <div className="col-sm-4 col-xs-12 m-b-1">
-                        <span className="profile-label">
-                          Fathers Contact:
-        </span>
+                        <span className="profile-label">Fathers Contact:</span>
                         <span>{student.emergencyContactNo}</span>
                       </div>
                       <div className="col-sm-4 col-xs-12 m-b-1">
-                        <span className="profile-label">
-                          Email Address
-        </span>
+                        <span className="profile-label">Email Address</span>
                         <span>{student.alternateEmailAddress}</span>
                       </div>
                     </div>
                     <div className="row">
                       <div className="col-sm-4 col-xs-12 m-b-1">
-                        <span className="profile-label">
-                          Mothers Name:
-        </span>
+                        <span className="profile-label">Mothers Name:</span>
                         <span>{student.motherName}</span>
                       </div>
                       <div className="col-sm-4 col-xs-12 m-b-1">
-                        <span className="profile-label">
-                          Mothers Contact:
-        </span>
+                        <span className="profile-label">Mothers Contact:</span>
                         <span>{student.alternateContactNumber}</span>
                       </div>
                       <div className="col-sm-4 col-xs-12 m-b-1">
-                        <span className="profile-label">
-                          Email Address:
-        </span>
+                        <span className="profile-label">Email Address:</span>
                         <span>{student.alternateEmailAddress}</span>
                       </div>
                     </div>
@@ -184,41 +173,29 @@ export default ({ student }: { student: StudentFragment }) => (
                   <div className="details-container p-t-2">
                     <div className="row">
                       <div className="col-sm-4 col-xs-12 m-b-1">
-                        <span className="profile-label">
-                          Address Line 1:
-          </span>
+                        <span className="profile-label">Address Line 1:</span>
                         <span>{student.addressLineOne}</span>
                       </div>
                       <div className="col-sm-4 col-xs-12 m-b-1">
-                        <span className="profile-label">
-                          Address Line 2:
-          </span>
+                        <span className="profile-label">Address Line 2:</span>
                         <span>{student.addressLineTwo}</span>
                       </div>
                       <div className="col-sm-4 col-xs-12 m-b-1">
-                        <span className="profile-label">
-                          Town:
-          </span>
+                        <span className="profile-label">Town:</span>
                         <span>{student.town}</span>
                       </div>
                     </div>
                     <div className="row">
                       <div className="col-sm-4 col-xs-12 m-b-1">
-                        <span className="profile-label">
-                          State:
-          </span>
+                        <span className="profile-label">State:</span>
                         <span>{student.state}</span>
                       </div>
                       <div className="col-sm-4 col-xs-12 m-b-1">
-                        <span className="profile-label">
-                          Country:
-          </span>
+                        <span className="profile-label">Country:</span>
                         <span>{student.country}</span>
                       </div>
                       <div className="col-sm-4 col-xs-12 m-b-1">
-                        <span className="profile-label">
-                          Pin Code:
-          </span>
+                        <span className="profile-label">Pin Code:</span>
                         <span>{student.pincode}</span>
                       </div>
                     </div>
@@ -226,61 +203,43 @@ export default ({ student }: { student: StudentFragment }) => (
                   <div className="details-container p-t-2">
                     <div className="row">
                       <div className="col-sm-4 col-xs-12 m-b-1">
-                        <span className="profile-label">
-                          Adhar No:
-          </span>
+                        <span className="profile-label">Adhar No:</span>
                         <span>{student.aadharNo}</span>
                       </div>
                       <div className="col-sm-4 col-xs-12 m-b-1">
-                        <span className="profile-label">
-                          Date Of Birth:
-          </span>
+                        <span className="profile-label">Date Of Birth:</span>
                         <span>{student.strDateOfBirth}</span>
                       </div>
                       <div className="col-sm-4 col-xs-12 m-b-1">
-                        <span className="profile-label">
-                          Place Of Birth:
-          </span>
+                        <span className="profile-label">Place Of Birth:</span>
                         <span>{student.placeOfBirth}</span>
                       </div>
                     </div>
                     <div className="row">
                       <div className="col-sm-4 col-xs-12 m-b-1">
-                        <span className="profile-label">
-                          Religion:
-          </span>
+                        <span className="profile-label">Religion:</span>
                         <span>{student.religion}</span>
                       </div>
                       <div className="col-sm-4 col-xs-12 m-b-1">
-                        <span className="profile-label">
-                          Cast:
-          </span>
+                        <span className="profile-label">Cast:</span>
                         <span>{student.caste}</span>
                       </div>
                       <div className="col-sm-4 col-xs-12 m-b-1">
-                        <span className="profile-label">
-                          Sub Cast:
-          </span>
+                        <span className="profile-label">Sub Cast:</span>
                         <span>{student.subCaste}</span>
                       </div>
                     </div>
                     <div className="row">
                       <div className="col-sm-4 col-xs-12 m-b-1">
-                        <span className="profile-label">
-                          Blood Group:
-          </span>
+                        <span className="profile-label">Blood Group:</span>
                         <span>{student.bloodGroup}</span>
                       </div>
                       <div className="col-sm-4 col-xs-12 m-b-1">
-                        <span className="profile-label">
-                          Sex:
-          </span>
+                        <span className="profile-label">Sex:</span>
                         <span>{student.sex}</span>
                       </div>
                       <div className="col-sm-4 col-xs-12 m-b-1">
-                        <span className="profile-label">
-                          Student Type:
-          </span>
+                        <span className="profile-label">Student Type:</span>
                         <span>{student.studentType}</span>
                       </div>
                     </div>
@@ -296,10 +255,96 @@ export default ({ student }: { student: StudentFragment }) => (
         </button>
               <span>three things</span>
 
-              <button disabled className="btn btnstdDsl">
-                Fee
-        </button>
-              <span>Fee Details</span>
+              <button className="btn btn-primary cust-height" >Fee <br /><span className="uparrow"></span></button>
+              <span>
+                <div className="main-details m-1 p-2 b-1">
+                  <div className="details-container m-b-2">
+                    <div className="dflex bdr-bpttom">
+                      <div className="w-70 dflex ">
+                        <div className="fwidth">
+                          <div className="profile-label">Total Fee</div>
+                          <div className="box-text">1,25,000</div>
+                        </div>
+                        <div className="fwidth">
+                          <div className="profile-label">Fees Paid</div>
+                          <div className="box-text ">25,000</div>
+                        </div>
+                        <div className="fwidth">
+                          <div className="profile-label">Fees Due</div>
+                          <div className="box-text">50,000</div>
+                        </div>
+                        <div className="fwidth">
+                          <div className="profile-label">Due Date</div>
+                          <div className="box-text">01/03/2019</div>
+                        </div>
+                        <div className="fwidth">
+                          <div className="profile-label">Total Remaining</div>
+                          <div className="box-text">35,000</div>
+                        </div>
+                      </div>
+                      <div className="w-20 dflex">
+                        <div className="fwidth">
+                          <div className="profile-label">Send Notification</div>
+                          <button className="btn btn-primary btn-cust-width">Send SMS</button>
+                        </div>
+                        <div className="fwidth">
+                          <div className="profile-label">Take Payment</div>
+                          <button className="btn btn-primary btn-cust-width">Take Payment</button>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="dflex m-t-1">
+                      <table className="w-40" id="txt-align">
+                        <tr>
+                          <th>Fee Line Item</th>
+                          <th>Amount</th>
+                        </tr>
+                        <tr>
+                          <td>
+                            Tution Fee
+                          </td>
+                          <td>10,000</td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Exam Fee
+                          </td>
+                          <td>5,000</td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Lab Fee
+                          </td>
+                          <td>2,000</td>
+                        </tr>
+                      </table>
+                      <table className="w-40 m-r-3 m-l-3" id="txt-align">
+                        <tr>
+                          <th>Facility</th>
+                          <th>Amount</th>
+                        </tr>
+                        <tr>
+                          <td>
+                            Transportation
+                          </td>
+                          <td>10,000</td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Gym
+                          </td>
+                          <td>5,000</td>
+                        </tr>
+                      </table>
+                      <div className="w-20">
+                        <div className="profile-label">Next Payment</div>
+                        <div className="box-text">35,000</div>
+                      </div>
+                    </div>
+                    <button className="btn btn-primary cust-btn-payment">Payment History</button>
+                  </div>
+                </div>
+              </span>
               <button disabled className="btn btnstdDsl">
                 Reports
         </button>
@@ -312,10 +357,40 @@ export default ({ student }: { student: StudentFragment }) => (
                 Documents
         </button>
               <span>Documents</span>
-              <button disabled className="btn btnstdDsl">
-                Facility
-        </button>
-              <span>Facility</span>
+              <button className="btn btn-primary cust-height" >Facility <br /><span className="uparrow"></span></button>
+              <span>
+                <div className="main-details m-1 p-2 b-1">
+                  <div className="details-container">
+                    <div className="fflex w-70 m-b-1">
+                      <div className="profile-label cust-wh">Transport</div>
+                      <div className="cust-wh">Yes</div>
+                      <div className="profile-label cust-wh">Route</div>
+                      <div className="cust-box-text cust-wh m-r-3">A1</div>
+                      <div className="profile-label cust-wh m-l-3">Route Charges</div>
+                      <div className="cust-box-text cust-wh m-l-3">1,000</div>
+                    </div>
+
+                  </div>
+                  <div className="details-container p-t-2">
+                    <div className="fflex m-b-1">
+                      <div className="profile-label cust-wh">Gym</div>
+                      <div className="cust-wh">No</div>
+                    </div>
+                    <div className="fflex m-b-1">
+                      <div className="profile-label cust-wh">Mess</div>
+                      <div className="cust-wh">Yes</div>
+                    </div>
+                    <div className="fflex m-b-1">
+                      <div className="profile-label cust-wh">Sports</div>
+                      <div className="cust-wh">No</div>
+                    </div>
+                    <div className="fflex m-b-1">
+                      <div className="profile-label cust-wh">Cultural class</div>
+                      <div className="cust-wh">No</div>
+                    </div>
+                  </div>
+                </div>
+              </span>
 
             </Tabs>
           </div>

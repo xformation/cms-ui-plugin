@@ -22,21 +22,23 @@
   display: inline-block;
   cursor: pointer;
   background: #3d9bef !important;
+
   /* margin-top: 14px; */
 }
 .tabstdpfl .stdop .tab:hover,
 .tabstdpfl .stdop .tab.active {
   background: #cecece !important;
-  border-bottom: 2px solid rgba(74, 161, 241, 0.7);
-  color: #3d9bef;
+  /* border-bottom: 2px solid rgba(74, 161, 241, 0.7); */
+  color: #1486c7;
+  /* color: #3d9bef; */
 }
 .tabstdpfl .content {
-  padding: 10px;
+  padding: 15px 10px 10px 10px;
   color: rgba(0, 0, 0, 0.6);
   background: rgba(255, 255, 255, 0.2);
 }
 .tabstdpfl {
-  margin-top: -5% !important;
+  margin-top: -4% !important;
 }
 .btnstdDsl {
   /* background: rgba(54, 151, 239, 0.2); */
@@ -44,7 +46,7 @@
 }
 .stdop {
   position: relative;
-  z-index: 9999;
+  /* z-index: 9999; */
   margin-left: 15rem !important;
 }
 /* .heading{
@@ -686,6 +688,7 @@ td {
 .student-profile-container .profile-label {
   color: rgb(78, 144, 203) !important;
   padding-right: 4px;
+  font-weight: 500;
 }
 
 .student-profile-container .details-container {
@@ -694,4 +697,85 @@ td {
 
 .student-profile-container .details-container:last-child {
   border-bottom: 0px;
+}
+
+.dblue-text {
+  color: #307dc2;
+}
+
+.box-text {
+  border: 1px solid #b5b5b5;
+  color: #b5b5b5;
+  margin: 10px 16px 0px 0px;
+  padding: 5px;
+}
+
+.cust-box-text {
+  border: 1px solid #b5b5b5;
+  color: #b5b5b5;
+  padding: 5px;
+}
+
+.w-70 {
+  width: 70%;
+}
+
+.w-20 {
+  width: 20%;
+}
+
+.w-40 {
+  width: 40%;
+}
+
+#txt-align > tr > td {
+  text-align: left !important;
+  border: 1px solid #868686;
+}
+
+#txt-align > tr > th {
+  background-color: rgb(216, 216, 216);
+  border: 1px solid #868686;
+}
+
+#txt-align {
+  border-radius: 5px;
+}
+
+.btn-cust-width {
+  width: 115px;
+}
+
+.cust-btn-payment {
+  width: 130px;
+  float: right;
+  padding-right: 1rem;
+}
+
+.cust-wh {
+  height: 31px;
+  width: 120px;
+}
+
+.fflex {
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
+}
+
+.bdr-bpttom {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #b5b5b5;
+}
+
+.cust-height {
+  height: 32px !important;
+}
+
+.active > button > span.uparrow {
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 11px solid #1486c7;
 }

@@ -8,6 +8,8 @@ export type ReactFunctionOrComponentClass<P> =
 export type StudentData = {
   // id: string;
   studentName: string;
+  // studentMiddleName: string;
+  // studentLastName: string;
   fatherName: string;
   fatherMiddleName: string;
   fatherLastName: string;
