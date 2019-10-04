@@ -8,6 +8,8 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { createGraphQLClient } from '../../../createGraphQLClient';
 import AddStudentPage from './AddStudentPage';
 
+import '../../../css/custom.css';
+
 const graphQLClient = createGraphQLClient();
 
 export default function init() {

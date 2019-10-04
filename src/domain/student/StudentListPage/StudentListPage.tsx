@@ -10,6 +10,10 @@ import '../../../css/dark.css';
 import withStudentFilterDataCacheLoader from "./withStudentFilterDataCacheLoader";
 // import { Pagination } from '../../../components/pagination/pagination';
 
+import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
+// import SubTabPage from './SubTabPage';
+import AddStudentPage from '../AddStudentPage/AddStudentPage';
+
 
 const w180 = {
   width: '180px'
@@ -19,8 +23,8 @@ type StudentRootProps = RouteComponentProps<{
   collegeId: string;
   academicYearId: string;
 }> & {
-    data: QueryProps & LoadStudentFilterDataCacheType;
-  }
+  data: QueryProps & LoadStudentFilterDataCacheType;
+}
 type StudentPageProps = StudentRootProps & {
   mutate: MutationFunc<StudentListQuery>;
 };
@@ -35,13 +39,15 @@ type StudentTableStates = {
   studentTypes: any,
   genders: any,
   pageSize: any,
-  search: any
+  search: any,
+  activeTab: any
 };
 
-class StudentsTable extends React.Component<StudentPageProps, StudentTableStates> {
+class StudentsTable extends React.Component<StudentPageProps, StudentTableStates, any> {
   constructor(props: any) {
     super(props);
     this.state = {
+      activeTab: 0,
       students: {},
       studentData: {
         college: {
@@ -79,8 +85,8 @@ class StudentsTable extends React.Component<StudentPageProps, StudentTableStates
       genders: [],
       pageSize: 5,
       search: ''
-
     };
+    this.toggleTab = this.toggleTab.bind(this);
     this.createBranches = this.createBranches.bind(this);
     this.createDepartments = this.createDepartments.bind(this);
     this.createBatches = this.createBatches.bind(this);
@@ -97,6 +103,12 @@ class StudentsTable extends React.Component<StudentPageProps, StudentTableStates
     this.exportStudents = this.exportStudents.bind(this);
     this.convertArrayOfObjectsToCSV = this.convertArrayOfObjectsToCSV.bind(this);
     this.download = this.download.bind(this);
+  }
+
+  toggleTab(tabNo: any) {
+    this.setState({
+      activeTab: tabNo,
+    });
   }
 
   createBranches(branches: any) {
@@ -240,8 +252,8 @@ class StudentsTable extends React.Component<StudentPageProps, StudentTableStates
       const length = students.length;
       for (let i = 0; i < length; i++) {
         const student = students[i];
-        if(search){
-          if(student.studentName.indexOf(search) !== -1){
+        if (search) {
+          if (student.studentName.indexOf(search) !== -1) {
             retVal.push(
               <tr key={student.id}>
                 <td>
@@ -266,7 +278,7 @@ class StudentsTable extends React.Component<StudentPageProps, StudentTableStates
               </tr>
             );
           }
-        } else{
+        } else {
           retVal.push(
             <tr key={student.id}>
               <td>
@@ -533,6 +545,7 @@ class StudentsTable extends React.Component<StudentPageProps, StudentTableStates
   render() {
     const { data: { createStudentFilterDataCache, refetch }, mutate } = this.props;
     const { studentData } = this.state;
+    const { activeTab } = this.state;
     // { studentData.filter((this.state.search)).map() }
     return (
       <section className="customCss">
@@ -540,102 +553,144 @@ class StudentsTable extends React.Component<StudentPageProps, StudentTableStates
           <i className="fa fa-university stroke-transparent mr-1" aria-hidden="true" />{' '}
           Admin - Student Management
         </h3>
-        <div className="container-fluid p-1 ">
-          <div className="m-b-1 bg-heading-bgStudent studentListFlex">
-            <div className="">
-              <h4 className="ptl-06">Student Details</h4>
-            </div>
-            <div className="">
-              <Link
-                to={`/plugins/ems-student/page/addstudent`}
-                className="btn btn-primary" style={w180}>Create New Student
+        <Nav tabs className="pl-3 pl-3 mb-4 mt-4 boxShadow">
+          <NavItem className="cursor-pointer">
+            <NavLink
+              className={`${activeTab === 0 ? 'active' : ''}`}
+              onClick={() => {
+                this.toggleTab(0);
+              }}
+            >
+              Student List
+            </NavLink>
+          </NavItem>
+          <NavItem className="cursor-pointer">
+            <NavLink
+              className={`${activeTab === 1 ? 'active' : ''}`}
+              onClick={() => {
+                this.toggleTab(1);
+              }}
+            >
+              Create Student
+            </NavLink>
+          </NavItem>
+          {/* <NavItem className="cursor-pointer">
+            <NavLink
+              className={`${activeTab === 2 ? 'active' : ''}`}
+              onClick={() => {
+                this.toggleTab(2);
+              }}
+            >
+              Test 3
+            </NavLink>
+          </NavItem> */}
+        </Nav>
+        <TabContent activeTab={activeTab} className="border-right">
+          <TabPane tabId={0}>
+            <div className="container-fluid p-1 ">
+              <div className="m-b-1 bg-heading-bgStudent studentListFlex">
+                <div className="">
+                  <h4 className="ptl-06">Student Details</h4>
+                </div>
+                <div className="">
+                  <Link
+                    to={`/plugins/ems-student/page/addstudent`}
+                    className="btn btn-primary" style={w180}>Create New Student
                 </Link>
-              <a className="btn btn-primary m-l-1" onClick={(e: any) => this.exportStudents(this.state.studentData.mutateResult)}>Export</a>
-              <select name="fileType" id="fileType" className="max-width-10 m-l-1">
-                <option value="">Select File Type</option>
-                <option value="CSV">CSV</option>
-              </select>
-            </div>
-          </div>
-
-          <div>
-            <div className="student-flex">
-              <div>
-                <label htmlFor="">Branch</label>
-                <select name="branch" id="branch" onChange={this.onChange} value={studentData.branch.id} className="gf-form-input max-width-22">
-                  {this.createBranches(this.props.data.createStudentFilterDataCache.branches)}
-                </select>
-              </div>
-              <div>
-                <label htmlFor="">Department</label>
-                <select required name="department" id="department" onChange={this.onChange} value={studentData.department.id} className="gf-form-input max-width-22">
-                  {this.createDepartments(this.props.data.createStudentFilterDataCache.departments, studentData.branch.id, studentData.academicYear.id)}
-                </select>
-              </div>
-              <div>
-                <label htmlFor="">Year</label>
-                <select required name="batch" id="batch" onChange={this.onChange} value={studentData.batch.id} className="gf-form-input max-width-22">
-                  {this.createBatches(this.props.data.createStudentFilterDataCache.batches, studentData.department.id)}
-                </select>
-              </div>
-              <div>
-                <label htmlFor="">Section</label>
-                <select required name="section" id="section" onChange={this.onChange} value={studentData.section.id} className="gf-form-input max-width-12">
-                  {this.createSections(this.props.data.createStudentFilterDataCache.sections, studentData.batch.id)}
-                </select>
+                  <a className="btn btn-primary m-l-1" onClick={(e: any) => this.exportStudents(this.state.studentData.mutateResult)}>Export</a>
+                  <select name="fileType" id="fileType" className="max-width-10 m-l-1">
+                    <option value="">Select File Type</option>
+                    <option value="CSV">CSV</option>
+                  </select>
+                </div>
               </div>
 
               <div>
-                <label htmlFor="">Gender</label>
-                <select required name="gender" id="gender" onChange={this.onChange} value={studentData.gender.id} className="gf-form-input max-width-15">
-                  {this.createGenders(this.props.data.createStudentFilterDataCache.genders)}
-                </select>
-              </div>
-              <div>
-                <label htmlFor="">Student Type</label>
-                <select required name="studentType" id="studentType" onChange={this.onChange} value={studentData.studentType.id} className="gf-form-input max-width-22">
-                  {this.createStudentTypes(this.props.data.createStudentFilterDataCache.studentTypes)}
-                </select>
-              </div>
-              <div className="margin-bott max-width-22">
-                <label htmlFor="">Search</label>
-                <input type="text" name="search" value={studentData.search} onChange={this.onChange} />
-              </div>
-            </div>
-            <div className="m-b-1 bg-heading-bg studentSearch">
-              {/* <h4 className="ptl-06"></h4> */}
-              <button className="btn btn-primary max-width-13" id="btnFind" name="btnFind" onClick={this.onClick} style={w180}>Search Students</button>
-            </div>
+                <div className="student-flex">
+                  <div>
+                    <label htmlFor="">Branch</label>
+                    <select name="branch" id="branch" onChange={this.onChange} value={studentData.branch.id} className="gf-form-input max-width-22">
+                      {this.createBranches(this.props.data.createStudentFilterDataCache.branches)}
+                    </select>
+                  </div>
+                  <div>
+                    <label htmlFor="">Department</label>
+                    <select required name="department" id="department" onChange={this.onChange} value={studentData.department.id} className="gf-form-input max-width-22">
+                      {this.createDepartments(this.props.data.createStudentFilterDataCache.departments, studentData.branch.id, studentData.academicYear.id)}
+                    </select>
+                  </div>
+                  <div>
+                    <label htmlFor="">Year</label>
+                    <select required name="batch" id="batch" onChange={this.onChange} value={studentData.batch.id} className="gf-form-input max-width-22">
+                      {this.createBatches(this.props.data.createStudentFilterDataCache.batches, studentData.department.id)}
+                    </select>
+                  </div>
+                  <div>
+                    <label htmlFor="">Section</label>
+                    <select required name="section" id="section" onChange={this.onChange} value={studentData.section.id} className="gf-form-input max-width-12">
+                      {this.createSections(this.props.data.createStudentFilterDataCache.sections, studentData.batch.id)}
+                    </select>
+                  </div>
 
-            <table id="studentlistpage" className="striped-table fwidth bg-white">
-              <thead>
-                <tr>
-                  <th>
-                    <input type="checkbox" onClick={(e: any) => this.checkAllStudents(e)} value="checkedall" name="" id="chkCheckedAll" />
-                  </th>
-                  <th>Student Name</th>
-                  <th>Roll No</th>
-                  <th>Student Id</th>
-                  <th>Department</th>
-                  <th>Year</th>
-                  <th>Section</th>
-                  <th>Gender</th>
-                  <th>Type</th>
-                  <th>Primary Contact</th>
-                </tr>
-              </thead>
-              <tbody>
+                  <div>
+                    <label htmlFor="">Gender</label>
+                    <select required name="gender" id="gender" onChange={this.onChange} value={studentData.gender.id} className="gf-form-input max-width-15">
+                      {this.createGenders(this.props.data.createStudentFilterDataCache.genders)}
+                    </select>
+                  </div>
+                  <div>
+                    <label htmlFor="">Student Type</label>
+                    <select required name="studentType" id="studentType" onChange={this.onChange} value={studentData.studentType.id} className="gf-form-input max-width-22">
+                      {this.createStudentTypes(this.props.data.createStudentFilterDataCache.studentTypes)}
+                    </select>
+                  </div>
+                  <div className="margin-bott max-width-22">
+                    <label htmlFor="">Search</label>
+                    <input type="text" name="search" value={studentData.search} onChange={this.onChange} />
+                  </div>
+                </div>
+                <div className="m-b-1 bg-heading-bg studentSearch">
+                  {/* <h4 className="ptl-06"></h4> */}
+                  <button className="btn btn-primary max-width-13" id="btnFind" name="btnFind" onClick={this.onClick} style={w180}>Search Students</button>
+                </div>
+
+                <table id="studentlistpage" className="striped-table fwidth bg-white">
+                  <thead>
+                    <tr>
+                      <th>
+                        <input type="checkbox" onClick={(e: any) => this.checkAllStudents(e)} value="checkedall" name="" id="chkCheckedAll" />
+                      </th>
+                      <th>Student Name</th>
+                      <th>Roll No</th>
+                      <th>Student Id</th>
+                      <th>Department</th>
+                      <th>Year</th>
+                      <th>Section</th>
+                      <th>Gender</th>
+                      <th>Type</th>
+                      <th>Primary Contact</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {
+                      this.createStudentRows(this.state.studentData.mutateResult)
+                    }
+                  </tbody>
+                </table>
+                {/* <Pagination /> */}
                 {
-                  this.createStudentRows(this.state.studentData.mutateResult)
+                  this.createNoRecordMessage(this.state.studentData.mutateResult)
                 }
-              </tbody>
-            </table>
-            {/* <Pagination /> */}
-            {
-              this.createNoRecordMessage(this.state.studentData.mutateResult)
-            }
-          </div>
-        </div>
+              </div>
+            </div>
+          </TabPane>
+          <TabPane tabId={1}>
+            {/* <AddStudentPage collgeId="" academicYearId="" /> */}
+          </TabPane>
+          <TabPane tabId={2}>
+            {/* <SubTabPage /> */}
+          </TabPane>
+        </TabContent>
       </section>
 
     );

@@ -1,12 +1,15 @@
 import * as React from 'react';
 import { graphql, QueryProps, MutationFunc, compose } from 'react-apollo';
 import { withRouter, RouteComponentProps, Link } from 'react-router-dom';
+import * as Survey from "xform-react";
+import "xform-react/xform.min.css";
+
 import * as AddStudentMutationGql from './AddStudentMutation.graphql';
-import PersonalData from './PersonalData';
-import ContactData from './ContactData';
-import OtherContactData from './OtherContactData';
-import FacilityData from './FacilityData';
-import { StudentServices } from './_services';
+// import PersonalData from './PersonalData';
+// import ContactData from './ContactData';
+// import OtherContactData from './OtherContactData';
+// import FacilityData from './FacilityData';
+// import { StudentServices } from './_services';
 import {
     LoadStudentFilterDataCacheType,
     AddStudentMutation,
@@ -21,9 +24,9 @@ import withStudentFilterDataCacheLoader from "./withStudentFilterDataCacheLoader
 
 type AddStudentPageOwnProps = RouteComponentProps<{
     collegeId: string;
-    academicYearId:  string;
+    academicYearId: string;
 }> & {
-    data: QueryProps & LoadStudentFilterDataCacheType; 
+    data: QueryProps & LoadStudentFilterDataCacheType;
 };
 type AddStudentPageProps = AddStudentPageOwnProps & {
     mutate: MutationFunc<AddStudentMutation>;
@@ -62,16 +65,40 @@ type EditStudentProfileStates = {
     academicYearId: any
 };
 
+const customCss = {
+    root: "form-container",
+    header: "form-header",
+    headerError: "form-header-error",
+    headerNoError: "form-header-success",
+    footer: "panel-footer card-footer text-right",
+    body: "form-body",
+    question: {
+        title: "form-control-label",
+        mainRoot: "form-control-container sv_qstn"
+    },
+    text: "input-form-control",
+    dropdown: {
+        control: "select-form-control",
+    },
+    navigation: {
+        complete: "btn bs d-none"
+    },
+    error: {
+        root: "error"
+    }
+};
+
 class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentProfileStates>{
+    isActive: any = false;
     constructor(props: any) {
         super(props);
         this.state = {
             studentData: {
                 // college: {
-                //     id: 1801 
+                //     id: 1801
                 // },
                 // academicYear: {
-                //     id: 1701  
+                //     id: 1701
                 // },
                 department: {
                     id: ""
@@ -99,6 +126,7 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
             fileName: "",
             academicYearId: 1701
         };
+        this.reassignConfig();
         this.createDepartments = this.createDepartments.bind(this);
         this.createBranches = this.createBranches.bind(this);
         this.createBatches = this.createBatches.bind(this);
@@ -106,14 +134,330 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
         this.createStudentTypeOptions = this.createStudentTypeOptions.bind(this);
     }
 
+    // start
+
+    PERSONAL = {};
+    ContactData = {};
+    OtherContactData = {};
+
+    reassignConfig() {
+        this.PERSONAL = {
+            title: "Personal Details",
+            showQuestionNumbers: "off",
+            elements: [
+                {
+                    type: "text",
+                    name: 'studentName',
+                    title: 'Name',
+                    requiredErrorText: 'Please enter Name',
+                    isRequired: true,
+                    startWithNewLine: false,
+                },
+                {
+                    type: "text",
+                    name: 'studentMiddleName',
+                    title: 'Middle Name',
+                    requiredErrorText: 'Please enter Middle Name',
+                    isRequired: true,
+                    startWithNewLine: false,
+                },
+                {
+                    type: "text",
+                    name: 'studentLastName',
+                    title: 'Last Name',
+                    requiredErrorText: 'Please enter Last Name',
+                    isRequired: true,
+                    startWithNewLine: false,
+                },
+                {
+                    type: "text",
+                    name: 'fatherName',
+                    title: 'Father Name',
+                    requiredErrorText: 'Please enter Father Name',
+                    isRequired: this.isActive,
+                    startWithNewLine: false,
+                },
+                {
+                    type: "text",
+                    name: 'fatherMiddleName',
+                    title: 'Father Middle Name',
+                    requiredErrorText: 'Please enter Father Middle Name',
+                    isRequired: this.isActive,
+                    startWithNewLine: false,
+                },
+                {
+                    type: "text",
+                    name: 'fatherLastName',
+                    title: 'Father Last Name',
+                    requiredErrorText: 'Please enter Father Last Name',
+                    isRequired: this.isActive,
+                    startWithNewLine: false,
+                },
+                {
+                    type: "text",
+                    name: 'motherName',
+                    title: 'Mother Name',
+                    requiredErrorText: 'Please enter Mother Name',
+                    isRequired: this.isActive,
+                    startWithNewLine: false,
+                },
+                {
+                    type: "text",
+                    name: 'motherMiddleName',
+                    title: 'Mother Middle Name',
+                    requiredErrorText: 'Please enter Mother Middle Name',
+                    isRequired: this.isActive,
+                    startWithNewLine: false,
+                },
+                {
+                    type: "text",
+                    name: 'motherLastName',
+                    title: 'mother Last Name',
+                    requiredErrorText: 'Please enter mother Last Name',
+                    isRequired: this.isActive,
+                    startWithNewLine: false,
+                },
+
+                {
+                    type: "text",
+                    inputType: "date",
+                    name: 'dateOfBirth',
+                    title: 'Date Of Birth',
+                    requiredErrorText: 'Please enter Date Of Birth',
+                    isRequired: this.isActive,
+                    startWithNewLine: false,
+                },
+                {
+                    type: 'dropdown',
+                    name: 'sex',
+                    title: 'Gender',
+                    requiredErrorText: 'Please enter Gender',
+                    isRequired: this.isActive,
+                    startWithNewLine: false,
+                    choices: [
+                        {
+                            value: "MALE",
+                            text: "MALE"
+                        },
+                        {
+                            value: "FEMALE",
+                            text: "FEMALE"
+                        },
+                        {
+                            value: "OTHER",
+                            text: "OTHER"
+                        }
+                    ]
+                },
+                {
+                    type: "text",
+                    name: 'contactNumber',
+                    title: 'Student Contact Number',
+                    requiredErrorText: 'Please enter Student Contact Number',
+                    isRequired: this.isActive,
+                    startWithNewLine: false,
+                },
+                {
+                    type: "text",
+                    name: 'alternateMobileNumber',
+                    title: 'Alternate Contact Number',
+                    requiredErrorText: 'Please enter Alternate Contact Number',
+                    isRequired: this.isActive,
+                    startWithNewLine: false,
+                },
+                {
+                    type: "text",
+                    name: 'email',
+                    title: 'Student Email',
+                    requiredErrorText: 'Please enter Student Email',
+                    isRequired: this.isActive,
+                    startWithNewLine: false,
+                },
+
+            ]
+        };
+        this.ContactData = {
+            title: "Contact Details",
+            showQuestionNumbers: "off",
+            elements: [
+                {
+                    type: "text",
+                    name: 'addressLineOne',
+                    title: 'Address Line One',
+                    requiredErrorText: 'Please enter address line 1',
+                    isRequired: true,
+                    startWithNewLine: false,
+                },
+                {
+                    type: "text",
+                    name: 'addressLineTwo',
+                    title: 'Address Line Two',
+                    requiredErrorText: 'Please enter address line 2',
+                    isRequired: true,
+                    startWithNewLine: false,
+                },
+                {
+                    type: "text",
+                    name: 'addressLineThree',
+                    title: 'Address Line Three',
+                    requiredErrorText: 'Please enter address line 3',
+                    isRequired: true,
+                    startWithNewLine: false,
+                },
+                {
+                    type: "text",
+                    name: 'town',
+                    title: 'Town',
+                    requiredErrorText: 'Please enter town',
+                    isRequired: true,
+                    startWithNewLine: false,
+                },
+                {
+                    type: "text",
+                    name: 'state',
+                    title: 'State',
+                    requiredErrorText: 'Please enter state',
+                    isRequired: true,
+                    startWithNewLine: false,
+                },
+                {
+                    type: "text",
+                    name: 'country',
+                    title: 'Country',
+                    requiredErrorText: 'Please enter country',
+                    isRequired: true,
+                    startWithNewLine: false,
+                },
+                {
+                    type: "number",
+                    name: 'pincode',
+                    title: 'Pincode',
+                    requiredErrorText: 'Please enter pincode',
+                    isRequired: true,
+                    startWithNewLine: false,
+                },
+                {
+                    type: "text",
+                    name: 'studentContactNumber',
+                    title: 'Student Contact Number',
+                    requiredErrorText: 'Please enter student contact number',
+                    isRequired: true,
+                    startWithNewLine: false,
+                },
+                {
+                    type: "text",
+                    name: 'alternateContactNumber',
+                    title: 'Alternate Contact Number',
+                    requiredErrorText: 'Please enter alternate contact number',
+                    isRequired: true,
+                    startWithNewLine: false,
+                },
+                {
+                    type: "text",
+                    name: 'studentEmailAddress',
+                    title: 'Student Email Address',
+                    requiredErrorText: 'Please enter student email address',
+                    isRequired: true,
+                    startWithNewLine: false,
+                },
+                {
+                    type: "text",
+                    name: 'alternateEmailAddress',
+                    title: 'Alternate Email Address',
+                    requiredErrorText: 'Please enter alternate email address',
+                    isRequired: true,
+                    startWithNewLine: false,
+                }
+            ]
+        };
+        this.OtherContactData = {
+            title: "Primary and Emergency Contact Details",
+            showQuestionNumbers: "off",
+            elements: [
+                {
+                    type: "dropdown",
+                    name: 'relationWithStudent',
+                    title: 'Relation with Student',
+                    requiredErrorText: 'Please enter relation',
+                    isRequired: true,
+                    startWithNewLine: false,
+                    choices: [
+                        {
+                            value: "MOTHER",
+                            text: "MOTHER"
+                        },
+                        {
+                            value: "FATHER",
+                            text: "FATHER"
+                        },
+                        {
+                            value: "GUARDIAN",
+                            text: "GUARDIAN"
+                        }
+                    ]
+                },
+                {
+                    type: "text",
+                    name: 'emergencyContactName',
+                    title: 'Emergency Contact First Name',
+                    requiredErrorText: 'Please enter first name',
+                    isRequired: true,
+                    startWithNewLine: false,
+                },
+                {
+                    type: "text",
+                    name: 'emergencyContactMiddleName',
+                    title: 'Emergency Contact Middle Name',
+                    requiredErrorText: 'Please enter middle name',
+                    isRequired: true,
+                    startWithNewLine: false,
+                },
+                {
+                    type: "text",
+                    name: 'emergencyContactLastName',
+                    title: 'Emergency Contact Last Name',
+                    requiredErrorText: 'Please enter last name',
+                    isRequired: true,
+                    startWithNewLine: false,
+                },
+                {
+                    type: "number",
+                    name: 'emergencyContactNo',
+                    title: 'Emergency Contact No',
+                    requiredErrorText: 'Please enter emergency contact no',
+                    isRequired: true,
+                    startWithNewLine: false,
+                },
+                {
+                    type: "text",
+                    name: 'alternateContactNumber',
+                    title: 'Alternate Contact Number',
+                    requiredErrorText: 'Please enter alternate contact number',
+                    isRequired: true,
+                    startWithNewLine: false,
+                },
+                {
+                    type: "text",
+                    name: 'emergencyContactEmailAddress',
+                    title: 'Emergency Contact Email Address',
+                    requiredErrorText: 'Please enter email address',
+                    isRequired: true,
+                    startWithNewLine: false,
+                }
+            ]
+        }
+    }
+
+    //end
+
     createDepartments(departments: any, selectedBranchId: any) {
         let departmentsOptions = [<option key={0} value="">Select department</option>];
         for (let i = 0; i < departments.length; i++) {
-        if (selectedBranchId == departments[i].branch.id ) {
-            departmentsOptions.push(
-            <option key={departments[i].id} value={departments[i].id}>{departments[i].name}</option>
-            );
-        }
+            if (selectedBranchId == departments[i].branch.id) {
+                departmentsOptions.push(
+                    <option key={departments[i].id} value={departments[i].id}>{departments[i].name}</option>
+                );
+            }
         }
         return departmentsOptions;
     }
@@ -130,10 +474,10 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
         let batchesOptions = [<option key={0} value="">Select Year</option>];
         for (let i = 0; i < batches.length; i++) {
             let id = batches[i].id;
-            let dptId = ""+batches[i].department.id;
+            let dptId = "" + batches[i].department.id;
             if (dptId == selectedDepartmentId) {
                 batchesOptions.push(
-                <option key={id} value={id}>{batches[i].batch}</option>
+                    <option key={id} value={id}>{batches[i].batch}</option>
                 );
             }
         }
@@ -143,10 +487,10 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
         let sectionsOptions = [<option key={0} value="">Select Section</option>];
         for (let i = 0; i < sections.length; i++) {
             let id = sections[i].id;
-            let sbthId = ""+sections[i].batch.id;
+            let sbthId = "" + sections[i].batch.id;
             if (sbthId == selectedBatchId) {
                 sectionsOptions.push(
-                <option key={id} value={id}>{sections[i].section}</option>
+                    <option key={id} value={id}>{sections[i].section}</option>
                 );
             }
         }
@@ -172,7 +516,7 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
         const { studentData } = this.state;
         e.preventDefault();
         if (studentData.department.id && studentData.branch.id && studentData.batch.id && studentData.studentType && studentData.section.id) {
-            
+
             let dplStudentData = {
                 ...studentData,
                 batchId: studentData.batch.id,
@@ -206,20 +550,20 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
             });
         }
     }
-    
+
     getStudentImage = (e: any) => {
         const { studentData } = this.state;
         studentData.uploadPhoto = URL.createObjectURL(e.target.files[0]);
         var r = new FileReader();
-		r.onload = function (e: any){
-			studentData.fileName = e.target.result;
+        r.onload = function (e: any) {
+            studentData.fileName = e.target.result;
             console.log('Image converted to base64 on upload :\n\n' + studentData.fileName);
-		};
-		r.readAsDataURL(e.target.files[0]);    
+        };
+        r.readAsDataURL(e.target.files[0]);
 
         this.setState({
             studentData: studentData
-        })     
+        })
     }
 
     onChange = (e: any) => {
@@ -233,10 +577,10 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
                         id: value
                     },
                     department: {
-                      id: ""
+                        id: ""
                     },
                     batch: {
-                      id: ""
+                        id: ""
                     },
                     section: {
                         id: ""
@@ -246,7 +590,7 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
                     }
                 }
             });
-        }else if (name === "department") {
+        } else if (name === "department") {
             this.setState({
                 studentData: {
                     ...studentData,
@@ -300,7 +644,7 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
                     }
                 }
             });
-        }  else {
+        } else {
             this.setState({
                 studentData: {
                     ...studentData,
@@ -313,7 +657,7 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
         const { data: { createStudentFilterDataCache, refetch }, history, match, mutate } = this.props;
         const { studentData, departments, batches, branches, sections, submitted } = this.state;
         return (
-            <section className="customCss">
+            <section className="xform-container">
                 <h3 className="bg-heading p-1 m-b-0">
                     <i className="fa fa-university stroke-transparent mr-1" aria-hidden="true" />{' '}
                     Admin - Student Management
@@ -335,12 +679,12 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
                                     <div className="col-md-6 col-lg-12 col-xs-12 col-sm-6 student-photo">
                                         <img className="photo" id="stPhoto" src={studentData.uploadPhoto}></img>
                                     </div>
-                                    
+
                                     <div className="col-sm-6 col-xs-12 col-md-6 col-lg-12">
-                                        
-                                        <input type="file"  accept="image/*" id="stImageUpload" onChange={this.getStudentImage} ></input>
-                                        
-                                        
+
+                                        <input type="file" accept="image/*" id="stImageUpload" onChange={this.getStudentImage} ></input>
+
+
                                         <div className="gf-form">
                                             <span className="gf-form-label width-8">Admission No</span>
                                             <input name="admissionNo" value={studentData.admissionNo} onChange={this.onChange} type="text" className="gf-form-input max-width-22" />
@@ -385,7 +729,7 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
                                                 Student batch needed.
                                         </div>
                                         }
-                                        
+
                                         <div className="gf-form">
                                             <span className="gf-form-label width-8">Section</span>
                                             <select name="section" onChange={this.onChange} value={studentData.section.id} className="gf-form-input max-width-22">
@@ -413,61 +757,39 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-lg-9 col-md-12 col-sm-12 col-xs-12 student-profile-form">
-
-                                <div className="collapse-container">
-                                    <div className="collapse-header">
-                                        <div className="collapse-title">Personal Details</div>
-                                        <div className="collapse-icon" onClick={onClickHeader}>
-                                            <i className="fa fa-fw fa-plus"></i>
-                                            <i className="fa fa-fw fa-minus"></i>
-                                        </div>
-                                        <div className="clear-both"></div>
-                                    </div>
-                                    <PersonalData modelData={studentData} onChange={(name: any, value: any) => {
+                            <div className="col-lg-9 col-md-12 col-sm-12 col-xs-12 right-part custom-style">
+                                <div>
+                                    <Survey.SurveyCollapseForm json={this.PERSONAL} css={customCss} />
+                                    {/* <PersonalData modelData={studentData} onChange={(name: any, value: any) => {
                                         this.setState({
                                             studentData: {
                                                 ...studentData,
                                                 [name]: value
                                             }
                                         });
-                                    }} />
+                                    }} /> */}
                                 </div>
-                                <div className="collapse-container">
-                                    <div className="collapse-header">
-                                        <div className="collapse-title">Contact Details</div>
-                                        <div className="collapse-icon" onClick={onClickHeader}>
-                                            <i className="fa fa-fw fa-plus"></i>
-                                            <i className="fa fa-fw fa-minus"></i>
-                                        </div>
-                                        <div className="clear-both"></div>
-                                    </div>
-                                    <ContactData modelData={studentData} onChange={(name: any, value: any) => {
+                                <div>
+                                    <Survey.SurveyCollapseForm json={this.ContactData} css={customCss} />
+                                    {/* <ContactData modelData={studentData} onChange={(name: any, value: any) => {
                                         this.setState({
                                             studentData: {
                                                 ...studentData,
                                                 [name]: value
                                             }
                                         });
-                                    }} />
+                                    }} /> */}
                                 </div>
-                                <div className="collapse-container">
-                                    <div className="collapse-header">
-                                        <div className="collapse-title">Primary and Emergency Contact Details</div>
-                                        <div className="collapse-icon" onClick={onClickHeader}>
-                                            <i className="fa fa-fw fa-plus"></i>
-                                            <i className="fa fa-fw fa-minus"></i>
-                                        </div>
-                                        <div className="clear-both"></div>
-                                    </div>
-                                    <OtherContactData modelData={studentData} onChange={(name: any, value: any) => {
+                                <div>
+                                    <Survey.SurveyCollapseForm json={this.OtherContactData} css={customCss} />
+                                    {/* <OtherContactData modelData={studentData} onChange={(name: any, value: any) => {
                                         this.setState({
                                             studentData: {
                                                 ...studentData,
                                                 [name]: value
                                             }
                                         });
-                                    }} />
+                                    }} /> */}
                                 </div>
 
                             </div>
@@ -485,13 +807,13 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
 //     )
 // );
 
-export default withStudentFilterDataCacheLoader( 
-  
+export default withStudentFilterDataCacheLoader(
+
     compose(
-      graphql<AddStudentMutation, AddStudentPageOwnProps>(AddStudentMutationGql, {
-        name: "mutate"
-      })
-      
+        graphql<AddStudentMutation, AddStudentPageOwnProps>(AddStudentMutationGql, {
+            name: "mutate"
+        })
+
     )
-    (AddStudentPage) as any
-  );
+        (AddStudentPage) as any
+);
