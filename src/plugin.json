@@ -30,9 +30,9 @@
     },
     {
       "type": "page",
-      "name": "Students",
-      "addToNav": true,
-      "defaultNav": true,
+      "name": "Studentslist",
+      "addToNav": false,
+      "defaultNav": false,
       "component": "StudentsPage"
     },
     {
@@ -45,7 +45,7 @@
     {
       "type": "page",
       "name": "AddStudent",
-      "addToNav": true,
+      "addToNav": false,
       "defaultNav": false,
       "component": "AddStudentPage"
     },
@@ -55,6 +55,13 @@
       "addToNav": false,
       "defaultNav": false,
       "component": "EditStudentPage"
+    },
+    {
+      "type": "page",
+      "name": "Students",
+      "addToNav": true,
+      "defaultNav": true,
+      "component": "StudentsTabPage"
     }
   ],
   "dependencies": {

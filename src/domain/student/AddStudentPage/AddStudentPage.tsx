@@ -808,7 +808,6 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
 // );
 
 export default withStudentFilterDataCacheLoader(
-
     compose(
         graphql<AddStudentMutation, AddStudentPageOwnProps>(AddStudentMutationGql, {
             name: "mutate"
