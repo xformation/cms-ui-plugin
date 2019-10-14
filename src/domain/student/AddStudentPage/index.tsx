@@ -1,1 +1,1 @@
-export { default } from "./AddStudentPage";
+export { AddStudentPage } from "./AddStudentPage";

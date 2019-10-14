@@ -23,41 +23,6 @@
   "includes": [
     {
       "type": "page",
-      "name": "Home",
-      "addToNav": false,
-      "defaultNav": false,
-      "component": "WelcomePage"
-    },
-    {
-      "type": "page",
-      "name": "Studentslist",
-      "addToNav": false,
-      "defaultNav": false,
-      "component": "StudentsPage"
-    },
-    {
-      "type": "page",
-      "name": "Student",
-      "addToNav": false,
-      "defaultNav": false,
-      "component": "StudentPage"
-    },
-    {
-      "type": "page",
-      "name": "AddStudent",
-      "addToNav": false,
-      "defaultNav": false,
-      "component": "AddStudentPage"
-    },
-    {
-      "type": "page",
-      "name": "EditStudentPage",
-      "addToNav": false,
-      "defaultNav": false,
-      "component": "EditStudentPage"
-    },
-    {
-      "type": "page",
       "name": "Students",
       "addToNav": true,
       "defaultNav": true,

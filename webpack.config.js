@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ReplaceInFileWebpackPlugin = require('replace-in-file-webpack-plugin');
+const WebpackModules = require('webpack-modules');
 
 const packageJson = require('./package.json');
 
@@ -50,6 +51,7 @@ module.exports = {
         replace: (new Date()).toISOString().substring(0, 10)
       }]
     }]),
+    new WebpackModules()
   ],
   resolve: {
     extensions: ['.ts', '.tsx', '.js']

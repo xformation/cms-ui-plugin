@@ -1,26 +1,15 @@
 import * as React from 'react';
 import { graphql, QueryProps, MutationFunc, compose } from 'react-apollo';
-import { withRouter, RouteComponentProps, Link } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 import * as Survey from "xform-react";
 import "xform-react/xform.min.css";
 
 import * as AddStudentMutationGql from './AddStudentMutation.graphql';
-// import PersonalData from './PersonalData';
-// import ContactData from './ContactData';
-// import OtherContactData from './OtherContactData';
-// import FacilityData from './FacilityData';
-// import { StudentServices } from './_services';
 import {
     LoadStudentFilterDataCacheType,
     AddStudentMutation,
-    AddStudentInput,
-    AddStudentMutationVariables,
-    StudentData,
 } from '../../types';
 
-// import withLoadingHandler from '../../../components/withLoadingHandler';
-import withStudentFilterDataCacheLoader from "./withStudentFilterDataCacheLoader";
-// import 'bootstrap/dist/css/bootstrap.min.css';
 
 type AddStudentPageOwnProps = RouteComponentProps<{
     collegeId: string;
@@ -88,7 +77,7 @@ const customCss = {
     }
 };
 
-class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentProfileStates>{
+export class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentProfileStates>{
     isActive: any = false;
     constructor(props: any) {
         super(props);
@@ -760,36 +749,12 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
                             <div className="col-lg-9 col-md-12 col-sm-12 col-xs-12 right-part custom-style">
                                 <div>
                                     <Survey.SurveyCollapseForm json={this.PERSONAL} css={customCss} />
-                                    {/* <PersonalData modelData={studentData} onChange={(name: any, value: any) => {
-                                        this.setState({
-                                            studentData: {
-                                                ...studentData,
-                                                [name]: value
-                                            }
-                                        });
-                                    }} /> */}
                                 </div>
                                 <div>
                                     <Survey.SurveyCollapseForm json={this.ContactData} css={customCss} />
-                                    {/* <ContactData modelData={studentData} onChange={(name: any, value: any) => {
-                                        this.setState({
-                                            studentData: {
-                                                ...studentData,
-                                                [name]: value
-                                            }
-                                        });
-                                    }} /> */}
                                 </div>
                                 <div>
                                     <Survey.SurveyCollapseForm json={this.OtherContactData} css={customCss} />
-                                    {/* <OtherContactData modelData={studentData} onChange={(name: any, value: any) => {
-                                        this.setState({
-                                            studentData: {
-                                                ...studentData,
-                                                [name]: value
-                                            }
-                                        });
-                                    }} /> */}
                                 </div>
 
                             </div>
@@ -800,19 +765,3 @@ class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentPro
         );
     }
 }
-
-// export default withRouter(
-//     graphql<AddStudentMutation, AddStudentPageOwnProps>(AddStudentMutationGql)(
-//         AddStudentPage
-//     )
-// );
-
-export default withStudentFilterDataCacheLoader(
-    compose(
-        graphql<AddStudentMutation, AddStudentPageOwnProps>(AddStudentMutationGql, {
-            name: "mutate"
-        })
-
-    )
-        (AddStudentPage) as any
-);

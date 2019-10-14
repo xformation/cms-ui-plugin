@@ -2,7 +2,7 @@ import * as React from 'react';
 // import { graphql, QueryProps, MutationFunc, compose } from 'react-apollo';
 import {withRouter, RouteComponentProps, Link} from 'react-router-dom';
 import {TabContent, TabPane, Nav, NavItem, NavLink} from 'reactstrap';
-import AddStudentPage from '../AddStudentPage';
+// import AddStudentPage from '../AddStudentPage';
 
 export default class StudentsTab extends React.Component<any, any> {
   constructor(props: any) {
@@ -62,7 +62,7 @@ export default class StudentsTab extends React.Component<any, any> {
         </Nav>
         <TabContent activeTab={activeTab} className="border-right">
           <TabPane tabId={0}>
-              <AddStudentPage />
+              {/* <AddStudentPage /> */}
           </TabPane>
           <TabPane tabId={1}>
               TEst2
