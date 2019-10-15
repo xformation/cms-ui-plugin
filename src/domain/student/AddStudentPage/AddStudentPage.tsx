@@ -1,47 +1,14 @@
 import * as React from 'react';
-import { graphql, QueryProps, MutationFunc, compose } from 'react-apollo';
-import { RouteComponentProps } from 'react-router-dom';
+import { useMutation } from '@apollo/react-hooks';
 import * as Survey from "xform-react";
 import "xform-react/xform.min.css";
 
-import * as AddStudentMutationGql from './AddStudentMutation.graphql';
-import {
-    LoadStudentFilterDataCacheType,
-    AddStudentMutation,
-} from '../../types';
+import { StudentDetails, NewStudent } from '../_types/addStudent'
+import { ADD_STUDENT } from '../_queries/addStudent';
+import { StudentServices } from '../_services/studentServices';
 
 
-type AddStudentPageOwnProps = RouteComponentProps<{
-    collegeId: string;
-    academicYearId: string;
-}> & {
-    data: QueryProps & LoadStudentFilterDataCacheType;
-};
-type AddStudentPageProps = AddStudentPageOwnProps & {
-    mutate: MutationFunc<AddStudentMutation>;
-};
-
-function onClickHeader(e: any) {
-    const { currentTarget } = e;
-    const plusSign = currentTarget.querySelector(".fa-plus");
-    const minusSign = currentTarget.querySelector(".fa-minus");
-    const collapseContainer = currentTarget.closest(".collapse-container");
-    const formContainer = collapseContainer.querySelector(".gf-form-inline");
-    const style = window.getComputedStyle(formContainer);
-    if (style.display === "none") {
-        formContainer.style.display = "grid";
-        formContainer.style.gridGap = "10px";
-        formContainer.style.gridTemplateColumns = "auto auto auto";
-        minusSign.style.display = "block";
-        plusSign.style.display = "none";
-    } else {
-        formContainer.style.display = "none";
-        minusSign.style.display = "none";
-        plusSign.style.display = "block";
-    }
-}
-
-type EditStudentProfileStates = {
+type AddStudentStates = {
     studentData: any,
     departments: any,
     branches: any,
@@ -77,7 +44,7 @@ const customCss = {
     }
 };
 
-export class AddStudentPage extends React.Component<AddStudentPageProps, EditStudentProfileStates>{
+export class AddStudentPage extends React.Component<any, AddStudentStates>{
     isActive: any = false;
     constructor(props: any) {
         super(props);
@@ -109,7 +76,17 @@ export class AddStudentPage extends React.Component<AddStudentPageProps, EditStu
             branches: [],
             batches: [],
             sections: [],
-            studentTypes: [],
+            studentTypes: [{
+                description: "REGULAR"
+            },{
+                description: "STAFF_CONCESSION"
+            },{
+                description: "BENEFITS"
+            },{
+                description: "SCHOLARSHIP"
+            },{
+                description: "OTHER_BENEFITS"
+            }],
             submitted: false,
             uploadPhoto: null,
             fileName: "",
@@ -123,7 +100,25 @@ export class AddStudentPage extends React.Component<AddStudentPageProps, EditStu
         this.createStudentTypeOptions = this.createStudentTypeOptions.bind(this);
     }
 
-    // start
+    componentDidMount() {
+        Promise.all([StudentServices.getStudentDepartments(), StudentServices.getStudentBranches(), StudentServices.getStudentYears(), StudentServices.getStudentSections()]).then(
+            data => {
+                let departments = data[0];
+                let branches = data[1];
+                let batches = data[2];
+                let sections = data[3];
+                this.setState({
+                    departments,
+                    branches,
+                    batches,
+                    sections
+                });
+            },
+            error => {
+                console.log(error);
+            }
+        );
+    }
 
     PERSONAL = {};
     ContactData = {};
@@ -437,12 +432,10 @@ export class AddStudentPage extends React.Component<AddStudentPageProps, EditStu
         }
     }
 
-    //end
-
     createDepartments(departments: any, selectedBranchId: any) {
         let departmentsOptions = [<option key={0} value="">Select department</option>];
         for (let i = 0; i < departments.length; i++) {
-            if (selectedBranchId == departments[i].branch.id) {
+            if (selectedBranchId == departments[i].branchId) {
                 departmentsOptions.push(
                     <option key={departments[i].id} value={departments[i].id}>{departments[i].name}</option>
                 );
@@ -463,7 +456,7 @@ export class AddStudentPage extends React.Component<AddStudentPageProps, EditStu
         let batchesOptions = [<option key={0} value="">Select Year</option>];
         for (let i = 0; i < batches.length; i++) {
             let id = batches[i].id;
-            let dptId = "" + batches[i].department.id;
+            let dptId = "" + batches[i].departmentId;
             if (dptId == selectedDepartmentId) {
                 batchesOptions.push(
                     <option key={id} value={id}>{batches[i].batch}</option>
@@ -476,7 +469,7 @@ export class AddStudentPage extends React.Component<AddStudentPageProps, EditStu
         let sectionsOptions = [<option key={0} value="">Select Section</option>];
         for (let i = 0; i < sections.length; i++) {
             let id = sections[i].id;
-            let sbthId = "" + sections[i].batch.id;
+            let sbthId = "" + sections[i].batchId;
             if (sbthId == selectedBatchId) {
                 sectionsOptions.push(
                     <option key={id} value={id}>{sections[i].section}</option>
@@ -501,12 +494,11 @@ export class AddStudentPage extends React.Component<AddStudentPageProps, EditStu
         this.setState({
             submitted: true
         });
-        const { mutate } = this.props;
         const { studentData } = this.state;
         e.preventDefault();
         if (studentData.department.id && studentData.branch.id && studentData.batch.id && studentData.studentType && studentData.section.id) {
 
-            let dplStudentData = {
+            let dplStudentData : NewStudent = {
                 ...studentData,
                 batchId: studentData.batch.id,
                 sectionId: studentData.section.id,
@@ -520,23 +512,24 @@ export class AddStudentPage extends React.Component<AddStudentPageProps, EditStu
             delete dplStudentData.section;
             delete dplStudentData.branch;
             delete dplStudentData.department;
-            delete dplStudentData.__typename;
-            let btn = e.target.querySelector("button[type='submit']");
-            btn.setAttribute("disabled", true);
-            let dataSavedMessage: any = document.querySelector(".data-saved-message");
-            dataSavedMessage.style.display = "none";
-            return mutate({
-                variables: { input: dplStudentData },
-            }).then((data: any) => {
-                btn.removeAttribute("disabled");
-                dataSavedMessage.style.display = "inline-block";
-                location.href = `${location.origin}/plugins/ems-student/page/students`;
-            }).catch((error: any) => {
-                btn.removeAttribute("disabled");
-                dataSavedMessage.style.display = "inline-block";
-                console.log('there was an error sending the update mutation', error);
-                return Promise.reject(`Could not save student: ${error}`);
-            });
+            // let btn = e.target.querySelector("button[type='submit']");
+            // btn.setAttribute("disabled", true);
+            // let dataSavedMessage: any = document.querySelector(".data-saved-message");
+            // dataSavedMessage.style.display = "none";
+            const [addStudent, { error, data }] = useMutation<{ addStudent: StudentDetails },{ input: NewStudent }>(ADD_STUDENT, {variables: { input: dplStudentData }});
+            // return mutate({
+            //     variables: { input: dplStudentData },
+            // }).then((data: any) => {
+            //     btn.removeAttribute("disabled");
+            //     dataSavedMessage.style.display = "inline-block";
+            //     location.href = `${location.origin}/plugins/ems-student/page/students`;
+            // }).catch((error: any) => {
+            //     btn.removeAttribute("disabled");
+            //     dataSavedMessage.style.display = "inline-block";
+            //     console.log('there was an error sending the update mutation', error);
+            //     return Promise.reject(`Could not save student: ${error}`);
+            // });
+            addStudent();
         }
     }
 
@@ -643,8 +636,7 @@ export class AddStudentPage extends React.Component<AddStudentPageProps, EditStu
         }
     }
     render() {
-        const { data: { createStudentFilterDataCache, refetch }, history, match, mutate } = this.props;
-        const { studentData, departments, batches, branches, sections, submitted } = this.state;
+        const { studentData, submitted } = this.state;
         return (
             <section className="xform-container">
                 <h3 className="bg-heading p-1 m-b-0">
@@ -685,7 +677,7 @@ export class AddStudentPage extends React.Component<AddStudentPageProps, EditStu
                                         <div className="gf-form">
                                             <span className="gf-form-label width-8">Branch</span>
                                             <select name="branch" onChange={this.onChange} value={studentData.branch.id} className="gf-form-input max-width-22">
-                                                {this.createBranches(this.props.data.createStudentFilterDataCache.branches)}
+                                                {this.createBranches(this.state.branches)}
                                             </select>
                                         </div>
                                         {
@@ -697,7 +689,7 @@ export class AddStudentPage extends React.Component<AddStudentPageProps, EditStu
                                         <div className="gf-form">
                                             <span className="gf-form-label width-8">Department</span>
                                             <select name="department" onChange={this.onChange} value={studentData.department.id} className="gf-form-input max-width-22">
-                                                {this.createDepartments(this.props.data.createStudentFilterDataCache.departments, studentData.branch.id)}
+                                                {this.createDepartments(this.state.departments, studentData.branch.id)}
                                             </select>
                                         </div>
                                         {
@@ -709,7 +701,7 @@ export class AddStudentPage extends React.Component<AddStudentPageProps, EditStu
                                         <div className="gf-form">
                                             <span className="gf-form-label width-8">Year</span>
                                             <select name="batch" onChange={this.onChange} value={studentData.batch.id} className="gf-form-input max-width-22">
-                                                {this.createBatches(this.props.data.createStudentFilterDataCache.batches, studentData.department.id)}
+                                                {this.createBatches(this.state.batches, studentData.department.id)}
                                             </select>
                                         </div>
                                         {
@@ -722,7 +714,7 @@ export class AddStudentPage extends React.Component<AddStudentPageProps, EditStu
                                         <div className="gf-form">
                                             <span className="gf-form-label width-8">Section</span>
                                             <select name="section" onChange={this.onChange} value={studentData.section.id} className="gf-form-input max-width-22">
-                                                {this.createSections(this.props.data.createStudentFilterDataCache.sections, studentData.batch.id)}
+                                                {this.createSections(this.state.sections, studentData.batch.id)}
                                             </select>
                                         </div>
                                         {
@@ -734,11 +726,11 @@ export class AddStudentPage extends React.Component<AddStudentPageProps, EditStu
                                         <div className="gf-form">
                                             <span className="gf-form-label width-8">Student Type</span>
                                             <select name="studentType" onChange={this.onChange} value={studentData.studentType.id} className="gf-form-input max-width-22">
-                                                {this.createStudentTypeOptions(this.props.data.createStudentFilterDataCache.studentTypes)}
+                                                {this.createStudentTypeOptions(this.state.studentTypes)}
                                             </select>
                                         </div>
                                         {
-                                            submitted && !this.props.data.createStudentFilterDataCache.studentTypes &&
+                                            submitted && !studentData.studentType.id &&
                                             <div>
                                                 Student type needed.
                                         </div>
