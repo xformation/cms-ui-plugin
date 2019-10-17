@@ -1,7 +1,7 @@
 import * as React from 'react';
 // import { graphql, QueryProps, MutationFunc, compose } from 'react-apollo';
 import {TabContent, TabPane, Nav, NavItem, NavLink} from 'reactstrap';
-import { AddStudentPage } from '../AddStudentPage';
+import  AddStudentPage  from '../AddStudentPage/AddStudentPage';
 
 export default class StudentsTab extends React.Component<any, any> {
   constructor(props: any) {
@@ -24,7 +24,7 @@ export default class StudentsTab extends React.Component<any, any> {
       <section className="tab-container">
         <div>
           {/* <img src="../../img/students.png" alt="" /> */}
-          <h5>
+          <h5> 
           </h5>
         </div>
         <Nav tabs className="pl-3 pl-3 mb-4 mt-4 boxShadow">

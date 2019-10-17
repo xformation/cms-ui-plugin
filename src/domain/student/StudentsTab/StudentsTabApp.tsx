@@ -1,6 +1,6 @@
 import * as React from 'react'; 
 import * as ReactDOM from 'react-dom';
-import { ApolloProvider } from '@apollo/react-hooks';
+import { ApolloProvider } from 'react-apollo';
 import { gQLClient } from '../../../graphQLClient';
 import StudentsTab from './StudentsTab';
 import '../../../css/custom.css';

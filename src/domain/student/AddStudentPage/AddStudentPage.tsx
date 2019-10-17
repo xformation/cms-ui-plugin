@@ -1,5 +1,7 @@
 import * as React from 'react';
-import { useMutation } from '@apollo/react-hooks';
+// import { useMutation } from '@apollo/react-hooks';
+// import { Mutation } from '@apollo/react-components';
+import { graphql } from 'react-apollo';
 import * as Survey from "xform-react";
 import "xform-react/xform.min.css";
 
@@ -44,7 +46,7 @@ const customCss = {
     }
 };
 
-export class AddStudentPage extends React.Component<any, AddStudentStates>{
+class AddStudentPage extends React.Component<any, AddStudentStates>{
     isActive: any = false;
     constructor(props: any) {
         super(props);
@@ -78,13 +80,13 @@ export class AddStudentPage extends React.Component<any, AddStudentStates>{
             sections: [],
             studentTypes: [{
                 description: "REGULAR"
-            },{
+            }, {
                 description: "STAFF_CONCESSION"
-            },{
+            }, {
                 description: "BENEFITS"
-            },{
+            }, {
                 description: "SCHOLARSHIP"
-            },{
+            }, {
                 description: "OTHER_BENEFITS"
             }],
             submitted: false,
@@ -498,7 +500,7 @@ export class AddStudentPage extends React.Component<any, AddStudentStates>{
         e.preventDefault();
         if (studentData.department.id && studentData.branch.id && studentData.batch.id && studentData.studentType && studentData.section.id) {
 
-            let dplStudentData : NewStudent = {
+            let dplStudentData: NewStudent = {
                 ...studentData,
                 batchId: studentData.batch.id,
                 sectionId: studentData.section.id,
@@ -512,24 +514,22 @@ export class AddStudentPage extends React.Component<any, AddStudentStates>{
             delete dplStudentData.section;
             delete dplStudentData.branch;
             delete dplStudentData.department;
-            // let btn = e.target.querySelector("button[type='submit']");
-            // btn.setAttribute("disabled", true);
-            // let dataSavedMessage: any = document.querySelector(".data-saved-message");
-            // dataSavedMessage.style.display = "none";
-            const [addStudent, { error, data }] = useMutation<{ addStudent: StudentDetails },{ input: NewStudent }>(ADD_STUDENT, {variables: { input: dplStudentData }});
-            // return mutate({
-            //     variables: { input: dplStudentData },
-            // }).then((data: any) => {
-            //     btn.removeAttribute("disabled");
-            //     dataSavedMessage.style.display = "inline-block";
-            //     location.href = `${location.origin}/plugins/ems-student/page/students`;
-            // }).catch((error: any) => {
-            //     btn.removeAttribute("disabled");
-            //     dataSavedMessage.style.display = "inline-block";
-            //     console.log('there was an error sending the update mutation', error);
-            //     return Promise.reject(`Could not save student: ${error}`);
-            // });
-            addStudent();
+            let btn = e.target.querySelector("button[type='submit']");
+            btn.setAttribute("disabled", true);
+            let dataSavedMessage: any = document.querySelector(".data-saved-message");
+            dataSavedMessage.style.display = "none";
+            return this.props.addStudentMutation({
+                variables: { input: dplStudentData },
+            }).then((data: any) => {
+                btn.removeAttribute("disabled");
+                dataSavedMessage.style.display = "inline-block";
+                location.href = `${location.origin}/plugins/ems-student/page/students`;
+            }).catch((error: any) => {
+                btn.removeAttribute("disabled");
+                dataSavedMessage.style.display = "inline-block";
+                console.log('there was an error sending the update mutation', error);
+                return Promise.reject(`Could not save student: ${error}`);
+            });
         }
     }
 
@@ -642,7 +642,7 @@ export class AddStudentPage extends React.Component<any, AddStudentStates>{
                 <h3 className="bg-heading p-1 m-b-0">
                     <i className="fa fa-university stroke-transparent mr-1" aria-hidden="true" />{' '}
                     Admin - Student Management
-                </h3>
+                            </h3>
                 <div className="student-profile-container">
                     <form className="gf-form-group" onSubmit={this.onFormSubmit}>
                         <div className="row m-0">
@@ -757,3 +757,5 @@ export class AddStudentPage extends React.Component<any, AddStudentStates>{
         );
     }
 }
+
+export default graphql(ADD_STUDENT, { name: "addStudentMutation"})(AddStudentPage);
