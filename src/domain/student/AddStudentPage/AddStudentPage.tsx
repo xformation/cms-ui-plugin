@@ -100,6 +100,13 @@ class AddStudentPage extends React.Component<any, AddStudentStates>{
         this.createBatches = this.createBatches.bind(this);
         this.createSections = this.createSections.bind(this);
         this.createStudentTypeOptions = this.createStudentTypeOptions.bind(this);
+
+        Survey.FunctionFactory.Instance.register("validateFirstName", this.validateFirstName);
+    }
+
+    validateFirstName(params: any[]){
+        let value = params[0];
+        return value == "Imran";
     }
 
     componentDidMount() {
@@ -138,6 +145,13 @@ class AddStudentPage extends React.Component<any, AddStudentStates>{
                     requiredErrorText: 'Please enter Name',
                     isRequired: true,
                     startWithNewLine: false,
+                    validators: [
+                        {
+                            "type": "expression",
+                            "text": "First name should be Imran.",
+                            "expression": "validateFirstName({studentName}) == true"
+                        }
+                    ]
                 },
                 {
                     type: "text",
