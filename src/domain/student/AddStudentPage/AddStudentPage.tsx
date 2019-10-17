@@ -7,7 +7,8 @@ import "xform-react/xform.min.css";
 
 import { StudentDetails, NewStudent } from '../_types/addStudent'
 import { ADD_STUDENT } from '../_queries/addStudent';
-import { StudentServices } from '../_services/studentServices';
+import { StudentServices, validators } from '../_services/studentServices';
+import { validateLink } from 'apollo-link-core/lib/linkUtils';
 
 
 type AddStudentStates = {
@@ -101,12 +102,7 @@ class AddStudentPage extends React.Component<any, AddStudentStates>{
         this.createSections = this.createSections.bind(this);
         this.createStudentTypeOptions = this.createStudentTypeOptions.bind(this);
 
-        Survey.FunctionFactory.Instance.register("validateFirstName", this.validateFirstName);
-    }
-
-    validateFirstName(params: any[]){
-        let value = params[0];
-        return value == "Imran";
+        Survey.FunctionFactory.Instance.register("validateFirstName", validators.validateFirstName);
     }
 
     componentDidMount() {
