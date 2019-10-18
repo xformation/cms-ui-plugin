@@ -7,7 +7,8 @@ import "xform-react/xform.min.css";
 
 import { StudentDetails, NewStudent } from '../_types/addStudent'
 import { ADD_STUDENT } from '../_queries/addStudent';
-import { StudentServices, validators } from '../_services/studentServices';
+import { StudentServices } from '../_services/studentServices';
+import { validators } from '../_services/commonValidation';
 import { validateLink } from 'apollo-link-core/lib/linkUtils';
 
 
@@ -49,6 +50,11 @@ const customCss = {
 
 class AddStudentPage extends React.Component<any, AddStudentStates>{
     isActive: any = false;
+    personalFormRef: any;
+    contactFormRef: any;
+    emergencyContactFormRef: any;
+    totalResult: any;
+    cumulativeResult: any;
     constructor(props: any) {
         super(props);
         this.state = {
@@ -101,8 +107,16 @@ class AddStudentPage extends React.Component<any, AddStudentStates>{
         this.createBatches = this.createBatches.bind(this);
         this.createSections = this.createSections.bind(this);
         this.createStudentTypeOptions = this.createStudentTypeOptions.bind(this);
+        this.sendData = this.sendData.bind(this);
+        this.saveAllForms = this.saveAllForms.bind(this);
+        this.onCompletePersonalForm = this.onCompletePersonalForm.bind(this);
+        this.onCompleteContactDetailsForm = this.onCompleteContactDetailsForm.bind(this);
+        this.onCompleteEmergencyContactDetails = this.onCompleteEmergencyContactDetails.bind(this);
 
         Survey.FunctionFactory.Instance.register("validateFirstName", validators.validateFirstName);
+        this.personalFormRef = React.createRef();
+        this.contactFormRef = React.createRef();
+        this.emergencyContactFormRef = React.createRef();
     }
 
     componentDidMount() {
@@ -126,8 +140,8 @@ class AddStudentPage extends React.Component<any, AddStudentStates>{
     }
 
     PERSONAL = {};
-    ContactData = {};
-    OtherContactData = {};
+    CONTACT_DATA = {};
+    EMERGENCY_CONTACT_DATA = {};
 
     reassignConfig() {
         this.PERSONAL = {
@@ -272,7 +286,7 @@ class AddStudentPage extends React.Component<any, AddStudentStates>{
 
             ]
         };
-        this.ContactData = {
+        this.CONTACT_DATA = {
             title: "Contact Details",
             showQuestionNumbers: "off",
             elements: [
@@ -366,7 +380,7 @@ class AddStudentPage extends React.Component<any, AddStudentStates>{
                 }
             ]
         };
-        this.OtherContactData = {
+        this.EMERGENCY_CONTACT_DATA = {
             title: "Primary and Emergency Contact Details",
             showQuestionNumbers: "off",
             elements: [
@@ -490,7 +504,6 @@ class AddStudentPage extends React.Component<any, AddStudentStates>{
         }
         return sectionsOptions;
     }
-
     createStudentTypeOptions(studentTypes: any) {
         let studentTypesOptions = [<option key={""} value="">Select Student Type</option>];
         for (let i = 0; i < studentTypes.length; i++) {
@@ -502,12 +515,11 @@ class AddStudentPage extends React.Component<any, AddStudentStates>{
         return studentTypesOptions;
     }
 
-    onFormSubmit = (e: any) => {
+    sendData(){
         this.setState({
             submitted: true
         });
         const { studentData } = this.state;
-        e.preventDefault();
         if (studentData.department.id && studentData.branch.id && studentData.batch.id && studentData.studentType && studentData.section.id) {
 
             let dplStudentData: NewStudent = {
@@ -524,22 +536,67 @@ class AddStudentPage extends React.Component<any, AddStudentStates>{
             delete dplStudentData.section;
             delete dplStudentData.branch;
             delete dplStudentData.department;
-            let btn = e.target.querySelector("button[type='submit']");
-            btn.setAttribute("disabled", true);
+            let btn = document.querySelector(".save-all-forms-btn");
+            btn && btn.setAttribute("disabled", "true");
             let dataSavedMessage: any = document.querySelector(".data-saved-message");
             dataSavedMessage.style.display = "none";
             return this.props.addStudentMutation({
                 variables: { input: dplStudentData },
             }).then((data: any) => {
-                btn.removeAttribute("disabled");
+                btn && btn.removeAttribute("disabled");
                 dataSavedMessage.style.display = "inline-block";
                 location.href = `${location.origin}/plugins/ems-student/page/students`;
             }).catch((error: any) => {
-                btn.removeAttribute("disabled");
+                btn && btn.removeAttribute("disabled");
                 dataSavedMessage.style.display = "inline-block";
                 console.log('there was an error sending the update mutation', error);
                 return Promise.reject(`Could not save student: ${error}`);
             });
+        }
+    }
+
+    saveAllForms(e:any){
+        e.preventDefault();
+        this.totalResult = 0;
+        this.cumulativeResult = {};
+        this.personalFormRef.current.survey.completeLastPage();
+        this.contactFormRef.current.survey.completeLastPage();
+        this.emergencyContactFormRef.current.survey.completeLastPage();
+    }
+
+    onCompletePersonalForm(result: any) {
+        result.clear(false, true);
+        this.totalResult += 1;
+        this.cumulativeResult = {
+            ...this.cumulativeResult,
+            ...result.data
+        };
+        if (this.totalResult === 3) {
+            this.sendData();
+        }
+    }
+
+    onCompleteContactDetailsForm(result: any) {
+        result.clear(false, true);
+        this.totalResult += 1;
+        this.cumulativeResult = {
+            ...this.cumulativeResult,
+            ...result.data
+        };
+        if (this.totalResult === 3) {
+            this.sendData();
+        }
+    }
+
+    onCompleteEmergencyContactDetails(result: any) {
+        result.clear(false, true);
+        this.totalResult += 1;
+        this.cumulativeResult = {
+            ...this.cumulativeResult,
+            ...result.data
+        };
+        if (this.totalResult === 3) {
+            this.sendData();
         }
     }
 
@@ -654,13 +711,13 @@ class AddStudentPage extends React.Component<any, AddStudentStates>{
                     Admin - Student Management
                             </h3>
                 <div className="student-profile-container">
-                    <form className="gf-form-group" onSubmit={this.onFormSubmit}>
+                    <form className="gf-form-group">
                         <div className="row m-0">
                             <div className="col-sm-12 col-xs-12 profile-header m-b-2">
                                 <div className="pull-left">Student Profile</div>
                                 <div className="pull-right">
                                     <span className="m-r-2 data-saved-message" style={{ fontSize: "13px", color: "#AA0000", display: "none" }}>Data Saved</span>
-                                    <button className="btn bs" type="submit">Save</button>
+                                    <button className="btn bs save-all-forms-btn" type="submit" onClick={this.saveAllForms}>Save</button>
                                 </div>
                             </div>
                         </div>
@@ -750,13 +807,13 @@ class AddStudentPage extends React.Component<any, AddStudentStates>{
                             </div>
                             <div className="col-lg-9 col-md-12 col-sm-12 col-xs-12 right-part custom-style">
                                 <div>
-                                    <Survey.SurveyCollapseForm json={this.PERSONAL} css={customCss} />
+                                    <Survey.SurveyCollapseForm json={this.PERSONAL} css={customCss} onComplete={this.onCompletePersonalForm} ref={this.personalFormRef} showCompletedPage={false}/>
                                 </div>
                                 <div>
-                                    <Survey.SurveyCollapseForm json={this.ContactData} css={customCss} />
+                                    <Survey.SurveyCollapseForm json={this.CONTACT_DATA} css={customCss} onComplete={this.onCompleteContactDetailsForm} ref={this.contactFormRef} showCompletedPage={false}/>
                                 </div>
                                 <div>
-                                    <Survey.SurveyCollapseForm json={this.OtherContactData} css={customCss} />
+                                    <Survey.SurveyCollapseForm json={this.EMERGENCY_CONTACT_DATA} css={customCss} onComplete={this.onCompleteEmergencyContactDetails} ref={this.emergencyContactFormRef} showCompletedPage={false}/>
                                 </div>
 
                             </div>
