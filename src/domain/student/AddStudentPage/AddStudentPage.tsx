@@ -1,28 +1,16 @@
 import * as React from 'react';
-// import { useMutation } from '@apollo/react-hooks';
-// import { Mutation } from '@apollo/react-components';
 import { graphql } from 'react-apollo';
 import * as Survey from "xform-react";
 import "xform-react/xform.min.css";
 
-import { StudentDetails, NewStudent } from '../_types/addStudent'
-import { ADD_STUDENT } from '../_queries/addStudent';
-import { StudentServices } from '../_services/studentServices';
+import { NewStudent } from '../_types/addStudent'
+import { ADD_STUDENT, GET_STUDENT_ADMISSION_DATA } from '../_queries';
 import { validators } from '../_services/commonValidation';
-import { validateLink } from 'apollo-link-core/lib/linkUtils';
+import withLoadingHandler from '../withLoadingHandler';
 
 
 type AddStudentStates = {
-    studentData: any,
-    departments: any,
-    branches: any,
-    batches: any,
-    sections: any,
-    submitted: any,
-    studentTypes: any,
     uploadPhoto: any,
-    fileName: any,
-    academicYearId: any
 };
 
 const customCss = {
@@ -53,53 +41,13 @@ class AddStudentPage extends React.Component<any, AddStudentStates>{
     personalFormRef: any;
     contactFormRef: any;
     emergencyContactFormRef: any;
+    admissionDetailsFormRef: any;
     totalResult: any;
     cumulativeResult: any;
     constructor(props: any) {
         super(props);
         this.state = {
-            studentData: {
-                // college: {
-                //     id: 1801
-                // },
-                // academicYear: {
-                //     id: 1701
-                // },
-                department: {
-                    id: ""
-                },
-                batch: {
-                    id: ""
-                },
-                branch: {
-                    id: ""
-                },
-                section: {
-                    id: ""
-                },
-                studentType: {
-                    id: ""
-                },
-            },
-            departments: [],
-            branches: [],
-            batches: [],
-            sections: [],
-            studentTypes: [{
-                description: "REGULAR"
-            }, {
-                description: "STAFF_CONCESSION"
-            }, {
-                description: "BENEFITS"
-            }, {
-                description: "SCHOLARSHIP"
-            }, {
-                description: "OTHER_BENEFITS"
-            }],
-            submitted: false,
             uploadPhoto: null,
-            fileName: "",
-            academicYearId: 1701
         };
         this.reassignConfig();
         this.createDepartments = this.createDepartments.bind(this);
@@ -112,36 +60,19 @@ class AddStudentPage extends React.Component<any, AddStudentStates>{
         this.onCompletePersonalForm = this.onCompletePersonalForm.bind(this);
         this.onCompleteContactDetailsForm = this.onCompleteContactDetailsForm.bind(this);
         this.onCompleteEmergencyContactDetails = this.onCompleteEmergencyContactDetails.bind(this);
-
+        this.onCompleteAdmissionDetailsForm = this.onCompleteAdmissionDetailsForm.bind(this);
+        this.onAdmissionDetailsChanged = this.onAdmissionDetailsChanged.bind(this);
         Survey.FunctionFactory.Instance.register("validateFirstName", validators.validateFirstName);
         this.personalFormRef = React.createRef();
         this.contactFormRef = React.createRef();
         this.emergencyContactFormRef = React.createRef();
-    }
-
-    componentDidMount() {
-        Promise.all([StudentServices.getStudentDepartments(), StudentServices.getStudentBranches(), StudentServices.getStudentYears(), StudentServices.getStudentSections()]).then(
-            data => {
-                let departments = data[0];
-                let branches = data[1];
-                let batches = data[2];
-                let sections = data[3];
-                this.setState({
-                    departments,
-                    branches,
-                    batches,
-                    sections
-                });
-            },
-            error => {
-                console.log(error);
-            }
-        );
+        this.admissionDetailsFormRef = React.createRef();
     }
 
     PERSONAL = {};
     CONTACT_DATA = {};
     EMERGENCY_CONTACT_DATA = {};
+    ADMISSION_DETAILS = {};
 
     reassignConfig() {
         this.PERSONAL = {
@@ -154,14 +85,7 @@ class AddStudentPage extends React.Component<any, AddStudentStates>{
                     title: 'Name',
                     requiredErrorText: 'Please enter Name',
                     isRequired: true,
-                    startWithNewLine: false,
-                    validators: [
-                        {
-                            "type": "expression",
-                            "text": "First name should be Imran.",
-                            "expression": "validateFirstName({studentName}) == true"
-                        }
-                    ]
+                    startWithNewLine: false
                 },
                 {
                     type: "text",
@@ -184,7 +108,7 @@ class AddStudentPage extends React.Component<any, AddStudentStates>{
                     name: 'fatherName',
                     title: 'Father Name',
                     requiredErrorText: 'Please enter Father Name',
-                    isRequired: this.isActive,
+                    isRequired: true,
                     startWithNewLine: false,
                 },
                 {
@@ -192,7 +116,7 @@ class AddStudentPage extends React.Component<any, AddStudentStates>{
                     name: 'fatherMiddleName',
                     title: 'Father Middle Name',
                     requiredErrorText: 'Please enter Father Middle Name',
-                    isRequired: this.isActive,
+                    isRequired: true,
                     startWithNewLine: false,
                 },
                 {
@@ -200,7 +124,7 @@ class AddStudentPage extends React.Component<any, AddStudentStates>{
                     name: 'fatherLastName',
                     title: 'Father Last Name',
                     requiredErrorText: 'Please enter Father Last Name',
-                    isRequired: this.isActive,
+                    isRequired: true,
                     startWithNewLine: false,
                 },
                 {
@@ -208,7 +132,7 @@ class AddStudentPage extends React.Component<any, AddStudentStates>{
                     name: 'motherName',
                     title: 'Mother Name',
                     requiredErrorText: 'Please enter Mother Name',
-                    isRequired: this.isActive,
+                    isRequired: true,
                     startWithNewLine: false,
                 },
                 {
@@ -216,25 +140,104 @@ class AddStudentPage extends React.Component<any, AddStudentStates>{
                     name: 'motherMiddleName',
                     title: 'Mother Middle Name',
                     requiredErrorText: 'Please enter Mother Middle Name',
-                    isRequired: this.isActive,
+                    isRequired: true,
                     startWithNewLine: false,
                 },
                 {
                     type: "text",
                     name: 'motherLastName',
-                    title: 'mother Last Name',
-                    requiredErrorText: 'Please enter mother Last Name',
-                    isRequired: this.isActive,
+                    title: 'Mother Last Name',
+                    requiredErrorText: 'Please enter Mother Last Name',
+                    isRequired: true,
                     startWithNewLine: false,
                 },
-
+                {
+                    type: "text",
+                    name: 'aadharNo',
+                    title: 'Aadhar No',
+                    requiredErrorText: 'Please enter Aadhar No',
+                    isRequired: true,
+                    startWithNewLine: false,
+                },
                 {
                     type: "text",
                     inputType: "date",
                     name: 'dateOfBirth',
                     title: 'Date Of Birth',
                     requiredErrorText: 'Please enter Date Of Birth',
-                    isRequired: this.isActive,
+                    isRequired: true,
+                    startWithNewLine: false,
+                },
+                {
+                    type: "text",
+                    name: 'placeOfBirth',
+                    title: 'Place of Birth',
+                    requiredErrorText: 'Please enter Place of Birth',
+                    isRequired: true,
+                    startWithNewLine: false,
+                },
+                {
+                    type: 'dropdown',
+                    name: 'religion',
+                    title: 'Religion',
+                    requiredErrorText: 'Please enter Religion',
+                    isRequired: true,
+                    startWithNewLine: false,
+                    choices: [
+                        {
+                            value: "HINDU",
+                            text: "HINDU"
+                        },
+                        {
+                            value: "MUSLIM",
+                            text: "MUSLIM"
+                        },
+                        {
+                            value: "CHRISTIAN",
+                            text: "CHRISTIAN"
+                        }
+                    ]
+                },
+                {
+                    type: 'dropdown',
+                    name: 'caste',
+                    title: 'Caste',
+                    requiredErrorText: 'Please enter Caste',
+                    isRequired: true,
+                    startWithNewLine: false,
+                    choices: [
+                        {
+                            value: "GENERAL",
+                            text: "GENERAL"
+                        },
+                        {
+                            value: "OBC",
+                            text: "OBC"
+                        },
+                        {
+                            value: "SC",
+                            text: "SC"
+                        },
+                        {
+                            value: "ST",
+                            text: "ST"
+                        }
+                    ]
+                },
+                {
+                    type: "text",
+                    name: 'subCaste',
+                    title: 'Sub Caste',
+                    requiredErrorText: 'Please enter Sub Caste',
+                    isRequired: true,
+                    startWithNewLine: false,
+                },
+                {
+                    type: "text",
+                    name: 'age',
+                    title: 'Age',
+                    requiredErrorText: 'Please enter Age',
+                    isRequired: true,
                     startWithNewLine: false,
                 },
                 {
@@ -242,7 +245,7 @@ class AddStudentPage extends React.Component<any, AddStudentStates>{
                     name: 'sex',
                     title: 'Gender',
                     requiredErrorText: 'Please enter Gender',
-                    isRequired: this.isActive,
+                    isRequired: true,
                     startWithNewLine: false,
                     choices: [
                         {
@@ -260,30 +263,47 @@ class AddStudentPage extends React.Component<any, AddStudentStates>{
                     ]
                 },
                 {
-                    type: "text",
-                    name: 'contactNumber',
-                    title: 'Student Contact Number',
-                    requiredErrorText: 'Please enter Student Contact Number',
-                    isRequired: this.isActive,
+                    type: 'dropdown',
+                    name: 'bloodGroup',
+                    title: 'Blood Group',
+                    requiredErrorText: 'Please enter Blood Group',
+                    isRequired: true,
                     startWithNewLine: false,
-                },
-                {
-                    type: "text",
-                    name: 'alternateMobileNumber',
-                    title: 'Alternate Contact Number',
-                    requiredErrorText: 'Please enter Alternate Contact Number',
-                    isRequired: this.isActive,
-                    startWithNewLine: false,
-                },
-                {
-                    type: "text",
-                    name: 'email',
-                    title: 'Student Email',
-                    requiredErrorText: 'Please enter Student Email',
-                    isRequired: this.isActive,
-                    startWithNewLine: false,
-                },
-
+                    choices: [
+                        {
+                            value: "APOSITIVE",
+                            text: "APOSITIVE"
+                        },
+                        {
+                            value: "ANEGATIVE",
+                            text: "ANEGATIVE"
+                        },
+                        {
+                            value: "ABPOSITIVE",
+                            text: "ABPOSITIVE"
+                        },
+                        {
+                            value: "ABNEGATIVE",
+                            text: "ABNEGATIVE"
+                        },
+                        {
+                            value: "OPOSITIVE",
+                            text: "OPOSITIVE"
+                        },
+                        {
+                            value: "ONEGATIVE",
+                            text: "ONEGATIVE"
+                        },
+                        {
+                            value: "BPOSITIVE",
+                            text: "BPOSITIVE"
+                        },
+                        {
+                            value: "BNEGATIVE",
+                            text: "BNEGATIVE"
+                        }
+                    ]
+                }
             ]
         };
         this.CONTACT_DATA = {
@@ -455,113 +475,223 @@ class AddStudentPage extends React.Component<any, AddStudentStates>{
                     startWithNewLine: false,
                 }
             ]
-        }
+        };
+        this.ADMISSION_DETAILS = {
+            title: "",
+            showQuestionNumbers: "off",
+            elements: [
+                {
+                    type: "text",
+                    name: "admissionNo",
+                    title: "Admission No",
+                    isRequired: true,
+                    maxLength: 50,
+                    startWithNewLine: true,
+                    requiredErrorText: "Please enter Admission No"
+                },
+                {
+                    type: "text",
+                    name: "rollNo",
+                    title: "Roll No",
+                    isRequired: true,
+                    maxLength: 50,
+                    startWithNewLine: true,
+                    requiredErrorText: "Please enter Admission No"
+                },
+                {
+                    type: 'dropdown',
+                    name: 'branchId',
+                    title: 'Branch',
+                    requiredErrorText: 'Please enter Branch',
+                    isRequired: true,
+                    startWithNewLine: true,
+                    choices: this.createBranches(this.props.data.createStudentFilterDataCache.branches),
+                    defaultValue: ""
+                },
+                {
+                    type: 'dropdown',
+                    name: 'departmentId',
+                    title: 'Department',
+                    requiredErrorText: 'Please enter Department',
+                    isRequired: true,
+                    startWithNewLine: true,
+                    choices: [],
+                    defaultValue: ""
+                },
+                {
+                    type: 'dropdown',
+                    name: 'batchId',
+                    title: 'Year',
+                    requiredErrorText: 'Please enter Year',
+                    isRequired: true,
+                    startWithNewLine: true,
+                    choices: [],
+                    defaultValue: ""
+                },
+                {
+                    type: 'dropdown',
+                    name: 'sectionId',
+                    title: 'Section',
+                    requiredErrorText: 'Please select Section',
+                    isRequired: true,
+                    startWithNewLine: true,
+                    choices: [],
+                    defaultValue: ""
+                },
+                {
+                    type: 'dropdown',
+                    name: 'studentType',
+                    title: 'Student Type',
+                    requiredErrorText: 'Please select Student Type',
+                    isRequired: true,
+                    startWithNewLine: true,
+                    choices: []
+                },
+
+            ]
+        };
     }
 
     createDepartments(departments: any, selectedBranchId: any) {
-        let departmentsOptions = [<option key={0} value="">Select department</option>];
+        let departmentsOptions = [];
         for (let i = 0; i < departments.length; i++) {
-            if (selectedBranchId == departments[i].branchId) {
-                departmentsOptions.push(
-                    <option key={departments[i].id} value={departments[i].id}>{departments[i].name}</option>
-                );
+            if (selectedBranchId == departments[i].branch.id) {
+                departmentsOptions.push({
+                    value: departments[i].id,
+                    text: departments[i].name
+                });
             }
         }
         return departmentsOptions;
     }
     createBranches(branches: any) {
-        let branchesOptions = [<option key={0} value="">Select Branch</option>];
+        let branchesOptions = [];
         for (let i = 0; i < branches.length; i++) {
-            branchesOptions.push(
-                <option key={branches[i].id} value={branches[i].id}>{branches[i].branchName}</option>
-            );
+            branchesOptions.push({
+                value: branches[i].id,
+                text: branches[i].branchName
+            });
         }
         return branchesOptions;
     }
     createBatches(batches: any, selectedDepartmentId: any) {
-        let batchesOptions = [<option key={0} value="">Select Year</option>];
+        let batchesOptions = [];
         for (let i = 0; i < batches.length; i++) {
             let id = batches[i].id;
-            let dptId = "" + batches[i].departmentId;
+            let dptId = "" + batches[i].department.id;
             if (dptId == selectedDepartmentId) {
-                batchesOptions.push(
-                    <option key={id} value={id}>{batches[i].batch}</option>
-                );
+                batchesOptions.push({
+                    value: id,
+                    text: batches[i].batch
+                });
             }
         }
         return batchesOptions;
     }
     createSections(sections: any, selectedBatchId: any) {
-        let sectionsOptions = [<option key={0} value="">Select Section</option>];
+        let sectionsOptions = [];
         for (let i = 0; i < sections.length; i++) {
             let id = sections[i].id;
-            let sbthId = "" + sections[i].batchId;
+            let sbthId = "" + sections[i].batch.id;
             if (sbthId == selectedBatchId) {
-                sectionsOptions.push(
-                    <option key={id} value={id}>{sections[i].section}</option>
-                );
+                sectionsOptions.push({
+                    value: id,
+                    text: sections[i].section
+                });
             }
         }
         return sectionsOptions;
     }
     createStudentTypeOptions(studentTypes: any) {
-        let studentTypesOptions = [<option key={""} value="">Select Student Type</option>];
+        let retData = [];
         for (let i = 0; i < studentTypes.length; i++) {
-            let studentType = studentTypes[i];
-            studentTypesOptions.push(
-                <option key={studentTypes[i].description} value={studentTypes[i].description}>{studentTypes[i].description}</option>
-            );
-        }
-        return studentTypesOptions;
-    }
-
-    sendData(){
-        this.setState({
-            submitted: true
-        });
-        const { studentData } = this.state;
-        if (studentData.department.id && studentData.branch.id && studentData.batch.id && studentData.studentType && studentData.section.id) {
-
-            let dplStudentData: NewStudent = {
-                ...studentData,
-                batchId: studentData.batch.id,
-                sectionId: studentData.section.id,
-                branchId: studentData.branch.id,
-                departmentId: studentData.department.id,
-                uploadPhoto: studentData.uploadPhoto,
-                studentType: studentData.studentType.id,
-                fileName: studentData.fileName
-            };
-            delete dplStudentData.batch;
-            delete dplStudentData.section;
-            delete dplStudentData.branch;
-            delete dplStudentData.department;
-            let btn = document.querySelector(".save-all-forms-btn");
-            btn && btn.setAttribute("disabled", "true");
-            let dataSavedMessage: any = document.querySelector(".data-saved-message");
-            dataSavedMessage.style.display = "none";
-            return this.props.addStudentMutation({
-                variables: { input: dplStudentData },
-            }).then((data: any) => {
-                btn && btn.removeAttribute("disabled");
-                dataSavedMessage.style.display = "inline-block";
-                location.href = `${location.origin}/plugins/ems-student/page/students`;
-            }).catch((error: any) => {
-                btn && btn.removeAttribute("disabled");
-                dataSavedMessage.style.display = "inline-block";
-                console.log('there was an error sending the update mutation', error);
-                return Promise.reject(`Could not save student: ${error}`);
+            retData.push({
+                value: studentTypes[i].description,
+                text: studentTypes[i].description
             });
         }
+        return retData;
     }
 
-    saveAllForms(e:any){
+    sendData() {
+        let btn = document.querySelector(".save-all-forms-btn");
+        btn && btn.setAttribute("disabled", "true");
+        let dataSavedMessage: any = document.querySelector(".data-saved-message");
+        dataSavedMessage.style.display = "none";
+        return this.props.addStudentMutation({
+            variables: {
+                input: {
+                    ...this.cumulativeResult
+                }
+            },
+        }).then((data: any) => {
+            btn && btn.removeAttribute("disabled");
+            dataSavedMessage.style.display = "inline-block";
+            location.href = `${location.origin}/plugins/ems-student/page/students`;
+        }).catch((error: any) => {
+            btn && btn.removeAttribute("disabled");
+            dataSavedMessage.style.display = "inline-block";
+            console.log('there was an error sending the update mutation', error);
+        });
+    }
+
+    saveAllForms(e: any) {
         e.preventDefault();
         this.totalResult = 0;
         this.cumulativeResult = {};
         this.personalFormRef.current.survey.completeLastPage();
         this.contactFormRef.current.survey.completeLastPage();
         this.emergencyContactFormRef.current.survey.completeLastPage();
+        this.admissionDetailsFormRef.current.survey.completeLastPage();
+    }
+
+    onAdmissionDetailsChanged(sender: any, options: any) {
+        let department = sender.getQuestionByName("departmentId");
+        let batch = sender.getQuestionByName("batchId");
+        let section = sender.getQuestionByName("sectionId");
+        let studentType = sender.getQuestionByName("studentType");
+        switch (options.name) {
+            case "branchId":
+                department.value = "";
+                department.choices = this.createDepartments(this.props.data.createStudentFilterDataCache.departments, options.value);
+                batch.value = "";
+                batch.choices = [];
+                section.value = "";
+                section.choices = [];
+                studentType.value = "";
+                studentType.choices = [];
+                break;
+            case "departmentId":
+                batch.value = "";
+                batch.choices = this.createBatches(this.props.data.createStudentFilterDataCache.batches, department.value);
+                section.value = "";
+                section.choices = [];
+                studentType.value = "";
+                studentType.choices = [];
+                break;
+            case "batchId":
+                section.value = "";
+                section.choices = this.createSections(this.props.data.createStudentFilterDataCache.sections, batch.value);
+                studentType.value = "";
+                studentType.choices = [];
+                break;
+            case "sectionId":
+                studentType.value = "";
+                studentType.choices = this.createStudentTypeOptions(this.props.data.createStudentFilterDataCache.studentTypes);
+                break;
+        }
+    }
+
+    onCompleteAdmissionDetailsForm(result: any) {
+        result.clear(false, true);
+        this.totalResult += 1;
+        this.cumulativeResult = {
+            ...this.cumulativeResult,
+            ...result.data
+        };
+        if (this.totalResult === 4) {
+            this.sendData();
+        }
     }
 
     onCompletePersonalForm(result: any) {
@@ -571,7 +701,7 @@ class AddStudentPage extends React.Component<any, AddStudentStates>{
             ...this.cumulativeResult,
             ...result.data
         };
-        if (this.totalResult === 3) {
+        if (this.totalResult === 4) {
             this.sendData();
         }
     }
@@ -583,7 +713,7 @@ class AddStudentPage extends React.Component<any, AddStudentStates>{
             ...this.cumulativeResult,
             ...result.data
         };
-        if (this.totalResult === 3) {
+        if (this.totalResult === 4) {
             this.sendData();
         }
     }
@@ -595,115 +725,27 @@ class AddStudentPage extends React.Component<any, AddStudentStates>{
             ...this.cumulativeResult,
             ...result.data
         };
-        if (this.totalResult === 3) {
+        if (this.totalResult === 4) {
             this.sendData();
         }
     }
 
     getStudentImage = (e: any) => {
-        const { studentData } = this.state;
-        studentData.uploadPhoto = URL.createObjectURL(e.target.files[0]);
-        var r = new FileReader();
-        r.onload = function (e: any) {
-            studentData.fileName = e.target.result;
-            console.log('Image converted to base64 on upload :\n\n' + studentData.fileName);
-        };
-        r.readAsDataURL(e.target.files[0]);
+        // const { uploadPhoto } = this.state;
+        // studentData.uploadPhoto = URL.createObjectURL(e.target.files[0]);
+        // var r = new FileReader();
+        // r.onload = function (e: any) {
+        //     studentData.fileName = e.target.result;
+        //     console.log('Image converted to base64 on upload :\n\n' + studentData.fileName);
+        // };
+        // r.readAsDataURL(e.target.files[0]);
 
-        this.setState({
-            studentData: studentData
-        })
+        // this.setState({
+        //     studentData: studentData
+        // })
     }
 
-    onChange = (e: any) => {
-        const { name, value } = e.nativeEvent.target;
-        const { studentData } = this.state;
-        if (name === "branch") {
-            this.setState({
-                studentData: {
-                    ...studentData,
-                    branch: {
-                        id: value
-                    },
-                    department: {
-                        id: ""
-                    },
-                    batch: {
-                        id: ""
-                    },
-                    section: {
-                        id: ""
-                    },
-                    studentType: {
-                        id: ""
-                    }
-                }
-            });
-        } else if (name === "department") {
-            this.setState({
-                studentData: {
-                    ...studentData,
-                    department: {
-                        id: value
-                    },
-                    batch: {
-                        id: ""
-                    },
-                    section: {
-                        id: ""
-                    },
-                    studentType: {
-                        id: ""
-                    }
-                }
-            });
-        } else if (name === "batch") {
-            this.setState({
-                studentData: {
-                    ...studentData,
-                    batch: {
-                        id: value
-                    },
-                    section: {
-                        id: ""
-                    },
-                    studentType: {
-                        id: ""
-                    }
-                }
-            });
-        } else if (name === "section") {
-            this.setState({
-                studentData: {
-                    ...studentData,
-                    section: {
-                        id: value
-                    },
-                    studentType: {
-                        id: ""
-                    }
-                }
-            });
-        } else if (name === "studentType") {
-            this.setState({
-                studentData: {
-                    ...studentData,
-                    studentType: {
-                        id: value
-                    }
-                }
-            });
-        } else {
-            this.setState({
-                studentData: {
-                    ...studentData,
-                    [name]: value
-                }
-            });
-        }
-    }
     render() {
-        const { studentData, submitted } = this.state;
         return (
             <section className="xform-container">
                 <h3 className="bg-heading p-1 m-b-0">
@@ -722,100 +764,29 @@ class AddStudentPage extends React.Component<any, AddStudentStates>{
                             </div>
                         </div>
                         <div className="row form-main-container m-0">
-                            <div className="col-lg-3 col-md-12 col-sm-12 col-xs-12 student-photo-container">
+                            <div className="col-lg-3 col-md-12 col-sm-12 col-xs-12 left-part grafana-style">
                                 <div className="row p-1">
-                                    <div className="col-md-6 col-lg-12 col-xs-12 col-sm-6 student-photo">
-                                        <img className="photo" id="stPhoto" src={studentData.uploadPhoto}></img>
+                                    <div className="col-md-6 col-lg-12 col-xs-12 col-sm-6">
+                                        <img className="student-photo" id="stPhoto" src={this.state.uploadPhoto} />
                                     </div>
-
                                     <div className="col-sm-6 col-xs-12 col-md-6 col-lg-12">
-
                                         <input type="file" accept="image/*" id="stImageUpload" onChange={this.getStudentImage} ></input>
-
-
-                                        <div className="gf-form">
-                                            <span className="gf-form-label width-8">Admission No</span>
-                                            <input name="admissionNo" value={studentData.admissionNo} onChange={this.onChange} type="text" className="gf-form-input max-width-22" />
+                                        <div>
+                                            <Survey.Survey onValueChanged={this.onAdmissionDetailsChanged} json={this.ADMISSION_DETAILS} css={customCss} ref={this.admissionDetailsFormRef} onComplete={this.onCompleteAdmissionDetailsForm} />
                                         </div>
-                                        <div className="gf-form">
-                                            <span className="gf-form-label width-8">Roll No</span>
-                                            <input name="rollNo" type="text" className="gf-form-input max-width-22" value={studentData.rollNo} onChange={this.onChange} />
-                                        </div>
-                                        <div className="gf-form">
-                                            <span className="gf-form-label width-8">Branch</span>
-                                            <select name="branch" onChange={this.onChange} value={studentData.branch.id} className="gf-form-input max-width-22">
-                                                {this.createBranches(this.state.branches)}
-                                            </select>
-                                        </div>
-                                        {
-                                            submitted && !studentData.branch.id &&
-                                            <div>
-                                                Student branch needed.
-                                        </div>
-                                        }
-                                        <div className="gf-form">
-                                            <span className="gf-form-label width-8">Department</span>
-                                            <select name="department" onChange={this.onChange} value={studentData.department.id} className="gf-form-input max-width-22">
-                                                {this.createDepartments(this.state.departments, studentData.branch.id)}
-                                            </select>
-                                        </div>
-                                        {
-                                            submitted && !studentData.department.id &&
-                                            <div>
-                                                Student department needed.
-                                            </div>
-                                        }
-                                        <div className="gf-form">
-                                            <span className="gf-form-label width-8">Year</span>
-                                            <select name="batch" onChange={this.onChange} value={studentData.batch.id} className="gf-form-input max-width-22">
-                                                {this.createBatches(this.state.batches, studentData.department.id)}
-                                            </select>
-                                        </div>
-                                        {
-                                            submitted && !studentData.batch.id &&
-                                            <div>
-                                                Student batch needed.
-                                        </div>
-                                        }
-
-                                        <div className="gf-form">
-                                            <span className="gf-form-label width-8">Section</span>
-                                            <select name="section" onChange={this.onChange} value={studentData.section.id} className="gf-form-input max-width-22">
-                                                {this.createSections(this.state.sections, studentData.batch.id)}
-                                            </select>
-                                        </div>
-                                        {
-                                            submitted && !studentData.section.id &&
-                                            <div>
-                                                Student section needed.
-                                        </div>
-                                        }
-                                        <div className="gf-form">
-                                            <span className="gf-form-label width-8">Student Type</span>
-                                            <select name="studentType" onChange={this.onChange} value={studentData.studentType.id} className="gf-form-input max-width-22">
-                                                {this.createStudentTypeOptions(this.state.studentTypes)}
-                                            </select>
-                                        </div>
-                                        {
-                                            submitted && !studentData.studentType.id &&
-                                            <div>
-                                                Student type needed.
-                                        </div>
-                                        }
                                     </div>
                                 </div>
                             </div>
                             <div className="col-lg-9 col-md-12 col-sm-12 col-xs-12 right-part custom-style">
                                 <div>
-                                    <Survey.SurveyCollapseForm json={this.PERSONAL} css={customCss} onComplete={this.onCompletePersonalForm} ref={this.personalFormRef} showCompletedPage={false}/>
+                                    <Survey.SurveyCollapseForm json={this.PERSONAL} css={customCss} onComplete={this.onCompletePersonalForm} ref={this.personalFormRef} showCompletedPage={false} />
                                 </div>
                                 <div>
-                                    <Survey.SurveyCollapseForm json={this.CONTACT_DATA} css={customCss} onComplete={this.onCompleteContactDetailsForm} ref={this.contactFormRef} showCompletedPage={false}/>
+                                    <Survey.SurveyCollapseForm json={this.CONTACT_DATA} css={customCss} onComplete={this.onCompleteContactDetailsForm} ref={this.contactFormRef} showCompletedPage={false} />
                                 </div>
                                 <div>
-                                    <Survey.SurveyCollapseForm json={this.EMERGENCY_CONTACT_DATA} css={customCss} onComplete={this.onCompleteEmergencyContactDetails} ref={this.emergencyContactFormRef} showCompletedPage={false}/>
+                                    <Survey.SurveyCollapseForm json={this.EMERGENCY_CONTACT_DATA} css={customCss} onComplete={this.onCompleteEmergencyContactDetails} ref={this.emergencyContactFormRef} showCompletedPage={false} />
                                 </div>
-
                             </div>
                         </div>
                     </form>
@@ -825,4 +796,14 @@ class AddStudentPage extends React.Component<any, AddStudentStates>{
     }
 }
 
-export default graphql(ADD_STUDENT, { name: "addStudentMutation"})(AddStudentPage);
+
+export default graphql(GET_STUDENT_ADMISSION_DATA, {
+    options: ({ }) => ({
+        variables: {
+            // collegeId: match.params.collegeId,
+            // academicYearId: match.params.academicYearId,
+            collegeId: 1801,
+            academicYearId: 1701
+        }
+    })
+})(withLoadingHandler(graphql(ADD_STUDENT, { name: "addStudentMutation" })(AddStudentPage)));
