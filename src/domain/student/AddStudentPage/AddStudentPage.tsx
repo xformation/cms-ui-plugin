@@ -3,7 +3,6 @@ import { graphql } from 'react-apollo';
 import * as Survey from "xform-react";
 import "xform-react/xform.min.css";
 
-import { NewStudent } from '../_types/addStudent'
 import { ADD_STUDENT, GET_STUDENT_ADMISSION_DATA } from '../_queries';
 import { validators } from '../_services/commonValidation';
 import withLoadingHandler from '../withLoadingHandler';
