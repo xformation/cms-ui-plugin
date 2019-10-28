@@ -118,12 +118,12 @@ const personalDataForm = [
         className: 'gf-form--grow form-control-container',
         options: [
             {
-                id: "OC",
-                name: "OC"
+                id: "GENERAL",
+                name: "GENERAL"
             },
             {
-                id: "BC",
-                name: "BC"
+                id: "OBC",
+                name: "OBC"
             },
             {
                 id: "SC",
