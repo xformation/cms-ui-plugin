@@ -358,7 +358,7 @@ class AddStudentPage extends React.Component<any, AddStudentStates>{
                     startWithNewLine: false,
                 },
                 {
-                    type: "number",
+                    type: "text",
                     name: 'pincode',
                     title: 'Pincode',
                     requiredErrorText: 'Please enter pincode',
@@ -450,9 +450,9 @@ class AddStudentPage extends React.Component<any, AddStudentStates>{
                     startWithNewLine: false,
                 },
                 {
-                    type: "number",
+                    type: "text",
                     name: 'emergencyContactNo',
-                    title: 'Emergency Contact No',
+                    title: 'Emergency Contact Number',
                     requiredErrorText: 'Please enter emergency contact no',
                     isRequired: true,
                     startWithNewLine: false,
