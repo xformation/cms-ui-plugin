@@ -66,3 +66,29 @@
 .tooltip:hover .tooltiptext {
   visibility: visible;
 }
+
+.b-r {
+  border-radius: 0px !important;
+}
+
+.p-0 {
+  padding: 0px;
+}
+
+.height-33 {
+  height: 33px;
+}
+
+.staff-p {
+  padding: 2rem 2rem 0rem 2rem;
+}
+.algn-item-center {
+  align-items: baseline !important;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 26% 74%;
+  grid-gap: 5px;
+  padding: 5px 10px 5px 5px;
+}
