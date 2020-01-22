@@ -2,8 +2,8 @@ import * as React from 'react';
 // import { graphql, QueryProps, MutationFunc, compose } from 'react-apollo';
 import {withRouter, RouteComponentProps, Link} from 'react-router-dom';
 import {TabContent, TabPane, Nav, NavItem, NavLink} from 'reactstrap';
-import AddStudentPage from '../AddStudentPage/AddStudentPage';
-import StudentListPage from '../StudentListPage/StudentListPage';
+import AddStudentPage from './AddStudentPage';
+import StudentListPage from './StudentListPage';
 
 export default class StudentSubtabs extends React.Component<any, any> {
   constructor(props: any) {
