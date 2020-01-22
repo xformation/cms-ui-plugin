@@ -634,9 +634,19 @@ td {
 }
 
 .student-flex select {
-  width: 13vw;
+  width: 10vw;
   margin-bottom: 25px;
+  margin-right: 5px;
 }
+
+.p-point5 {
+  padding: 5px;
+}
+
+#srch input {
+  width: 140px;
+}
+
 .student-flex {
   display: flex;
   justify-content: space-between;

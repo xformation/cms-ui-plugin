@@ -2,7 +2,7 @@ import * as React from 'react';
 // import { graphql, QueryProps, MutationFunc, compose } from 'react-apollo';
 import {TabContent, TabPane, Nav, NavItem, NavLink} from 'reactstrap';
 import {FaUserGraduate} from 'react-icons/fa';
-import StudentSubtabs from '..';
+import StudentSubtabs from './SubTabs';
 
 export default class StudentsTab extends React.Component<any, any> {
   constructor(props: any) {
