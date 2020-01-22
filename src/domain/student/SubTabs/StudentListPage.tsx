@@ -8,6 +8,7 @@ import {GET_STUDENT_LIST, GET_STUDENT_FILTER_DATA} from '../_queries';
 
 const w140 = {
   width: '140px',
+  marginBottom: '5px',
 };
 
 type StudentTableStates = {
@@ -26,20 +27,21 @@ type StudentTableStates = {
 class StudentsTable extends React.Component<any, StudentTableStates> {
   constructor(props: any) {
     super(props);
+    const params = new URLSearchParams(location.search);
     this.state = {
       students: {},
       studentData: {
         college: {
-          id: 1801,
-        },
-        academicYear: {
-          id: 1701,
+          id: params.get('cid'),
         },
         branch: {
-          id: '',
+          id: params.get('bid'),
+        },
+        academicYear: {
+          id: params.get('ayid'),
         },
         department: {
-          id: '',
+          id: params.get('dptid'),
         },
         batch: {
           id: '',
@@ -65,8 +67,8 @@ class StudentsTable extends React.Component<any, StudentTableStates> {
       pageSize: 5,
       search: '',
     };
-    this.createBranches = this.createBranches.bind(this);
-    this.createDepartments = this.createDepartments.bind(this);
+    // this.createBranches = this.createBranches.bind(this);
+    // this.createDepartments = this.createDepartments.bind(this);
     this.createBatches = this.createBatches.bind(this);
     this.createSections = this.createSections.bind(this);
     this.createStudentTypes = this.createStudentTypes.bind(this);
@@ -83,46 +85,46 @@ class StudentsTable extends React.Component<any, StudentTableStates> {
     this.download = this.download.bind(this);
   }
 
-  createBranches(branches: any) {
-    let branchesOptions = [
-      <option key={0} value="">
-        Select Branch
-      </option>,
-    ];
-    for (let i = 0; i < branches.length; i++) {
-      branchesOptions.push(
-        <option key={branches[i].id} value={branches[i].id}>
-          {branches[i].branchName}
-        </option>
-      );
-    }
-    return branchesOptions;
-  }
+  // createBranches(branches: any) {
+  //   let branchesOptions = [
+  //     <option key={0} value="">
+  //       Select Branch
+  //     </option>,
+  //   ];
+  //   for (let i = 0; i < branches.length; i++) {
+  //     branchesOptions.push(
+  //       <option key={branches[i].id} value={branches[i].id}>
+  //         {branches[i].branchName}
+  //       </option>
+  //     );
+  //   }
+  //   return branchesOptions;
+  // }
 
-  createDepartments(
-    departments: any,
-    selectedBranchId: any,
-    selectedAcademicYearId: any
-  ) {
-    let departmentsOptions = [
-      <option key={0} value="">
-        Select department
-      </option>,
-    ];
-    for (let i = 0; i < departments.length; i++) {
-      if (
-        selectedBranchId == departments[i].branch.id &&
-        selectedAcademicYearId == departments[i].academicyear.id
-      ) {
-        departmentsOptions.push(
-          <option key={departments[i].id} value={departments[i].id}>
-            {departments[i].name}
-          </option>
-        );
-      }
-    }
-    return departmentsOptions;
-  }
+  // createDepartments(
+  //   departments: any,
+  //   selectedBranchId: any,
+  //   selectedAcademicYearId: any
+  // ) {
+  //   let departmentsOptions = [
+  //     <option key={0} value="">
+  //       Select department
+  //     </option>,
+  //   ];
+  //   for (let i = 0; i < departments.length; i++) {
+  //     if (
+  //       selectedBranchId == departments[i].branch.id &&
+  //       selectedAcademicYearId == departments[i].academicyear.id
+  //     ) {
+  //       departmentsOptions.push(
+  //         <option key={departments[i].id} value={departments[i].id}>
+  //           {departments[i].name}
+  //         </option>
+  //       );
+  //     }
+  //   }
+  //   return departmentsOptions;
+  // }
 
   createBatches(batches: any, selectedDepartmentId: any) {
     let batchesOptions = [
@@ -597,37 +599,6 @@ class StudentsTable extends React.Component<any, StudentTableStates> {
           <div>
             <div className="student-flex">
               <div>
-                <label htmlFor="">Branch</label>
-                <select
-                  name="branch"
-                  id="branch"
-                  onChange={this.onChange}
-                  value={studentData.branch.id}
-                  className="gf-form-input max-width-22"
-                >
-                  {this.createBranches(
-                    this.props.data.createStudentFilterDataCache.branches
-                  )}
-                </select>
-              </div>
-              <div>
-                <label htmlFor="">Department</label>
-                <select
-                  required
-                  name="department"
-                  id="department"
-                  onChange={this.onChange}
-                  value={studentData.department.id}
-                  className="gf-form-input max-width-22"
-                >
-                  {this.createDepartments(
-                    this.props.data.createStudentFilterDataCache.departments,
-                    studentData.branch.id,
-                    studentData.academicYear.id
-                  )}
-                </select>
-              </div>
-              <div>
                 <label htmlFor="">Year</label>
                 <select
                   required
@@ -700,18 +671,18 @@ class StudentsTable extends React.Component<any, StudentTableStates> {
                   onChange={this.onChange}
                 />
               </div>
-            </div>
-            <div className="m-b-1 bg-heading-bg studentSearch">
-              {/* <h4 className="ptl-06"></h4> */}
-              <button
-                className="btn btn-primary"
-                id="btnFind"
-                name="btnFind"
-                onClick={this.onClick}
-                style={w140}
-              >
-                Search Students
-              </button>
+              <div className="bg-heading-bg studentSearch">
+                {/* <h4 className="ptl-06"></h4> */}
+                <button
+                  className="btn btn-primary"
+                  id="btnFind"
+                  name="btnFind"
+                  onClick={this.onClick}
+                  style={w140}
+                >
+                  Search Students
+                </button>
+              </div>
             </div>
 
             <table id="studentlistpage" className="striped-table fwidth bg-white">

@@ -644,7 +644,8 @@ td {
 }
 
 #srch input {
-  width: 140px;
+  width: 200px;
+  margin-right: 5px;
 }
 
 .student-flex {
