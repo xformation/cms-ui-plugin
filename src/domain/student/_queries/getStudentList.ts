@@ -24,7 +24,8 @@ export const GET_STUDENT_LIST = gql`
       bloodGroup
       state
       country
-      studentContactNumber
+      studentPrimaryCellNumber
+      studentAlternateCellNumber
       relationWithStudent
       emergencyContactName
       emergencyContactMiddleName

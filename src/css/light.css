@@ -92,3 +92,18 @@
   grid-gap: 5px;
   padding: 5px 10px 5px 5px;
 }
+
+.p-m-1 {
+  margin: 0rem 1rem 1rem 1.6rem;
+}
+
+.mbten {
+  margin-bottom: 10px;
+}
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: 21% 79%;
+  grid-gap: 5px;
+  padding: 20px 10px 0px 5px;
+}

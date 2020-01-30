@@ -4,6 +4,7 @@ import {withRouter, RouteComponentProps, Link} from 'react-router-dom';
 import {TabContent, TabPane, Nav, NavItem, NavLink} from 'reactstrap';
 import AddStudentPage from './AddStudentPage';
 import StudentListPage from './StudentListPage';
+import StudentDetailsPage from './StudentDetailsPage';
 
 export default class StudentSubtabs extends React.Component<any, any> {
   constructor(props: any) {
@@ -45,6 +46,16 @@ export default class StudentSubtabs extends React.Component<any, any> {
               Create Student
             </NavLink>
           </NavItem>
+          <NavItem className="cursor-pointer">
+            <NavLink
+              className={`vertical-nav-link ${activeTab === 2 ? 'side-active' : ''}`}
+              onClick={() => {
+                this.toggleTab(2);
+              }}
+            >
+              Student Details
+            </NavLink>
+          </NavItem>
         </Nav>
         <TabContent activeTab={activeTab} className="col-sm-10 border-left p-t-1">
           <TabPane tabId={0}>
@@ -52,6 +63,9 @@ export default class StudentSubtabs extends React.Component<any, any> {
           </TabPane>
           <TabPane tabId={1}>
             <AddStudentPage />
+          </TabPane>
+          <TabPane tabId={2}>
+            <StudentDetailsPage />
           </TabPane>
         </TabContent>
       </section>

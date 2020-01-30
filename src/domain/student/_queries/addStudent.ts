@@ -29,8 +29,8 @@ export const ADD_STUDENT = gql`
         state
         country
         pincode
-        studentContactNumber
-        alternateContactNumber
+        studentPrimaryCellNumber
+        studentAlternateCellNumber
         studentEmailAddress
         alternateEmailAddress
         relationWithStudent
