@@ -1,10 +1,11 @@
 import * as React from 'react';
 import * as _ from 'lodash';
 import {withRouter, RouteComponentProps, Link} from 'react-router-dom';
-import {graphql, QueryProps, MutationFunc, compose} from 'react-apollo';
+import {withApollo} from 'react-apollo';
 import '../../../css/dark.css';
 import withLoadingHandler from '../withLoadingHandler';
 import {GET_STUDENT_LIST, GET_STUDENT_FILTER_DATA} from '../_queries';
+import wsCmsBackendServiceSingletonClient from '../../../wsCmsBackendServiceClient';
 
 const w140 = {
   width: '140px',
@@ -22,27 +23,46 @@ type StudentTableStates = {
   genders: any;
   pageSize: any;
   search: any;
+  branchId: any;
+  academicYearId: any;
+  departmentId: any;
+  createStudentFilterDataCache: any;
+  // user: any;
 };
 
-class StudentsTable extends React.Component<any, StudentTableStates> {
+export interface StudentListProps extends React.HTMLAttributes<HTMLElement> {
+  [data: string]: any;
+  // user?: any;
+  createStudentFilterDataCache?: any;
+  branchId?: any;
+  academicYearId?: any;
+  departmentId?: any;
+}
+
+class StudentsTable extends React.Component<StudentListProps, StudentTableStates> {
   constructor(props: any) {
     super(props);
     const params = new URLSearchParams(location.search);
     this.state = {
+      // user: this.props.user,
+      createStudentFilterDataCache: this.props.createStudentFilterDataCache,
+      branchId: null,
+      academicYearId: null,
+      departmentId: null,
       students: {},
       studentData: {
-        college: {
-          id: params.get('cid'),
-        },
-        branch: {
-          id: params.get('bid'),
-        },
-        academicYear: {
-          id: params.get('ayid'),
-        },
-        department: {
-          id: params.get('dptid'),
-        },
+        // college: {
+        //   id: params.get('cid'),
+        // },
+        // branch: {
+        //   id: params.get('bid'),
+        // },
+        // academicYear: {
+        //   id: params.get('ayid'),
+        // },
+        // department: {
+        //   id: params.get('dptid'),
+        // },
         batch: {
           id: '',
         },
@@ -73,6 +93,7 @@ class StudentsTable extends React.Component<any, StudentTableStates> {
     this.createSections = this.createSections.bind(this);
     this.createStudentTypes = this.createStudentTypes.bind(this);
     this.createGenders = this.createGenders.bind(this);
+    this.showDetail = this.showDetail.bind(this);
 
     // this.searchHandlers = this.searchHandlers.bind(this);
 
@@ -83,6 +104,41 @@ class StudentsTable extends React.Component<any, StudentTableStates> {
     this.exportStudents = this.exportStudents.bind(this);
     this.convertArrayOfObjectsToCSV = this.convertArrayOfObjectsToCSV.bind(this);
     this.download = this.download.bind(this);
+    this.registerSocket = this.registerSocket.bind(this);
+  }
+
+  async componentDidMount() {
+    await this.registerSocket();
+  }
+
+  async registerSocket() {
+    const socket = wsCmsBackendServiceSingletonClient.getInstance();
+    let dpid: any = 0;
+
+    socket.onmessage = (response: any) => {
+      let message = JSON.parse(response.data);
+      console.log('StudentList. message received from server ::: ', message);
+      this.setState({
+        branchId: message.selectedBranchId,
+        departmentId: message.selectedDepartmentId,
+      });
+      dpid = '' + message.selectedDepartmentId;
+      console.log('StudentList. branchId: ', this.state.branchId);
+      console.log('StudentList. departmentId: ', this.state.departmentId);
+    };
+
+    socket.onopen = () => {
+      // console.log(
+      //   'StudentList. Opening websocekt connection on User : ',
+      //   this.state.user.login
+      // );
+      // socket.send(this.state.user.login);
+    };
+
+    window.onbeforeunload = () => {
+      console.log('StudentList. Closing websocket connection with cms backend service');
+    };
+    return;
   }
 
   // createBranches(branches: any) {
@@ -266,7 +322,9 @@ class StudentsTable extends React.Component<any, StudentTableStates> {
                   >
                     {student.studentName}
                   </Link> */}
-                  <a onClick={this.showDetail}>{student.studentName}</a>
+                  <a onClick={(e: any) => this.showDetail(student, e)}>
+                    {student.studentName}
+                  </a>
                 </td>
                 <td>{student.rollNo}</td>
                 <td>{student.id}</td>
@@ -298,7 +356,9 @@ class StudentsTable extends React.Component<any, StudentTableStates> {
                 >
                   {student.studentName}
                 </Link> */}
-                <a onClick={this.showDetail}>{student.studentName}</a>
+                <a onClick={(e: any) => this.showDetail(student, e)}>
+                  {student.studentName}
+                </a>
               </td>
               <td>{student.rollNo}</td>
               <td>{student.id}</td>
@@ -408,52 +468,55 @@ class StudentsTable extends React.Component<any, StudentTableStates> {
     const {search} = e.nativeEvent.target;
     const {name, value} = e.nativeEvent.target;
     const {studentData} = this.state;
-    if (name === 'branch') {
-      this.setState({
-        studentData: {
-          ...studentData,
-          branch: {
-            id: value,
-          },
-          department: {
-            id: '',
-          },
-          batch: {
-            id: '',
-          },
-          section: {
-            id: '',
-          },
-          gender: {
-            id: '',
-          },
-          studentType: {
-            id: '',
-          },
-        },
-      });
-    } else if (name === 'department') {
-      this.setState({
-        studentData: {
-          ...studentData,
-          department: {
-            id: value,
-          },
-          batch: {
-            id: '',
-          },
-          section: {
-            id: '',
-          },
-          gender: {
-            id: '',
-          },
-          studentType: {
-            id: '',
-          },
-        },
-      });
-    } else if (name === 'batch') {
+    // if (name === 'branch') {
+    //   this.setState({
+    //     studentData: {
+    //       ...studentData,
+    //       branch: {
+    //         id: value,
+    //       },
+    //       department: {
+    //         id: '',
+    //       },
+    //       batch: {
+    //         id: value,
+    //       },
+    //       section: {
+    //         id: '',
+    //       },
+    //       gender: {
+    //         id: '',
+    //       },
+    //       studentType: {
+    //         id: '',
+    //       },
+    //     },
+    //   });
+    // }
+    // if (name === 'department') {
+    //   this.setState({
+    //     studentData: {
+    //       ...studentData,
+    //       department: {
+    //         id: value,
+    //       },
+    //       batch: {
+    //         id: '',
+    //       },
+    //       section: {
+    //         id: '',
+    //       },
+    //       gender: {
+    //         id: '',
+    //       },
+    //       studentType: {
+    //         id: '',
+    //       },
+    //     },
+    //   });
+    // } else
+
+    if (name === 'batch') {
       this.setState({
         studentData: {
           ...studentData,
@@ -520,30 +583,34 @@ class StudentsTable extends React.Component<any, StudentTableStates> {
   //   this.setState({search: event.target.value.substr()});
   // }
 
-  showDetail(obj: any) {
+  showDetail(obj: any, e: any) {
+    console.log('object details:', obj);
     const {studentData} = this.state;
     studentData.id = obj.id;
-    console.log('object details:', studentData.id);
   }
 
   onClick = (e: any) => {
     const {name, value} = e.nativeEvent.target;
     const {mutate} = this.props;
-    const {studentData} = this.state;
+    const {studentData, branchId, departmentId} = this.state;
     e.preventDefault();
 
     let studentFilterInputObject = {
-      branchId: studentData.branch.id,
-      departmentId: studentData.department.id,
+      branchId: branchId,
+      departmentId: departmentId,
       batchId: studentData.batch.id,
       sectionId: studentData.section.id,
       gender: studentData.gender.id,
       studentType: studentData.studentType.id,
     };
 
-    return mutate({
-      variables: {filter: studentFilterInputObject},
-    })
+    this.props.client
+      .mutate({
+        mutation: GET_STUDENT_LIST,
+        variables: {
+          filter: studentFilterInputObject,
+        },
+      })
       .then((data: any) => {
         const sdt = data;
         studentData.mutateResult = [];
@@ -560,12 +627,13 @@ class StudentsTable extends React.Component<any, StudentTableStates> {
   };
 
   render() {
-    const {
-      data: {createStudentFilterDataCache, refetch},
-      mutate,
-    } = this.props;
-    const {studentData} = this.state;
+    // const {
+    //   data: {createStudentFilterDataCache, refetch},
+    //   mutate,
+    // } = this.props;
+    const {studentData, createStudentFilterDataCache, departmentId} = this.state;
     // { studentData.filter((this.state.search)).map() }
+    console.log('See Department id:', departmentId);
     return (
       <section className="customCss">
         <div className="container-fluid p-1 ">
@@ -608,10 +676,15 @@ class StudentsTable extends React.Component<any, StudentTableStates> {
                   value={studentData.batch.id}
                   className="gf-form-input max-width-22"
                 >
-                  {this.createBatches(
-                    this.props.data.createStudentFilterDataCache.batches,
-                    studentData.department.id
-                  )}
+                  {createStudentFilterDataCache !== null &&
+                  createStudentFilterDataCache !== undefined &&
+                  createStudentFilterDataCache.batches !== null &&
+                  createStudentFilterDataCache.batches !== undefined
+                    ? this.createBatches(
+                        createStudentFilterDataCache.batches,
+                        departmentId
+                      )
+                    : null}
                 </select>
               </div>
               <div>
@@ -624,10 +697,15 @@ class StudentsTable extends React.Component<any, StudentTableStates> {
                   value={studentData.section.id}
                   className="gf-form-input max-width-12"
                 >
-                  {this.createSections(
-                    this.props.data.createStudentFilterDataCache.sections,
-                    studentData.batch.id
-                  )}
+                  {createStudentFilterDataCache !== null &&
+                  createStudentFilterDataCache !== undefined &&
+                  createStudentFilterDataCache.sections !== null &&
+                  createStudentFilterDataCache.sections !== undefined
+                    ? this.createSections(
+                        createStudentFilterDataCache.sections,
+                        studentData.batch.id
+                      )
+                    : null}
                 </select>
               </div>
 
@@ -641,9 +719,12 @@ class StudentsTable extends React.Component<any, StudentTableStates> {
                   value={studentData.gender.id}
                   className="gf-form-input max-width-15"
                 >
-                  {this.createGenders(
-                    this.props.data.createStudentFilterDataCache.genders
-                  )}
+                  {createStudentFilterDataCache !== null &&
+                  createStudentFilterDataCache !== undefined &&
+                  createStudentFilterDataCache.genders !== null &&
+                  createStudentFilterDataCache.genders !== undefined
+                    ? this.createGenders(createStudentFilterDataCache.genders)
+                    : null}
                 </select>
               </div>
               <div>
@@ -656,9 +737,12 @@ class StudentsTable extends React.Component<any, StudentTableStates> {
                   value={studentData.studentType.id}
                   className="gf-form-input max-width-22"
                 >
-                  {this.createStudentTypes(
-                    this.props.data.createStudentFilterDataCache.studentTypes
-                  )}
+                  {createStudentFilterDataCache !== null &&
+                  createStudentFilterDataCache !== undefined &&
+                  createStudentFilterDataCache.studentTypes !== null &&
+                  createStudentFilterDataCache.studentTypes !== undefined
+                    ? this.createStudentTypes(createStudentFilterDataCache.studentTypes)
+                    : null}
                 </select>
               </div>
               <div id="srch" className="margin-bott">
@@ -719,15 +803,17 @@ class StudentsTable extends React.Component<any, StudentTableStates> {
   }
 }
 
-export default graphql(GET_STUDENT_FILTER_DATA, {
-  options: ({}) => ({
-    variables: {
-      collegeId: 1801,
-      academicYearId: 1701,
-    },
-  }),
-})(
-  withLoadingHandler(
-    compose(graphql(GET_STUDENT_LIST, {name: 'mutate'}))(StudentsTable) as any
-  )
-);
+export default withApollo(StudentsTable);
+
+// export default graphql(GET_STUDENT_FILTER_DATA, {
+//   options: ({}) => ({
+//     variables: {
+//       collegeId: 1001,
+//       academicYearId: 1101,
+//     },
+//   }),
+// })(
+//   withLoadingHandler(
+//     compose(graphql(GET_STUDENT_LIST, {name: 'mutate'}))(StudentsTable) as any
+//   )
+// );

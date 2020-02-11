@@ -351,32 +351,37 @@ class StudentDetailsPage<T = {[data: string]: any}> extends React.Component<
                                 <th>Fee Line Item</th>
                                 <th>Amount</th>
                               </tr>
-                              <tr>
-                                <td>Tution Fee</td>
-                                <td>10,000</td>
-                              </tr>
-                              <tr>
-                                <td>Exam Fee</td>
-                                <td>5,000</td>
-                              </tr>
-                              <tr>
-                                <td>Lab Fee</td>
-                                <td>2,000</td>
-                              </tr>
+
+                              <tbody>
+                                <tr>
+                                  <td>Tution Fee</td>
+                                  <td>10,000</td>
+                                </tr>
+                                <tr>
+                                  <td>Exam Fee</td>
+                                  <td>5,000</td>
+                                </tr>
+                                <tr>
+                                  <td>Lab Fee</td>
+                                  <td>2,000</td>
+                                </tr>
+                              </tbody>
                             </table>
                             <table className="w-40 m-r-3 m-l-3" id="txt-align">
                               <tr>
                                 <th>Facility</th>
                                 <th>Amount</th>
                               </tr>
-                              <tr>
-                                <td>Transportation</td>
-                                <td>10,000</td>
-                              </tr>
-                              <tr>
-                                <td>Gym</td>
-                                <td>5,000</td>
-                              </tr>
+                              <tbody>
+                                <tr>
+                                  <td>Transportation</td>
+                                  <td>10,000</td>
+                                </tr>
+                                <tr>
+                                  <td>Gym</td>
+                                  <td>5,000</td>
+                                </tr>
+                              </tbody>
                             </table>
                             <div className="w-20">
                               <div className="profile-label">Next Payment</div>

@@ -1,24 +1,83 @@
 import * as React from 'react';
 import {TabContent, TabPane, Nav, NavItem, NavLink} from 'reactstrap';
 import {withApollo} from 'react-apollo';
+import wsCmsBackendServiceSingletonClient from '../../../wsCmsBackendServiceClient';
 
 import {ADD_STUDENT, GET_STUDENT_ADMISSION_DATA} from '../_queries';
-import {validators} from '../_services/commonValidation';
+import {MessageBox} from '../Message/MessageBox';
+import {commonFunctions} from '../_utilites/common.functions';
 
-type AddStudentStates = {
-  activeTab: any;
-  uploadPhoto: any;
-};
+export interface StudentProps extends React.HTMLAttributes<HTMLElement> {
+  [data: string]: any;
+  branchList?: any;
+  departmentList?: any;
+  // user?: any;
+}
 
-class AddStudentPage extends React.Component<any, AddStudentStates> {
+const ERROR_MESSAGE_MANDATORY_FIELD_MISSING = 'Mandatory fields missing';
+const ERROR_MESSAGE_INVALID_EMAIL_ID = 'Invalid email id';
+const ERROR_MESSAGE_SERVER_SIDE_ERROR =
+  'Due to some error in preferences service, student could not be saved. Please check preferences service logs';
+const SUCCESS_MESSAGE_STUDENT_ADDED = 'New employee saved successfully';
+const SUCCESS_MESSAGE_STUDENT_UPDATED = 'Employee updated successfully';
+
+class AddStudentPage extends React.Component<StudentProps, any> {
+  // DEFAULT_STUDENT_IMAGE = '/public/img/user_profile.png';
   isActive: any = false;
   constructor(props: any) {
     super(props);
     this.state = {
+      branchList: this.props.branchList,
+      departmentList: this.props.departmentList,
+      // user: this.props.user,
       activeTab: 0,
       uploadPhoto: null,
+      branchId: null,
+      academicYearId: null,
+      departmentId: null,
+      errorMessage: '',
+      successMessage: '',
+      studentObj: {
+        studentName: '',
+        departmentId: '',
+        branchId: '',
+      },
     };
     this.toggleTab = this.toggleTab.bind(this);
+    this.validatePersonalInfo = this.validatePersonalInfo.bind(this);
+    this.registerSocket = this.registerSocket.bind(this);
+  }
+
+  async componentDidMount() {
+    await this.registerSocket();
+  }
+
+  registerSocket() {
+    const socket = wsCmsBackendServiceSingletonClient.getInstance();
+
+    socket.onmessage = (response: any) => {
+      let message = JSON.parse(response.data);
+      console.log('Student. message received from server ::: ', message);
+      this.setState({
+        branchId: message.selectedBranchId,
+        academicYearId: message.selectedAcademicYearId,
+        departmentId: message.selectedDepartmentId,
+      });
+      console.log('Student. branchId: ', this.state.branchId);
+      console.log('Student. ayId: ', this.state.academicYearId);
+    };
+
+    socket.onopen = () => {
+      // console.log(
+      //   'Student. Opening websocekt connection to cmsbackend. User : ',
+      //   this.state.user.login
+      // );
+      // socket.send(this.state.user.login);
+    };
+
+    window.onbeforeunload = () => {
+      console.log('Student. Closing websocket connection with cms backend service');
+    };
   }
 
   toggleTab(tabNo: any) {
@@ -27,10 +86,114 @@ class AddStudentPage extends React.Component<any, AddStudentStates> {
     });
   }
 
+  async doSave(inputObj: any, id: any) {
+    let btn = document.querySelector('#' + id);
+    btn && btn.setAttribute('disabled', 'true');
+    let exitCode = 0;
+
+    await this.props.client
+      .mutate({
+        mutation: ADD_STUDENT,
+        variables: {
+          input: inputObj,
+        },
+      })
+      .then((resp: any) => {
+        console.log(
+          'Success in saveStudent Mutation. Exit code : '
+          // resp.data.saveTeacher.cmsTeacherVo.exitCode
+        );
+        // exitCode = resp.data.saveTeacher.cmsTeacherVo.exitCode;
+
+        this.setState({
+          // staffList: resp.data.saveTeacher.cmsTeacherVo.dataList,
+        });
+      })
+      .catch((error: any) => {
+        exitCode = 1;
+        console.log('Error in saveStudent : ', error);
+      });
+    btn && btn.removeAttribute('disabled');
+
+    let errorMessage = '';
+    let successMessage = '';
+    if (exitCode === 0) {
+      successMessage = SUCCESS_MESSAGE_STUDENT_ADDED;
+      if (inputObj.id !== null) {
+        successMessage = SUCCESS_MESSAGE_STUDENT_UPDATED;
+      }
+    } else {
+      errorMessage = ERROR_MESSAGE_SERVER_SIDE_ERROR;
+    }
+    this.setState({
+      successMessage: successMessage,
+      errorMessage: errorMessage,
+    });
+    // this.props.onSaveUpdate(errorMessage, successMessage);
+  }
+
+  onChange = (e: any) => {
+    e.preventDefault();
+    const {name, value} = e.nativeEvent.target;
+    const {studentObj} = this.state;
+    this.setState({
+      studentObj: {
+        ...studentObj,
+        [name]: value,
+      },
+      errorMessage: '',
+      successMessage: '',
+    });
+
+    commonFunctions.restoreTextBoxBorderToNormal(name);
+  };
+
+  validatePersonalInfo() {
+    const {studentObj} = this.state;
+    let isValid = true;
+    let errorMessage = '';
+    if (
+      studentObj.studentName === undefined ||
+      studentObj.studentName === null ||
+      studentObj.studentName.trim() === ''
+    ) {
+      commonFunctions.changeTextBoxBorderToError(
+        studentObj.studentName === undefined || studentObj.studentName === null
+          ? ''
+          : studentObj.studentName,
+        'studentName'
+      );
+      errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
+      console.log('check msg error:', errorMessage);
+      isValid = false;
+    }
+    this.setState({
+      errorMessage: errorMessage,
+    });
+
+    if (isValid) {
+      this.toggleTab(1);
+    }
+    return isValid;
+  }
+
+  // getInput(studentObj: any) {
+  //   let inputObj = {
+  //     studentName: studentObj.studentName,
+  //   };
+  //   return inputObj;
+  // }
+
   render() {
-    const {activeTab} = this.state;
+    const {activeTab, errorMessage, successMessage, studentObj} = this.state;
     return (
       <section className="tab-container">
+        {errorMessage !== '' ? (
+          <MessageBox id="mbox" message={errorMessage} activeTab={2} />
+        ) : null}
+        {successMessage !== '' ? (
+          <MessageBox id="mbox" message={successMessage} activeTab={1} />
+        ) : null}
         <div className="grid">
           <div className="leftbar">
             <div className="row p-1">
@@ -83,21 +246,9 @@ class AddStudentPage extends React.Component<any, AddStudentStates> {
               />
             </div>
             <div className="form-justify">
-              <label htmlFor="">*Staff Type:</label>
+              <label htmlFor="">*Student Type:</label>
               <select className="gf-form-input width-11 b-r" required>
-                <option value="">Select Staff Type</option>
-              </select>
-            </div>
-            <div className="form-justify">
-              <label htmlFor="">*Department:</label>
-              <select className="gf-form-input width-11 b-r" required>
-                <option value="">Select Department</option>
-              </select>
-            </div>
-            <div className="form-justify">
-              <label htmlFor="">*Branch:</label>
-              <select className="gf-form-input width-11 b-r" required>
-                <option value="">Select Branch</option>
+                <option value="">Select Student Type</option>
               </select>
             </div>
             <div className="form-justify">
@@ -145,8 +296,13 @@ class AddStudentPage extends React.Component<any, AddStudentStates> {
                 <div>
                   <div className="form-grid">
                     <div>
-                      <label htmlFor="">Name*</label>
+                      <label htmlFor="">
+                        Name <span style={{color: 'red'}}> * </span>
+                      </label>
                       <input
+                        onChange={this.onChange}
+                        value={studentObj.studentName}
+                        id="studentName"
                         className="gf-form-input fwidth"
                         type="text"
                         required
@@ -157,6 +313,9 @@ class AddStudentPage extends React.Component<any, AddStudentStates> {
                     <div>
                       <label htmlFor="">Middle Name</label>
                       <input
+                        onChange={this.onChange}
+                        // value={studentObj.studentName}
+                        id="studentMiddleName"
                         className="gf-form-input fwidth"
                         type="text"
                         name="studentMiddleName"
@@ -303,199 +462,12 @@ class AddStudentPage extends React.Component<any, AddStudentStates> {
                       </select>
                     </div>
                     <div>
-                      <button type="button" className="btn btn-primary border-bottom">
+                      <button
+                        type="button"
+                        onClick={this.validatePersonalInfo}
+                        className="btn btn-primary border-bottom"
+                      >
                         Next
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </TabPane>
-
-              <TabPane tabId={1}>
-                <div>
-                  <div className="form-grid">
-                    <div>
-                      <label htmlFor="">Address Line 1*</label>
-                      <input
-                        className="gf-form-input fwidth"
-                        type="text"
-                        required
-                        name="adr1"
-                        maxLength={255}
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="">Address Line 2</label>
-                      <input
-                        className="gf-form-input fwidth"
-                        type="text"
-                        required
-                        name="adr2"
-                        maxLength={255}
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="">Address Line 3</label>
-                      <input
-                        className="gf-form-input fwidth"
-                        type="text"
-                        required
-                        name="adr3"
-                        maxLength={255}
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="">Town*</label>
-                      <input
-                        className="gf-form-input fwidth"
-                        type="text"
-                        required
-                        name="stftown"
-                        maxLength={255}
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="">State*</label>
-                      <input
-                        className="gf-form-input fwidth"
-                        type="text"
-                        required
-                        name="stfstate"
-                        maxLength={255}
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="">Country*</label>
-                      <input
-                        className="gf-form-input fwidth"
-                        type="text"
-                        required
-                        name="stfcountry"
-                        maxLength={255}
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="">Pin Code*</label>
-                      <input
-                        className="gf-form-input fwidth"
-                        type="number"
-                        name="stfpin"
-                        required
-                        maxLength={255}
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="">Contact Number*</label>
-                      <input
-                        className="gf-form-input fwidth"
-                        type="number"
-                        name="stfcont"
-                        required
-                        maxLength={255}
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="">Alternate Contact Number 1</label>
-                      <input
-                        className="gf-form-input fwidth"
-                        type="number"
-                        name="stfaltcont"
-                        required
-                        maxLength={255}
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="">Email Address*</label>
-                      <input
-                        className="gf-form-input fwidth"
-                        type="text"
-                        required
-                        name="stfemail"
-                        maxLength={255}
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="">Alternate Email Address</label>
-                      <input
-                        className="gf-form-input fwidth"
-                        type="email"
-                        required
-                        name="stfaltemail"
-                        maxLength={255}
-                      />
-                    </div>
-                    <div></div>
-                    <div>
-                      <button type="button" className="btn btn-primary border-bottom">
-                        Next
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </TabPane>
-              <TabPane tabId={2}>
-                <div>
-                  <div className="staff-p">
-                    <label htmlFor="">Relation with Staff*</label>
-                    <select className="gf-form-input fwidth" required>
-                      <option value="">Select Relation</option>
-                    </select>
-                  </div>
-                  <div className="form-grid m-t-1">
-                    <div>
-                      <label htmlFor="">Name*</label>
-                      <input
-                        className="gf-form-input fwidth"
-                        type="text"
-                        required
-                        name="stfpname"
-                        maxLength={255}
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="">Middle Name</label>
-                      <input
-                        className="gf-form-input fwidth"
-                        type="text"
-                        required
-                        name="stfpmname"
-                        maxLength={255}
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="">Last Name*</label>
-                      <input
-                        className="gf-form-input fwidth"
-                        type="text"
-                        required
-                        name="stfplname"
-                        maxLength={255}
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="">Contact Number*</label>
-                      <input
-                        className="gf-form-input fwidth"
-                        type="text"
-                        required
-                        name="stfpcn"
-                        maxLength={255}
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="">Email Address*</label>
-                      <input
-                        className="gf-form-input fwidth"
-                        type="email"
-                        required
-                        name="stfpemail"
-                        maxLength={255}
-                      />
-                    </div>
-                    <div></div>
-                    <div>
-                      <button type="button" className="btn btn-primary border-bottom">
-                        Save
                       </button>
                     </div>
                   </div>

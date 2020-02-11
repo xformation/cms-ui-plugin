@@ -107,3 +107,7 @@
   grid-gap: 5px;
   padding: 20px 10px 0px 5px;
 }
+
+.input-textbox-error {
+  border: 1px solid #d44939 !important;
+}

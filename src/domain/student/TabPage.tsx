@@ -3,14 +3,32 @@ import * as React from 'react';
 import {TabContent, TabPane, Nav, NavItem, NavLink} from 'reactstrap';
 import {FaUserGraduate} from 'react-icons/fa';
 import StudentSubtabs from './SubTabs';
+import {config} from '../../config';
 
 export default class StudentsTab extends React.Component<any, any> {
   constructor(props: any) {
     super(props);
     this.state = {
       activeTab: 0,
+      user: null,
     };
     this.toggleTab = this.toggleTab.bind(this);
+  }
+
+  async componentDidMount() {
+    try {
+      const response = await fetch(config.LOGGED_IN_USER_URL);
+      if (!response.ok) {
+        console.log('student plugin. Response error : ', response.statusText);
+        return;
+      }
+      const json = await response.json();
+      this.setState({user: json});
+    } catch (error) {
+      console.log('student plugin. Fetch user error: ', error);
+    }
+
+    console.log('student plugin. USER -- ', this.state.user);
   }
 
   toggleTab(tabNo: any) {
@@ -20,7 +38,7 @@ export default class StudentsTab extends React.Component<any, any> {
   }
 
   render() {
-    const {activeTab} = this.state;
+    const {activeTab, user} = this.state;
     return (
       <section className="tab-container">
         <div className="tab-flex p-1">
@@ -43,7 +61,8 @@ export default class StudentsTab extends React.Component<any, any> {
         </Nav>
         <TabContent activeTab={activeTab} className="border-right">
           <TabPane tabId={0}>
-            <StudentSubtabs />
+            {/* <StudentSubtabs /> */}
+            {user !== null && <StudentSubtabs user={user} />}
           </TabPane>
         </TabContent>
       </section>
