@@ -790,3 +790,8 @@ td {
   border-right: 10px solid transparent;
   border-bottom: 11px solid #1486c7;
 }
+
+.asflex {
+  display: flex;
+  align-items: center;
+}

@@ -1,9 +1,10 @@
 import gql from 'graphql-tag';
 
 export const ADD_STUDENT = gql`
-  mutation AddStudent($input: AddStudentInput!) {
+  mutation addStudent($input: AddStudentInput!) {
     addStudent(input: $input) {
       student {
+        id
         studentName
         studentMiddleName
         studentLastName
@@ -13,36 +14,101 @@ export const ADD_STUDENT = gql`
         motherName
         motherMiddleName
         motherLastName
-        aadharNo
+        studentAadharNo
+        studentPanNo
+        studentSocialSecurityNo
+        studentTaxReferenceNo
+        studentBplNo
+        studentDrivingLicenseNo
+        studentPassportNo
         dateOfBirth
         placeOfBirth
         religion
         caste
         subCaste
         age
+        age
         sex
-        bloodGroup
-        addressLineOne
-        addressLineTwo
-        addressLineThree
-        town
+        studentLocalAddress
+        studentPermanentAddress
+        city
         state
         country
-        pincode
+        pinCode
         studentPrimaryCellNumber
         studentAlternateCellNumber
-        studentEmailAddress
-        alternateEmailAddress
+        studentLandLinePhoneNumber
+        studentPrimaryEmailId
+        studentAlternateEmailId
+        emergencyContactEmailId
         relationWithStudent
         emergencyContactName
         emergencyContactMiddleName
         emergencyContactLastName
-        emergencyContactNo
-        emergencyContactEmailAddress
-        uploadPhoto
+        emergencyContactCellNumber
+        emergencyContactLandLinePhoneNumber
+        emergencyContactEmailId
+        studentImagePath
         admissionNo
+        enrollmentNo
         rollNo
         studentType
+        fatherCellNumber
+        fatherEmailId
+        fatherOccupation
+        fatherOfficeEmailId
+        fatherOfficeAddress
+        fatherOfficeCellNumber
+        fatherOfficeLandLinePhoneNumber
+        fatherAadharNo
+        fatherPanNo
+        fatherSocialSecurityNo
+        fatherTaxReferenceNo
+        fatherBplNo
+        motherDrivingLicenseNo
+        fatherPassportNo
+        fatherImagePath
+        motherCellNumber
+        motherEmailId
+        motherOccupation
+        motherOfficeEmailId
+        motherOfficeAddress
+        motherOfficeCellNumber
+        guardianOfficeLandLinePhoneNumber
+        guardianEmailId
+        guardianOccupation
+        guardianOfficeEmailId
+        guardianOfficeAddress
+        guardianOfficeCellNumber
+        guardianOfficeLandLinePhoneNumber
+        guardianImagePath
+        isGuardianSponsorAgency
+        sponsorAgencyName
+        sponsorAgencyRegistrationNo
+        sponsorAgencyAddress
+        sponsorAgencyCellNumber
+        sponsorAgencyLandLineNumber
+        sponsorAgencyEmailId
+        sponsorAgencyAppointeeName
+        sponsorAgencyAppointeeDesignation
+        sponsorAgencyAppointeeCellNumber
+        sponsorAgencyAppointeeLandLineNumber
+        sponsorAgencyAppointeeEmailId
+        sponsorAgencyAppointeeOfficeAddress
+        isPhysicallyChallenged
+        detailsOfDisability
+        disabilityCertificateNo
+        disabilityCertificateIssueAuthority
+        disabilityCertificateIssueDate
+        percentagOfDisability
+        bloodGroup
+        vaccinationDetails
+        otherMedicalDetails
+        status
+        comments
+        department {
+          id
+        }
         batch {
           id
         }
@@ -50,9 +116,6 @@ export const ADD_STUDENT = gql`
           id
         }
         branch {
-          id
-        }
-        department {
           id
         }
       }
