@@ -252,20 +252,20 @@ class AddStudentPage extends React.Component<StudentProps, any> {
       errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
       isValid = false;
     }
-    if (
-      studentObj.studentType === undefined ||
-      studentObj.studentType === null ||
-      studentObj.studentType === ''
-    ) {
-      commonFunctions.changeTextBoxBorderToError(
-        studentObj.studentType === undefined || studentObj.studentType === null
-          ? ''
-          : studentObj.studentType,
-        'studentType'
-      );
-      errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
-      isValid = false;
-    }
+    // if (
+    //   studentObj.studentType === undefined ||
+    //   studentObj.studentType === null ||
+    //   studentObj.studentType === ''
+    // ) {
+    //   commonFunctions.changeTextBoxBorderToError(
+    //     studentObj.studentType === undefined || studentObj.studentType === null
+    //       ? ''
+    //       : studentObj.studentType,
+    //     'studentType'
+    //   );
+    //   errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
+    //   isValid = false;
+    // }
     if (
       studentObj.status === undefined ||
       studentObj.status === null ||
@@ -390,20 +390,20 @@ class AddStudentPage extends React.Component<StudentProps, any> {
       errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
       isValid = false;
     }
-    if (
-      studentObj.studentType === undefined ||
-      studentObj.studentType === null ||
-      studentObj.studentType === ''
-    ) {
-      commonFunctions.changeTextBoxBorderToError(
-        studentObj.studentType === undefined || studentObj.studentType === null
-          ? ''
-          : studentObj.studentType,
-        'studentType'
-      );
-      errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
-      isValid = false;
-    }
+    // if (
+    //   studentObj.studentType === undefined ||
+    //   studentObj.studentType === null ||
+    //   studentObj.studentType === ''
+    // ) {
+    //   commonFunctions.changeTextBoxBorderToError(
+    //     studentObj.studentType === undefined || studentObj.studentType === null
+    //       ? ''
+    //       : studentObj.studentType,
+    //     'studentType'
+    //   );
+    //   errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
+    //   isValid = false;
+    // }
     if (
       studentObj.status === undefined ||
       studentObj.status === null ||
@@ -507,20 +507,20 @@ class AddStudentPage extends React.Component<StudentProps, any> {
       errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
       isValid = false;
     }
-    if (
-      studentObj.studentType === undefined ||
-      studentObj.studentType === null ||
-      studentObj.studentType === ''
-    ) {
-      commonFunctions.changeTextBoxBorderToError(
-        studentObj.studentType === undefined || studentObj.studentType === null
-          ? ''
-          : studentObj.studentType,
-        'studentType'
-      );
-      errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
-      isValid = false;
-    }
+    // if (
+    //   studentObj.studentType === undefined ||
+    //   studentObj.studentType === null ||
+    //   studentObj.studentType === ''
+    // ) {
+    //   commonFunctions.changeTextBoxBorderToError(
+    //     studentObj.studentType === undefined || studentObj.studentType === null
+    //       ? ''
+    //       : studentObj.studentType,
+    //     'studentType'
+    //   );
+    //   errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
+    //   isValid = false;
+    // }
     if (
       studentObj.status === undefined ||
       studentObj.status === null ||
@@ -650,13 +650,15 @@ class AddStudentPage extends React.Component<StudentProps, any> {
       rollNo: studentObj.rollNo,
       studentType: studentObj.studentType,
       departmentId: departmentId,
-      branchId: branchId,
-      strDateOfBirth:
-        studentObj.dateOfBirth !== null ||
-        studentObj.dateOfBirth !== undefined ||
-        studentObj.dateOfBirth !== ''
-          ? moment(studentObj.dateOfBirth).format('DD-MM-YYYY')
-          : '',
+      branchId: branchId, //1051 
+      batchId: 1201,
+      sectionId: 1251,
+      // strDateOfBirth:
+      //   studentObj.dateOfBirth !== null ||
+      //   studentObj.dateOfBirth !== undefined ||
+      //   studentObj.dateOfBirth !== ''
+      //     ? moment(studentObj.dateOfBirth).format('DD-MM-YYYY')
+      //     : '',
     };
     return inputObj;
   }
@@ -768,12 +770,8 @@ class AddStudentPage extends React.Component<StudentProps, any> {
                 Year <span style={{color: 'red'}}> * </span>
               </label>
               <select
-                // name="studentType"
-                // id="studentType"
                 className="gf-form-input width-11 m-b-1"
                 style={{width: '10.8rem', marginBottom: '10px', borderRadius: '0px'}}
-                onChange={this.onChange}
-                // value={studentObj.batch.id}
               >
                 <option value="">Select Year</option>
               </select>
@@ -783,12 +781,8 @@ class AddStudentPage extends React.Component<StudentProps, any> {
                 Section <span style={{color: 'red'}}> * </span>
               </label>
               <select
-                // name="studentType"
-                // id="studentType"
                 className="gf-form-input width-11 m-b-1"
                 style={{width: '10.8rem', marginBottom: '10px', borderRadius: '0px'}}
-                onChange={this.onChange}
-                // value={studentObj.section.id}
               >
                 <option value="">Select Section</option>
               </select>
@@ -804,12 +798,11 @@ class AddStudentPage extends React.Component<StudentProps, any> {
                 style={{width: '10.8rem', marginBottom: '10px', borderRadius: '0px'}}
                 onChange={this.onChange}
                 value={studentObj.studentType}
-                required
               >
                 <option value="">Select Student Type</option>
                 <option value="REGULAR">REGULAR</option>
                 <option value="STAFF_CONCESSION">STAFF_CONCESSION</option>
-                <option value="REGULAR">BENEFITS</option>
+                <option value="BENEFITS">BENEFITS</option>
                 <option value="SCHOLARSHIP">SCHOLARSHIP</option>
                 <option value="OTHER_BENEFITS">OTHER_BENEFITS</option>
               </select>
@@ -1021,9 +1014,9 @@ class AddStudentPage extends React.Component<StudentProps, any> {
                         required
                       >
                         <option value="">Select Gender</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Both">Both</option>
+                        <option value="MALE">Male</option>
+                        <option value="FEMALE">Female</option>
+                        <option value="BOTH">Both</option>
                       </select>
                     </div>
                     <div>

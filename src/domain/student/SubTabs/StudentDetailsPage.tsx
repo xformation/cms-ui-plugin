@@ -114,7 +114,7 @@ class StudentDetailsPage<T = {[data: string]: any}> extends React.Component<
                       Profile
                     </NavLink>
                   </NavItem>
-                  <NavItem className="cursor-pointer">
+                  {/* <NavItem className="cursor-pointer">
                     <NavLink
                       className={`${activeTab === 1 ? 'active' : ''}`}
                       onClick={() => {
@@ -133,7 +133,7 @@ class StudentDetailsPage<T = {[data: string]: any}> extends React.Component<
                     >
                       Academic
                     </NavLink>
-                  </NavItem>
+                  </NavItem> */}
                   <NavItem className="cursor-pointer">
                     <NavLink
                       className={`${activeTab === 3 ? 'active' : ''}`}
@@ -144,7 +144,7 @@ class StudentDetailsPage<T = {[data: string]: any}> extends React.Component<
                       Fee
                     </NavLink>
                   </NavItem>
-                  <NavItem className="cursor-pointer">
+                  {/* <NavItem className="cursor-pointer">
                     <NavLink
                       className={`${activeTab === 4 ? 'active' : ''}`}
                       onClick={() => {
@@ -173,7 +173,7 @@ class StudentDetailsPage<T = {[data: string]: any}> extends React.Component<
                     >
                       Documents
                     </NavLink>
-                  </NavItem>
+                  </NavItem> */}
                   <NavItem className="cursor-pointer">
                     <NavLink
                       className={`${activeTab === 7 ? 'active' : ''}`}
@@ -297,12 +297,12 @@ class StudentDetailsPage<T = {[data: string]: any}> extends React.Component<
                       </div>
                     </span>
                   </TabPane>
-                  <TabPane tabId={1}>
+                  {/* <TabPane tabId={1}>
                     <div className="p-1">Details Content</div>
                   </TabPane>
                   <TabPane tabId={2}>
                     <div className="p-1"> Academic Content</div>
-                  </TabPane>
+                  </TabPane> */}
                   <TabPane tabId={3}>
                     <span>
                       <div className="main-details m-1 p-2">
@@ -395,7 +395,7 @@ class StudentDetailsPage<T = {[data: string]: any}> extends React.Component<
                       </div>
                     </span>
                   </TabPane>
-                  <TabPane tabId={4}>
+                  {/* <TabPane tabId={4}>
                     <div className="p-1"> Report Content</div>
                   </TabPane>
                   <TabPane tabId={5}>
@@ -403,7 +403,7 @@ class StudentDetailsPage<T = {[data: string]: any}> extends React.Component<
                   </TabPane>
                   <TabPane tabId={6}>
                     <div className="p-1"> Document Content</div>
-                  </TabPane>
+                  </TabPane> */}
                   <TabPane tabId={7}>
                     <span>
                       <div className="main-details m-1 p-2">

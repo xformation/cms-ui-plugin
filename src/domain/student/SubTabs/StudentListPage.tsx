@@ -597,9 +597,9 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
 
     let studentFilterInputObject = {
       branchId: branchId,
-      departmentId: departmentId,
-      batchId: studentData.batch.id,
-      sectionId: studentData.section.id,
+      departmentId: 1151,
+      batchId: studentData.batch.id, //1201,
+      sectionId: studentData.section.id, //1251,
       gender: studentData.gender.id,
       studentType: studentData.studentType.id,
     };
