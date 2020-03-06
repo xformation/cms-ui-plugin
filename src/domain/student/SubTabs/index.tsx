@@ -33,7 +33,7 @@ class StudentSubtabs extends React.Component<StudentProps, any> {
   }
 
   async componentDidMount() {
-    console.log('Attendance. component did mount. User ::::', this.state.user.login);
+    console.log('Student. component did mount. User ::::', this.state.user.login);
     await this.registerSocket();
     // await this.getcreateStudentFilterDataCache();
   }
@@ -157,12 +157,18 @@ class StudentSubtabs extends React.Component<StudentProps, any> {
             {user !== null && createStudentFilterDataCache !== null && (
               <StudentListPage
                 user={user}
-                createStudentFilterDataCache={createStudentFilterDataCache}
+                createStudentFilterDataCache={createStudentFilterDataCache.createStudentFilterDataCache}
               />
             )}
           </TabPane>
           <TabPane tabId={1}>
-            <AddStudentPage />
+           {user !== null && createStudentFilterDataCache !== null && (
+              <AddStudentPage
+                user={user}
+                createStudentFilterDataCache={createStudentFilterDataCache.createStudentFilterDataCache}
+              />
+            )}
+            
           </TabPane>
           <TabPane tabId={2}>
             <StudentDetailsPage />

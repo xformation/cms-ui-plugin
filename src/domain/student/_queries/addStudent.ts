@@ -1,9 +1,9 @@
 import gql from 'graphql-tag';
 
 export const ADD_STUDENT = gql`
-  mutation addStudent($input: AddStudentInput!) {
-    addStudent(input: $input) {
-      student {
+  mutation saveStudent($input: StudentInput!) {
+    saveStudent(input: $input) {
+      cmsStudentVo {
         id
         studentName
         studentMiddleName
@@ -106,18 +106,10 @@ export const ADD_STUDENT = gql`
         otherMedicalDetails
         status
         comments
-        department {
-          id
-        }
-        batch {
-          id
-        }
-        section {
-          id
-        }
-        branch {
-          id
-        }
+        departmentId
+        batchId
+        sectionId
+        branchId
       }
     }
   }

@@ -27,16 +27,16 @@ type StudentTableStates = {
   academicYearId: any;
   departmentId: any;
   createStudentFilterDataCache: any;
-  // user: any;
+  user: any;
 };
 
 export interface StudentListProps extends React.HTMLAttributes<HTMLElement> {
   [data: string]: any;
-  // user?: any;
+  user?: any;
   createStudentFilterDataCache?: any;
-  branchId?: any;
-  academicYearId?: any;
-  departmentId?: any;
+  // branchId?: any;
+  // academicYearId?: any;
+  // departmentId?: any;
 }
 
 class StudentsTable extends React.Component<StudentListProps, StudentTableStates> {
@@ -44,25 +44,13 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
     super(props);
     const params = new URLSearchParams(location.search);
     this.state = {
-      // user: this.props.user,
+      user: this.props.user,
       createStudentFilterDataCache: this.props.createStudentFilterDataCache,
       branchId: null,
       academicYearId: null,
       departmentId: null,
       students: {},
       studentData: {
-        // college: {
-        //   id: params.get('cid'),
-        // },
-        // branch: {
-        //   id: params.get('bid'),
-        // },
-        // academicYear: {
-        //   id: params.get('ayid'),
-        // },
-        // department: {
-        //   id: params.get('dptid'),
-        // },
         batch: {
           id: '',
         },
@@ -91,9 +79,8 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
     // this.createDepartments = this.createDepartments.bind(this);
     this.createBatches = this.createBatches.bind(this);
     this.createSections = this.createSections.bind(this);
-    this.createStudentTypes = this.createStudentTypes.bind(this);
-    this.createGenders = this.createGenders.bind(this);
     this.showDetail = this.showDetail.bind(this);
+    this.getcreateStudentFilterDataCache= this.getcreateStudentFilterDataCache.bind(this);
 
     // this.searchHandlers = this.searchHandlers.bind(this);
 
@@ -114,73 +101,54 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
   async registerSocket() {
     const socket = wsCmsBackendServiceSingletonClient.getInstance();
     let dpid: any = 0;
+    let bid: any = 0;
+    let ayid: any = 0;
 
     socket.onmessage = (response: any) => {
       let message = JSON.parse(response.data);
       console.log('StudentList. message received from server ::: ', message);
       this.setState({
         branchId: message.selectedBranchId,
+        academicYearId: message.selectedAcademicYearId,
         departmentId: message.selectedDepartmentId,
       });
+      bid = '' + message.selectedBranchId;
+      ayid = '' + message.selectedAcademicYearId;
       dpid = '' + message.selectedDepartmentId;
       console.log('StudentList. branchId: ', this.state.branchId);
       console.log('StudentList. departmentId: ', this.state.departmentId);
     };
 
     socket.onopen = () => {
-      // console.log(
-      //   'StudentList. Opening websocekt connection on User : ',
-      //   this.state.user.login
-      // );
-      // socket.send(this.state.user.login);
+      console.log(
+        'StudentList. Opening websocekt connection on User : ',
+        this.state.user.login
+      );
+      socket.send(this.state.user.login);
     };
 
     window.onbeforeunload = () => {
       console.log('StudentList. Closing websocket connection with cms backend service');
     };
-    return;
+
   }
 
-  // createBranches(branches: any) {
-  //   let branchesOptions = [
-  //     <option key={0} value="">
-  //       Select Branch
-  //     </option>,
-  //   ];
-  //   for (let i = 0; i < branches.length; i++) {
-  //     branchesOptions.push(
-  //       <option key={branches[i].id} value={branches[i].id}>
-  //         {branches[i].branchName}
-  //       </option>
-  //     );
-  //   }
-  //   return branchesOptions;
-  // }
+  async getcreateStudentFilterDataCache() {
+    const {branchId, academicYearId, departmentId} = this.state;
+    console.log('student branch Id:', branchId);
+    const {data} = await this.props.client.query({
+      query: GET_STUDENT_FILTER_DATA,
+      variables: {
+        collegeId: '' + branchId,
+        academicYearId: '' + academicYearId,
+      },
 
-  // createDepartments(
-  //   departments: any,
-  //   selectedBranchId: any,
-  //   selectedAcademicYearId: any
-  // ) {
-  //   let departmentsOptions = [
-  //     <option key={0} value="">
-  //       Select department
-  //     </option>,
-  //   ];
-  //   for (let i = 0; i < departments.length; i++) {
-  //     if (
-  //       selectedBranchId == departments[i].branch.id &&
-  //       selectedAcademicYearId == departments[i].academicyear.id
-  //     ) {
-  //       departmentsOptions.push(
-  //         <option key={departments[i].id} value={departments[i].id}>
-  //           {departments[i].name}
-  //         </option>
-  //       );
-  //     }
-  //   }
-  //   return departmentsOptions;
-  // }
+      fetchPolicy: 'no-cache',
+    });
+    this.setState({
+      createStudentFilterDataCache: data,
+    });
+  }
 
   createBatches(batches: any, selectedDepartmentId: any) {
     let batchesOptions = [
@@ -220,40 +188,6 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
       }
     }
     return sectionsOptions;
-  }
-
-  createStudentTypes(studentTypes: any) {
-    let studentTypesOptions = [
-      <option key={0} value="">
-        Select Student Type
-      </option>,
-    ];
-    for (let i = 0; i < studentTypes.length; i++) {
-      let id = studentTypes[i].id;
-      studentTypesOptions.push(
-        <option key={id} value={studentTypes[i].description}>
-          {studentTypes[i].description}
-        </option>
-      );
-    }
-    return studentTypesOptions;
-  }
-
-  createGenders(genders: any) {
-    let gendersOptions = [
-      <option key={0} value="">
-        Select Gender
-      </option>,
-    ];
-    for (let i = 0; i < genders.length; i++) {
-      let id = genders[i].id;
-      gendersOptions.push(
-        <option key={id} value={genders[i].description}>
-          {genders[i].description}
-        </option>
-      );
-    }
-    return gendersOptions;
   }
 
   checkAllStudents(e: any) {
@@ -311,7 +245,7 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
                     onClick={(e: any) => this.onClickCheckbox(i, e)}
                     checked={student.isChecked}
                     type="checkbox"
-                    name=""
+                    name="chk"
                     id={'chk' + student.id}
                   />
                 </td>
@@ -328,14 +262,22 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
                 </td>
                 <td>{student.rollNo}</td>
                 <td>{student.id}</td>
-                <td>{student.department.name}</td>
-                <td>{student.batch.batch}</td>
-                <td>{student.section.section}</td>
+                <td>
+                {student.departmentId}
+                {/* {student.department.name} */}
+                </td>
+                <td>
+                {/* {student.batch.batch} */}
+                </td>
+                <td>
+                {/* {student.section.section} */}
+                </td>
                 <td>{student.sex}</td>
                 <td>{student.studentType}</td>
-                <td>{student.studentContactNumber}</td>
+                <td>{student.studentPrimaryCellNumber}</td>
               </tr>
             );
+            console.log("print student obj:", student);
           }
         } else {
           retVal.push(
@@ -345,7 +287,7 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
                   onClick={(e: any) => this.onClickCheckbox(i, e)}
                   checked={student.isChecked}
                   type="checkbox"
-                  name=""
+                  name="chk"
                   id={'chk' + student.id}
                 />
               </td>
@@ -362,14 +304,22 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
               </td>
               <td>{student.rollNo}</td>
               <td>{student.id}</td>
-              <td>{student.department.name}</td>
-              <td>{student.batch.batch}</td>
-              <td>{student.section.section}</td>
+              <td>
+              {student.departmentId}
+              {/* {student.department.name} */}
+              </td>
+              <td>
+              {/* {student.batch.batch} */}
+              </td>
+              <td>
+              {/* {student.section.section} */}
+              </td>
               <td>{student.sex}</td>
               <td>{student.studentType}</td>
-              <td>{student.studentContactNumber}</td>
+              <td>{student.studentPrimaryCellNumber}</td>
             </tr>
           );
+          console.log("print student obj:", student);
         }
       }
     }
@@ -526,12 +476,6 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
           section: {
             id: '',
           },
-          gender: {
-            id: '',
-          },
-          studentType: {
-            id: '',
-          },
         },
       });
     } else if (name === 'section') {
@@ -541,36 +485,33 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
           section: {
             id: value,
           },
-          gender: {
-            id: '',
-          },
-          studentType: {
-            id: '',
-          },
         },
       });
-    } else if (name === 'gender') {
-      this.setState({
-        studentData: {
-          ...studentData,
-          gender: {
-            id: value,
-          },
-          studentType: {
-            id: '',
-          },
-        },
-      });
-    } else if (name === 'studentType') {
-      this.setState({
-        studentData: {
-          ...studentData,
-          studentType: {
-            id: value,
-          },
-        },
-      });
-    } else {
+    } 
+    // else if (name === 'gender') {
+    //   this.setState({
+    //     studentData: {
+    //       ...studentData,
+    //       gender: {
+    //         id: value,
+    //       },
+    //       studentType: {
+    //         id: '',
+    //       },
+    //     },
+    //   });
+    // } 
+    // else if (name === 'studentType') {
+    //   this.setState({
+    //     studentData: {
+    //       ...studentData,
+    //       studentType: {
+    //         id: value,
+    //       },
+    //     },
+    //   });
+    // } 
+    else {
       this.setState({
         studentData: {
           ...studentData,
@@ -596,12 +537,12 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
     e.preventDefault();
 
     let studentFilterInputObject = {
-      branchId: branchId,
-      departmentId: 1151,
-      batchId: studentData.batch.id, //1201,
-      sectionId: studentData.section.id, //1251,
-      gender: studentData.gender.id,
-      studentType: studentData.studentType.id,
+      branchId: branchId, // branchId,
+      departmentId: departmentId, // 1151,
+      batchId: studentData.batch.id, // studentData.batch.id, //1201,
+      sectionId: studentData.section.id, // studentData.section.id, //1251,
+      gender: studentData.gender,
+      studentType: studentData.studentType,
     };
 
     this.props.client
@@ -633,7 +574,7 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
     // } = this.props;
     const {studentData, createStudentFilterDataCache, departmentId} = this.state;
     // { studentData.filter((this.state.search)).map() }
-    console.log('See Department id:', departmentId);
+    console.log('See Department id in render:', departmentId);
     return (
       <section className="customCss">
         <div className="container-fluid p-1 ">
@@ -685,6 +626,7 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
                         departmentId
                       )
                     : null}
+                    {/* {this.createBatches(createStudentFilterDataCache.batches, departmentId)} */}
                 </select>
               </div>
               <div>
@@ -711,7 +653,20 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
 
               <div>
                 <label htmlFor="">Gender</label>
-                <select
+                 <select
+                  required
+                  name="gender"
+                  id="gender"
+                  onChange={this.onChange}
+                  value={studentData.gender}
+                  className="gf-form-input max-width-15"
+                >
+                <option value="">Select gender</option>
+                <option value="MALE">MALE</option>
+                <option value="FEMALE">FEMALE</option>
+                <option value="OTHER">OTHER</option>
+              </select>
+                {/* <select
                   required
                   name="gender"
                   id="gender"
@@ -725,11 +680,26 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
                   createStudentFilterDataCache.genders !== undefined
                     ? this.createGenders(createStudentFilterDataCache.genders)
                     : null}
-                </select>
+                </select> */}
               </div>
               <div>
                 <label htmlFor="">Student Type</label>
                 <select
+                  required
+                  name="studentType"
+                  id="studentType"
+                  onChange={this.onChange}
+                  value={studentData.studentType}
+                  className="gf-form-input max-width-22"
+                >
+                <option value="">Select Student Type</option>
+                <option value="REGULAR">REGULAR</option>
+                <option value="STAFF_CONCESSION">STAFF_CONCESSION</option>
+                <option value="BENEFITS">BENEFITS</option>
+                <option value="SCHOLARSHIP">SCHOLARSHIP</option>
+                <option value="OTHER_BENEFITS">OTHER_BENEFITS</option>
+              </select>
+                {/* <select
                   required
                   name="studentType"
                   id="studentType"
@@ -743,7 +713,7 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
                   createStudentFilterDataCache.studentTypes !== undefined
                     ? this.createStudentTypes(createStudentFilterDataCache.studentTypes)
                     : null}
-                </select>
+                </select> */}
               </div>
               <div id="srch" className="margin-bott">
                 <label htmlFor="">Search</label>

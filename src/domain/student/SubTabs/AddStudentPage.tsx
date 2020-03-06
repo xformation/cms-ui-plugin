@@ -3,15 +3,31 @@ import {TabContent, TabPane, Nav, NavItem, NavLink} from 'reactstrap';
 import {withApollo} from 'react-apollo';
 import wsCmsBackendServiceSingletonClient from '../../../wsCmsBackendServiceClient';
 import * as moment from 'moment';
-import {ADD_STUDENT, GET_STUDENT_ADMISSION_DATA} from '../_queries';
+import {ADD_STUDENT, GET_STUDENT_FILTER_DATA} from '../_queries';
 import {MessageBox} from '../Message/MessageBox';
 import {commonFunctions} from '../_utilites/common.functions';
+
+type StudentTableStates = {
+  studentData: any;
+  branches: any;
+  departments: any;
+  batches: any;
+  sections: any;
+  studentTypes: any;
+  genders: any;
+  branchId: any;
+  academicYearId: any;
+  departmentId: any;
+  createStudentFilterDataCache: any;
+  user: any;
+};
 
 export interface StudentProps extends React.HTMLAttributes<HTMLElement> {
   [data: string]: any;
   branchList?: any;
   departmentList?: any;
-  // user?: any;
+  createStudentFilterDataCache?: any;
+  user?: any;
 }
 
 const ERROR_MESSAGE_MANDATORY_FIELD_MISSING = 'Mandatory fields missing';
@@ -29,7 +45,8 @@ class AddStudentPage extends React.Component<StudentProps, any> {
     this.state = {
       branchList: this.props.branchList,
       departmentList: this.props.departmentList,
-      // user: this.props.user,
+      createStudentFilterDataCache: this.props.createStudentFilterDataCache,
+      user: this.props.user,
       activeTab: 0,
       uploadPhoto: null,
       branchId: null,
@@ -76,9 +93,31 @@ class AddStudentPage extends React.Component<StudentProps, any> {
         departmentId: '',
         branchId: '',
       },
+      studentData: {
+        batch: {
+          id: '',
+        },
+        section: {
+          id: '',
+        },
+        studentType: {
+          id: '',
+        },
+        gender: {
+          id: '',
+        },
+      },
+      branches: [],
+      departments: [],
+      batches: [],
+      sections: [],
+      studentTypes: [],
+      genders: [],
     };
     this.toggleTab = this.toggleTab.bind(this);
     this.deleteImage = this.deleteImage.bind(this);
+    this.createBatches = this.createBatches.bind(this);
+    this.createSections = this.createSections.bind(this);
     this.validatePersonalInfo = this.validatePersonalInfo.bind(this);
     this.validateContactDetails = this.validateContactDetails.bind(this);
     this.validateEmergencyDetails = this.validateEmergencyDetails.bind(this);
@@ -86,6 +125,7 @@ class AddStudentPage extends React.Component<StudentProps, any> {
     this.save = this.save.bind(this);
     this.doSave = this.doSave.bind(this);
     this.getInput = this.getInput.bind(this);
+    this.getcreateStudentFilterDataCache= this.getcreateStudentFilterDataCache.bind(this);
   }
 
   async componentDidMount() {
@@ -94,25 +134,31 @@ class AddStudentPage extends React.Component<StudentProps, any> {
 
   registerSocket() {
     const socket = wsCmsBackendServiceSingletonClient.getInstance();
+    let dpid: any = 0;
+    let bid: any = 0;
+    let ayid: any = 0;
 
     socket.onmessage = (response: any) => {
       let message = JSON.parse(response.data);
-      console.log('Student. message received from server ::: ', message);
+      console.log('StudentAddPage. message received from server ::: ', message);
       this.setState({
         branchId: message.selectedBranchId,
         academicYearId: message.selectedAcademicYearId,
         departmentId: message.selectedDepartmentId,
       });
-      console.log('Student. branchId: ', this.state.branchId);
-      console.log('Student. ayId: ', this.state.academicYearId);
+      bid = '' + message.selectedBranchId;
+      ayid = '' + message.selectedAcademicYearId;
+      dpid = '' + message.selectedDepartmentId;
+      console.log('StudentAdd. branchId: ', this.state.branchId);
+      console.log('StudentAdd. departmentId: ', this.state.departmentId);
     };
 
     socket.onopen = () => {
-      // console.log(
-      //   'Student. Opening websocekt connection to cmsbackend. User : ',
-      //   this.state.user.login
-      // );
-      // socket.send(this.state.user.login);
+      console.log(
+        'Student. Opening websocekt connection to cmsbackend. User : ',
+        this.state.user.login
+      );
+      socket.send(this.state.user.login);
     };
 
     window.onbeforeunload = () => {
@@ -120,19 +166,104 @@ class AddStudentPage extends React.Component<StudentProps, any> {
     };
   }
 
+  async getcreateStudentFilterDataCache() {
+    const {branchId, academicYearId, departmentId} = this.state;
+    console.log('student branch Id:', branchId);
+    const {data} = await this.props.client.query({
+      query: GET_STUDENT_FILTER_DATA,
+      variables: {
+        collegeId: '' + branchId,
+        academicYearId: '' + academicYearId,
+      },
+
+      fetchPolicy: 'no-cache',
+    });
+    this.setState({
+      createStudentFilterDataCache: data,
+    });
+  }
+
+  createBatches(batches: any, selectedDepartmentId: any) {
+    let batchesOptions = [
+      <option key={0} value="">
+        Select Year
+      </option>,
+    ];
+    for (let i = 0; i < batches.length; i++) {
+      let id = batches[i].id;
+      let dptId = '' + batches[i].department.id;
+      if (dptId == selectedDepartmentId) {
+        batchesOptions.push(
+          <option key={id} value={id}>
+            {batches[i].batch}
+          </option>
+        );
+      }
+    }
+    return batchesOptions;
+  }
+
+  createSections(sections: any, selectedBatchId: any) {
+    let sectionsOptions = [
+      <option key={0} value="">
+        Select Section
+      </option>,
+    ];
+    for (let i = 0; i < sections.length; i++) {
+      let id = sections[i].id;
+      let sbthId = '' + sections[i].batch.id;
+      if (sbthId == selectedBatchId) {
+        sectionsOptions.push(
+          <option key={id} value={id}>
+            {sections[i].section}
+          </option>
+        );
+      }
+    }
+    return sectionsOptions;
+  }
+
   onChange = (e: any) => {
     e.preventDefault();
     const {name, value} = e.nativeEvent.target;
-    const {studentObj} = this.state;
+    const {studentObj, studentData} = this.state;
+
+    if (name === 'batch') {
+      this.setState({
+        studentData: {
+          ...studentData,
+          batch: {
+            id: value,
+          },
+          section: {
+            id: '',
+          },
+        },
+      });
+    } else if (name === 'section') {
+      this.setState({
+        studentData: {
+          ...studentData,
+          section: {
+            id: value,
+          },
+        },
+      });
+    } 
+    else{
     this.setState({
       studentObj: {
         ...studentObj,
         [name]: value,
       },
+      studentData: {
+          ...studentData,
+          [name]: value,
+        },
       errorMessage: '',
       successMessage: '',
     });
-
+    }
     commonFunctions.restoreTextBoxBorderToNormal(name);
   };
 
@@ -607,7 +738,7 @@ class AddStudentPage extends React.Component<StudentProps, any> {
   }
 
   getInput(studentObj: any) {
-    const {branchId, departmentId} = this.state;
+    const {branchId, departmentId, studentData} = this.state;
     let inputObj = {
       id:
         studentObj.id !== null || studentObj.id !== undefined || studentObj.id !== ''
@@ -650,9 +781,9 @@ class AddStudentPage extends React.Component<StudentProps, any> {
       rollNo: studentObj.rollNo,
       studentType: studentObj.studentType,
       departmentId: departmentId,
-      branchId: branchId, //1051 
-      batchId: 1201,
-      sectionId: 1251,
+      branchId: branchId,
+      batchId: studentData.batch.id,
+      sectionId: studentData.section.id,
       // strDateOfBirth:
       //   studentObj.dateOfBirth !== null ||
       //   studentObj.dateOfBirth !== undefined ||
@@ -671,7 +802,8 @@ class AddStudentPage extends React.Component<StudentProps, any> {
   // }
 
   render() {
-    const {activeTab, errorMessage, successMessage, studentObj} = this.state;
+    const {activeTab, errorMessage, successMessage, studentObj, studentData, createStudentFilterDataCache, departmentId} = this.state;
+    
     return (
       <section className="tab-container">
         {errorMessage !== '' ? (
@@ -769,23 +901,51 @@ class AddStudentPage extends React.Component<StudentProps, any> {
               <label htmlFor="">
                 Year <span style={{color: 'red'}}> * </span>
               </label>
-              <select
-                className="gf-form-input width-11 m-b-1"
-                style={{width: '10.8rem', marginBottom: '10px', borderRadius: '0px'}}
-              >
-                <option value="">Select Year</option>
-              </select>
+               <select
+                  required
+                  name="batch"
+                  id="batch"
+                  onChange={this.onChange}
+                  value={studentData.batch.id}
+                  className="gf-form-input width-11 m-b-1"
+                  style={{width: '10.8rem', marginBottom: '10px', borderRadius: '0px'}}
+                >
+                  
+                    {createStudentFilterDataCache !== null &&
+                  createStudentFilterDataCache !== undefined &&
+                  createStudentFilterDataCache.batches !== null &&
+                  createStudentFilterDataCache.batches !== undefined
+                    ? this.createBatches(
+                        createStudentFilterDataCache.batches,
+                        departmentId
+                      )
+                    : null}
+                    {/* {this.createBatches(createStudentFilterDataCache.batches, departmentId)} */}
+                </select>
             </div>
             <div className="form-justify">
               <label htmlFor="">
                 Section <span style={{color: 'red'}}> * </span>
               </label>
               <select
-                className="gf-form-input width-11 m-b-1"
+                  required
+                  name="section"
+                  id="section"
+                  onChange={this.onChange}
+                  value={studentData.section.id}
+                  className="gf-form-input width-11 m-b-1"
                 style={{width: '10.8rem', marginBottom: '10px', borderRadius: '0px'}}
-              >
-                <option value="">Select Section</option>
-              </select>
+                >
+                  {createStudentFilterDataCache !== null &&
+                  createStudentFilterDataCache !== undefined &&
+                  createStudentFilterDataCache.sections !== null &&
+                  createStudentFilterDataCache.sections !== undefined
+                    ? this.createSections(
+                        createStudentFilterDataCache.sections,
+                        studentData.batch.id
+                      )
+                    : null}
+                </select>
             </div>
             <div className="form-justify">
               <label htmlFor="">

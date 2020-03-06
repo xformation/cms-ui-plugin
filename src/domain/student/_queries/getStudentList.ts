@@ -33,18 +33,7 @@ export const GET_STUDENT_LIST = gql`
       admissionNo
       rollNo
       studentType
-      batch {
-        batch
-      }
-      section {
-        section
-      }
-      branch {
-        branchName
-      }
-      department {
-        name
-      }
+      departmentId
     }
   }
 `;
