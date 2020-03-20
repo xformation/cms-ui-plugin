@@ -138,7 +138,7 @@ class StudentSubtabs extends React.Component<StudentProps, any> {
               Create Student
             </NavLink>
           </NavItem>
-          <NavItem className="cursor-pointer">
+          {/* <NavItem className="cursor-pointer">
             <NavLink
               className={`vertical-nav-link ${activeTab === 2 ? 'side-active' : ''}`}
               onClick={() => {
@@ -147,7 +147,7 @@ class StudentSubtabs extends React.Component<StudentProps, any> {
             >
               Student Details
             </NavLink>
-          </NavItem>
+          </NavItem> */}
         </Nav>
         <TabContent activeTab={activeTab} className="col-sm-10 border-left p-t-1">
           <TabPane tabId={0}>
@@ -157,22 +157,25 @@ class StudentSubtabs extends React.Component<StudentProps, any> {
             {user !== null && createStudentFilterDataCache !== null && (
               <StudentListPage
                 user={user}
-                createStudentFilterDataCache={createStudentFilterDataCache.createStudentFilterDataCache}
+                createStudentFilterDataCache={
+                  createStudentFilterDataCache.createStudentFilterDataCache
+                }
               />
             )}
           </TabPane>
           <TabPane tabId={1}>
-           {user !== null && createStudentFilterDataCache !== null && (
+            {user !== null && createStudentFilterDataCache !== null && (
               <AddStudentPage
                 user={user}
-                createStudentFilterDataCache={createStudentFilterDataCache.createStudentFilterDataCache}
+                createStudentFilterDataCache={
+                  createStudentFilterDataCache.createStudentFilterDataCache
+                }
               />
             )}
-            
           </TabPane>
-          <TabPane tabId={2}>
+          {/* <TabPane tabId={2}>
             <StudentDetailsPage />
-          </TabPane>
+          </TabPane> */}
         </TabContent>
       </section>
     );

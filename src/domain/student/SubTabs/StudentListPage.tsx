@@ -2,6 +2,8 @@ import * as React from 'react';
 import * as _ from 'lodash';
 import {withRouter, RouteComponentProps, Link} from 'react-router-dom';
 import {withApollo} from 'react-apollo';
+import {TabContent, TabPane, Nav, NavItem, NavLink} from 'reactstrap';
+import StudentDetailsPage from './StudentDetailsPage';
 import '../../../css/dark.css';
 import withLoadingHandler from '../withLoadingHandler';
 import {GET_STUDENT_LIST, GET_STUDENT_FILTER_DATA} from '../_queries';
@@ -28,6 +30,8 @@ type StudentTableStates = {
   departmentId: any;
   createStudentFilterDataCache: any;
   user: any;
+  activeTab: any;
+  StdObj: any;
 };
 
 export interface StudentListProps extends React.HTMLAttributes<HTMLElement> {
@@ -44,6 +48,8 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
     super(props);
     const params = new URLSearchParams(location.search);
     this.state = {
+      activeTab: 0,
+      StdObj: {},
       user: this.props.user,
       createStudentFilterDataCache: this.props.createStudentFilterDataCache,
       branchId: null,
@@ -80,7 +86,11 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
     this.createBatches = this.createBatches.bind(this);
     this.createSections = this.createSections.bind(this);
     this.showDetail = this.showDetail.bind(this);
-    this.getcreateStudentFilterDataCache= this.getcreateStudentFilterDataCache.bind(this);
+    this.SetObject = this.SetObject.bind(this);
+    this.getcreateStudentFilterDataCache = this.getcreateStudentFilterDataCache.bind(
+      this
+    );
+    this.toggleTab = this.toggleTab.bind(this);
 
     // this.searchHandlers = this.searchHandlers.bind(this);
 
@@ -92,6 +102,15 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
     this.convertArrayOfObjectsToCSV = this.convertArrayOfObjectsToCSV.bind(this);
     this.download = this.download.bind(this);
     this.registerSocket = this.registerSocket.bind(this);
+  }
+
+  async toggleTab(tabNo: any) {
+    await this.setState({
+      activeTab: tabNo,
+    });
+    // if (tabNo === 0) {
+    //   this.getcreateStudentFilterDataCache();
+    // }
   }
 
   async componentDidMount() {
@@ -130,7 +149,6 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
     window.onbeforeunload = () => {
       console.log('StudentList. Closing websocket connection with cms backend service');
     };
-
   }
 
   async getcreateStudentFilterDataCache() {
@@ -256,6 +274,15 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
                   >
                     {student.studentName}
                   </Link> */}
+                  {/* <a onClick={(e: any) => this.showDetail(student, e)}> */}
+                  {/* <a
+                    onClick={() => {
+                      // this.toggleTab(1);
+                      (e: any) => this.showDetail(student, e);
+                    }}
+                  >
+                    {student.studentName}
+                  </a> */}
                   <a onClick={(e: any) => this.showDetail(student, e)}>
                     {student.studentName}
                   </a>
@@ -263,21 +290,17 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
                 <td>{student.rollNo}</td>
                 <td>{student.id}</td>
                 <td>
-                {student.departmentId}
-                {/* {student.department.name} */}
+                  {student.department.name}
+                  {/* {student.department.name} */}
                 </td>
-                <td>
-                {/* {student.batch.batch} */}
-                </td>
-                <td>
-                {/* {student.section.section} */}
-                </td>
+                <td>{student.batch.batch}</td>
+                <td>{student.section.section}</td>
                 <td>{student.sex}</td>
                 <td>{student.studentType}</td>
                 <td>{student.studentPrimaryCellNumber}</td>
               </tr>
             );
-            console.log("print student obj:", student);
+            console.log('print student obj:', student);
           }
         } else {
           retVal.push(
@@ -298,6 +321,15 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
                 >
                   {student.studentName}
                 </Link> */}
+                {/* <a onClick={(e: any) => this.showDetail(student, e)}> */}
+                {/* <a
+                  onClick={() => {
+                    // this.toggleTab(1);
+                    (e: any) => this.showDetail(student, e);
+                  }}
+                >
+                  {student.studentName}
+                </a> */}
                 <a onClick={(e: any) => this.showDetail(student, e)}>
                   {student.studentName}
                 </a>
@@ -305,21 +337,17 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
               <td>{student.rollNo}</td>
               <td>{student.id}</td>
               <td>
-              {student.departmentId}
-              {/* {student.department.name} */}
+                {student.department.name}
+                {/* {student.department.name} */}
               </td>
-              <td>
-              {/* {student.batch.batch} */}
-              </td>
-              <td>
-              {/* {student.section.section} */}
-              </td>
+              <td>{student.batch.batch}</td>
+              <td>{student.section.section}</td>
               <td>{student.sex}</td>
               <td>{student.studentType}</td>
               <td>{student.studentPrimaryCellNumber}</td>
             </tr>
           );
-          console.log("print student obj:", student);
+          console.log('print student obj:', student);
         }
       }
     }
@@ -487,7 +515,7 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
           },
         },
       });
-    } 
+    }
     // else if (name === 'gender') {
     //   this.setState({
     //     studentData: {
@@ -500,7 +528,7 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
     //       },
     //     },
     //   });
-    // } 
+    // }
     // else if (name === 'studentType') {
     //   this.setState({
     //     studentData: {
@@ -510,7 +538,7 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
     //       },
     //     },
     //   });
-    // } 
+    // }
     else {
       this.setState({
         studentData: {
@@ -524,10 +552,18 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
   //   this.setState({search: event.target.value.substr()});
   // }
 
-  showDetail(obj: any, e: any) {
-    console.log('object details:', obj);
-    const {studentData} = this.state;
-    studentData.id = obj.id;
+  async showDetail(obj: any, e: any) {
+    await this.SetObject(obj);
+    console.log('3. data in StdObj:', this.state.StdObj);
+    await this.toggleTab(1);
+  }
+
+  async SetObject(obj: any) {
+    console.log('1. setting object :', obj);
+    await this.setState({
+      StdObj: obj,
+    });
+    console.log('2. data in obj:', obj);
   }
 
   onClick = (e: any) => {
@@ -572,101 +608,108 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
     //   data: {createStudentFilterDataCache, refetch},
     //   mutate,
     // } = this.props;
-    const {studentData, createStudentFilterDataCache, departmentId} = this.state;
+    const {
+      studentData,
+      createStudentFilterDataCache,
+      departmentId,
+      activeTab,
+      user,
+    } = this.state;
     // { studentData.filter((this.state.search)).map() }
-    console.log('See Department id in render:', departmentId);
     return (
       <section className="customCss">
-        <div className="container-fluid p-1 ">
-          <div className="m-b-1 bg-heading-bgStudent studentListFlex p-point5">
-            <div className="">
-              <h4 className="ptl-06">Student Details</h4>
-            </div>
-            <div className="">
-              {/* <Link
+        <TabContent activeTab={activeTab}>
+          <TabPane tabId={0}>
+            <div className="container-fluid" style={{padding: '0px'}}>
+              <div className="m-b-1 bg-heading-bgStudent studentListFlex p-point5">
+                <div className="">
+                  <h4 className="ptl-06">Student Details</h4>
+                </div>
+                <div className="">
+                  {/* <Link
                 to={`/plugins/ems-student/page/addstudent`}
                 className="btn btn-primary"
                 style={w180}
               >
                 Create New Student
               </Link> */}
-              <a
-                className="btn btn-primary m-l-1"
-                onClick={(e: any) =>
-                  this.exportStudents(this.state.studentData.mutateResult)
-                }
-              >
-                Export
-              </a>
-              <select name="fileType" id="fileType" className="max-width-10 m-l-1">
-                <option value="">Select File Type</option>
-                <option value="CSV">CSV</option>
-              </select>
-            </div>
-          </div>
-
-          <div>
-            <div className="student-flex">
-              <div>
-                <label htmlFor="">Year</label>
-                <select
-                  required
-                  name="batch"
-                  id="batch"
-                  onChange={this.onChange}
-                  value={studentData.batch.id}
-                  className="gf-form-input max-width-22"
-                >
-                  {createStudentFilterDataCache !== null &&
-                  createStudentFilterDataCache !== undefined &&
-                  createStudentFilterDataCache.batches !== null &&
-                  createStudentFilterDataCache.batches !== undefined
-                    ? this.createBatches(
-                        createStudentFilterDataCache.batches,
-                        departmentId
-                      )
-                    : null}
-                    {/* {this.createBatches(createStudentFilterDataCache.batches, departmentId)} */}
-                </select>
-              </div>
-              <div>
-                <label htmlFor="">Section</label>
-                <select
-                  required
-                  name="section"
-                  id="section"
-                  onChange={this.onChange}
-                  value={studentData.section.id}
-                  className="gf-form-input max-width-12"
-                >
-                  {createStudentFilterDataCache !== null &&
-                  createStudentFilterDataCache !== undefined &&
-                  createStudentFilterDataCache.sections !== null &&
-                  createStudentFilterDataCache.sections !== undefined
-                    ? this.createSections(
-                        createStudentFilterDataCache.sections,
-                        studentData.batch.id
-                      )
-                    : null}
-                </select>
+                  <a
+                    className="btn btn-primary m-l-1"
+                    onClick={(e: any) =>
+                      this.exportStudents(this.state.studentData.mutateResult)
+                    }
+                  >
+                    Export
+                  </a>
+                  <select name="fileType" id="fileType" className="max-width-10 m-l-1">
+                    <option value="">Select File Type</option>
+                    <option value="CSV">CSV</option>
+                  </select>
+                </div>
               </div>
 
               <div>
-                <label htmlFor="">Gender</label>
-                 <select
-                  required
-                  name="gender"
-                  id="gender"
-                  onChange={this.onChange}
-                  value={studentData.gender}
-                  className="gf-form-input max-width-15"
-                >
-                <option value="">Select gender</option>
-                <option value="MALE">MALE</option>
-                <option value="FEMALE">FEMALE</option>
-                <option value="OTHER">OTHER</option>
-              </select>
-                {/* <select
+                <div className="student-flex">
+                  <div>
+                    <label htmlFor="">Year</label>
+                    <select
+                      required
+                      name="batch"
+                      id="batch"
+                      onChange={this.onChange}
+                      value={studentData.batch.id}
+                      className="gf-form-input max-width-22"
+                    >
+                      {createStudentFilterDataCache !== null &&
+                      createStudentFilterDataCache !== undefined &&
+                      createStudentFilterDataCache.batches !== null &&
+                      createStudentFilterDataCache.batches !== undefined
+                        ? this.createBatches(
+                            createStudentFilterDataCache.batches,
+                            departmentId
+                          )
+                        : null}
+                      {/* {this.createBatches(createStudentFilterDataCache.batches, departmentId)} */}
+                    </select>
+                  </div>
+                  <div>
+                    <label htmlFor="">Section</label>
+                    <select
+                      required
+                      name="section"
+                      id="section"
+                      onChange={this.onChange}
+                      value={studentData.section.id}
+                      className="gf-form-input max-width-12"
+                    >
+                      {createStudentFilterDataCache !== null &&
+                      createStudentFilterDataCache !== undefined &&
+                      createStudentFilterDataCache.sections !== null &&
+                      createStudentFilterDataCache.sections !== undefined
+                        ? this.createSections(
+                            createStudentFilterDataCache.sections,
+                            studentData.batch.id
+                          )
+                        : null}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label htmlFor="">Gender</label>
+                    <select
+                      required
+                      name="gender"
+                      id="gender"
+                      onChange={this.onChange}
+                      value={studentData.gender}
+                      className="gf-form-input max-width-15"
+                    >
+                      <option value="">Select gender</option>
+                      <option value="MALE">MALE</option>
+                      <option value="FEMALE">FEMALE</option>
+                      <option value="OTHER">OTHER</option>
+                    </select>
+                    {/* <select
                   required
                   name="gender"
                   id="gender"
@@ -681,25 +724,25 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
                     ? this.createGenders(createStudentFilterDataCache.genders)
                     : null}
                 </select> */}
-              </div>
-              <div>
-                <label htmlFor="">Student Type</label>
-                <select
-                  required
-                  name="studentType"
-                  id="studentType"
-                  onChange={this.onChange}
-                  value={studentData.studentType}
-                  className="gf-form-input max-width-22"
-                >
-                <option value="">Select Student Type</option>
-                <option value="REGULAR">REGULAR</option>
-                <option value="STAFF_CONCESSION">STAFF_CONCESSION</option>
-                <option value="BENEFITS">BENEFITS</option>
-                <option value="SCHOLARSHIP">SCHOLARSHIP</option>
-                <option value="OTHER_BENEFITS">OTHER_BENEFITS</option>
-              </select>
-                {/* <select
+                  </div>
+                  <div>
+                    <label htmlFor="">Student Type</label>
+                    <select
+                      required
+                      name="studentType"
+                      id="studentType"
+                      onChange={this.onChange}
+                      value={studentData.studentType}
+                      className="gf-form-input max-width-22"
+                    >
+                      <option value="">Select Student Type</option>
+                      <option value="REGULAR">REGULAR</option>
+                      <option value="STAFF_CONCESSION">STAFF_CONCESSION</option>
+                      <option value="BENEFITS">BENEFITS</option>
+                      <option value="SCHOLARSHIP">SCHOLARSHIP</option>
+                      <option value="OTHER_BENEFITS">OTHER_BENEFITS</option>
+                    </select>
+                    {/* <select
                   required
                   name="studentType"
                   id="studentType"
@@ -714,76 +757,102 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
                     ? this.createStudentTypes(createStudentFilterDataCache.studentTypes)
                     : null}
                 </select> */}
-              </div>
-              <div id="srch" className="margin-bott">
-                <label htmlFor="">Search</label>
-                <input
-                  type="text"
-                  className="gf-form-input"
-                  name="search"
-                  value={studentData.search}
-                  onChange={this.onChange}
-                />
-              </div>
-              <div className="bg-heading-bg studentSearch">
-                {/* <h4 className="ptl-06"></h4> */}
-                <button
-                  className="btn btn-primary"
-                  id="btnFind"
-                  name="btnFind"
-                  onClick={this.onClick}
-                  style={w140}
-                >
-                  Search Students
-                </button>
+                  </div>
+                  <div id="srch" className="margin-bott">
+                    <label htmlFor="">Search</label>
+                    <input
+                      type="text"
+                      className="gf-form-input"
+                      name="search"
+                      value={studentData.search}
+                      onChange={this.onChange}
+                    />
+                  </div>
+                  <div className="bg-heading-bg studentSearch">
+                    {/* <h4 className="ptl-06"></h4> */}
+                    <button
+                      className="btn btn-primary"
+                      id="btnFind"
+                      name="btnFind"
+                      onClick={this.onClick}
+                      style={w140}
+                    >
+                      Search Students
+                    </button>
+                  </div>
+                </div>
+
+                <table id="studentlistpage" className="striped-table fwidth bg-white">
+                  <thead>
+                    <tr>
+                      <th>
+                        <input
+                          type="checkbox"
+                          onClick={(e: any) => this.checkAllStudents(e)}
+                          value="checkedall"
+                          name=""
+                          id="chkCheckedAll"
+                        />
+                      </th>
+                      <th>Student Name</th>
+                      <th>Roll No</th>
+                      <th>Student Id</th>
+                      <th>Department</th>
+                      <th>Year</th>
+                      <th>Section</th>
+                      <th>Gender</th>
+                      <th>Type</th>
+                      <th>Primary Contact</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {this.createStudentRows(this.state.studentData.mutateResult)}
+                  </tbody>
+                </table>
+                {/* <Pagination /> */}
+                {this.createNoRecordMessage(this.state.studentData.mutateResult)}
               </div>
             </div>
-
-            <table id="studentlistpage" className="striped-table fwidth bg-white">
-              <thead>
-                <tr>
-                  <th>
-                    <input
-                      type="checkbox"
-                      onClick={(e: any) => this.checkAllStudents(e)}
-                      value="checkedall"
-                      name=""
-                      id="chkCheckedAll"
-                    />
-                  </th>
-                  <th>Student Name</th>
-                  <th>Roll No</th>
-                  <th>Student Id</th>
-                  <th>Department</th>
-                  <th>Year</th>
-                  <th>Section</th>
-                  <th>Gender</th>
-                  <th>Type</th>
-                  <th>Primary Contact</th>
-                </tr>
-              </thead>
-              <tbody>{this.createStudentRows(this.state.studentData.mutateResult)}</tbody>
-            </table>
-            {/* <Pagination /> */}
-            {this.createNoRecordMessage(this.state.studentData.mutateResult)}
-          </div>
-        </div>
+          </TabPane>
+          <TabPane tabId={1}>
+            <div className="container-fluid" style={{padding: '0px'}}>
+              <div className="m-b-1 bg-heading-bgStudent studentListFlex p-point5">
+                <div className="">
+                  <h4 className="ptl-06">Student Details</h4>
+                </div>
+                <div className="">
+                  <a
+                    className="btn btn-primary m-l-1"
+                    onClick={() => {
+                      this.toggleTab(0);
+                    }}
+                  >
+                    Back
+                  </a>
+                  <a
+                    className="btn btn-primary m-l-1"
+                    onClick={(e: any) => {
+                      print();
+                    }}
+                  >
+                    Print
+                  </a>
+                </div>
+              </div>
+              {/* {user !== null &&
+                this.state.StdObj !== null &&
+                this.state.StdObj !== undefined && (
+                  <StudentDetailsPage user={user} data={this.state.StdObj} />
+                )} */}
+              {this.state.StdObj !== null && this.state.StdObj !== undefined && (
+                <StudentDetailsPage data={this.state.StdObj} />
+              )}
+            </div>
+          </TabPane>
+        </TabContent>
       </section>
     );
   }
 }
 
 export default withApollo(StudentsTable);
-
-// export default graphql(GET_STUDENT_FILTER_DATA, {
-//   options: ({}) => ({
-//     variables: {
-//       collegeId: 1001,
-//       academicYearId: 1101,
-//     },
-//   }),
-// })(
-//   withLoadingHandler(
-//     compose(graphql(GET_STUDENT_LIST, {name: 'mutate'}))(StudentsTable) as any
-//   )
-// );

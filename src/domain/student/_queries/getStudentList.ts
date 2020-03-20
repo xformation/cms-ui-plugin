@@ -13,6 +13,8 @@ export const GET_STUDENT_LIST = gql`
       motherName
       motherMiddleName
       motherLastName
+      studentAadharNo
+      studentPanNo
       dateOfBirth
       strDateOfBirth
       placeOfBirth
@@ -21,19 +23,45 @@ export const GET_STUDENT_LIST = gql`
       subCaste
       age
       sex
-      bloodGroup
+      studentLocalAddress
+      studentPermanentAddress
+      city
       state
       country
+      pinCode
+      bloodGroup
       studentPrimaryCellNumber
       studentAlternateCellNumber
+      studentPrimaryEmailId
+      studentAlternateEmailId
       relationWithStudent
       emergencyContactName
       emergencyContactMiddleName
       emergencyContactLastName
+      emergencyContactCellNumber
+      emergencyContactEmailId
       admissionNo
+      enrollmentNo
       rollNo
       studentType
-      departmentId
+      fatherCellNumber
+      fatherEmailId
+      motherCellNumber
+      motherEmailId
+      status
+      comments
+      department {
+        id
+        name
+      }
+      batch {
+        id
+        batch
+      }
+      section {
+        id
+        section
+      }
     }
   }
 `;

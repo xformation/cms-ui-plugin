@@ -27,7 +27,6 @@ export const ADD_STUDENT = gql`
         caste
         subCaste
         age
-        age
         sex
         studentLocalAddress
         studentPermanentAddress

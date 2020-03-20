@@ -1,21 +1,75 @@
 import * as React from 'react';
 import {withApollo} from 'react-apollo';
 import {TabContent, TabPane, Nav, NavItem, NavLink} from 'reactstrap';
+import wsCmsBackendServiceSingletonClient from '../../../wsCmsBackendServiceClient';
+
+type StudentTableStates = {
+  user: any;
+  activeTab: any;
+  stObj: any;
+};
 
 export interface StudentDetailsProps extends React.HTMLAttributes<HTMLElement> {
   [data: string]: any;
+  user?: any;
 }
 
 class StudentDetailsPage<T = {[data: string]: any}> extends React.Component<
   StudentDetailsProps,
-  any
+  StudentTableStates
 > {
   constructor(props: any) {
     super(props);
     this.state = {
       activeTab: 0,
+      stObj: this.props.data,
+      user: this.props.user,
     };
     this.toggleTab = this.toggleTab.bind(this);
+    // this.registerSocket = this.registerSocket.bind(this);
+  }
+
+  async componentDidMount() {
+    this.setState({
+      stObj: this.props.data,
+    });
+    // await this.registerSocket();
+  }
+
+  // async registerSocket() {
+  //   const socket = wsCmsBackendServiceSingletonClient.getInstance();
+  //   let dpid: any = 0;
+  //   let bid: any = 0;
+  //   let ayid: any = 0;
+
+  //   socket.onmessage = (response: any) => {
+  //     let message = JSON.parse(response.data);
+  //     console.log('StudentDetailsPage. message received from server ::: ', message);
+  //   };
+
+  //   socket.onopen = () => {
+  //     console.log(
+  //       'Student details. Opening websocekt connection to cmsbackend. User : ',
+  //       this.state.user.login
+  //     );
+  //     socket.send(this.state.user.login);
+  //   };
+
+  //   window.onbeforeunload = () => {
+  //     console.log('Student. Closing websocket connection with cms backend service');
+  //   };
+  // }
+
+  // componentDidMount() {
+  //   this.setState({
+  //     stObj: this.props.data,
+  //   });
+  // }
+
+  componentWillReceiveProps() {
+    this.setState({
+      stObj: this.props.data,
+    });
   }
   toggleTab(tabNo: any) {
     this.setState({
@@ -24,27 +78,13 @@ class StudentDetailsPage<T = {[data: string]: any}> extends React.Component<
   }
 
   render() {
-    const {activeTab} = this.state;
+    const {activeTab, stObj} = this.state;
+    console.log('Check the new obj in another page:', stObj);
     return (
       <section className="student-profile-container">
-        <div className="plugin-bg-white p-1">
-          <div className="m-b-1 dflex bg-heading p-point5">
-            <h4 className="ptl-06">Student Profile</h4>
-            <div className="dont-print">
-              <a
-                className="btn btn-primary"
-                onClick={(e: any) => {
-                  print();
-                }}
-              >
-                Print
-              </a>
-            </div>
-          </div>
-
+        <div className="plugin-bg-white">
           <div>
             <div className="b-1 m-1">
-              {/* <div className="student-photo-container row p-l-1 p-r-1 p-b-1"> */}
               <div className="student-photo-container profile-grid">
                 <div className="text-center">
                   <img
@@ -58,46 +98,49 @@ class StudentDetailsPage<T = {[data: string]: any}> extends React.Component<
                   <div className="row">
                     <div className="col-sm-4 col-xs-12 m-b-2">
                       <h3 className="dblue-text">
-                        {/* {student.studentName} {student.studentMiddleName}{' '}
-                     {student.studentLastName} */}{' '}
-                        Student Name
+                        {stObj.studentName} {stObj.studentMiddleName}{' '}
+                        {stObj.studentLastName}
                       </h3>
                     </div>
                     <div className="col-sm-4 col-xs-12 m-b-2">
-                      <span className="profile-label">Contact No: </span>
-                      {/* <span>{student.emergencyContactNo}</span> */}
+                      <span className="profile-label">Primary Contact No: </span>
+                      <span>{stObj.studentPrimaryCellNumber}</span>
                     </div>
                     <div className="col-sm-4 col-xs-12 m-b-2">
-                      <span className="profile-label">Primary Contact No: </span>
-                      {/* <span>{student.studentContactNumber}</span> */}
+                      <span className="profile-label">Alternate Contact No: </span>
+                      <span>{stObj.studentAlternateCellNumber}</span>
                     </div>
                   </div>
                   <div className="row">
                     <div className="col-xs-12 col-sm-4 m-b-2">
                       <span className="profile-label">Admission No:</span>
-                      {/* <span>{student.admissionNo}</span> */}
+                      <span>{stObj.admissionNo}</span>
                     </div>
                     <div className="col-xs-12 col-sm-4 m-b-2">
                       <span className="profile-label">Roll No:</span>
-                      {/* <span>{student.rollNo}</span> */}
+                      <span>{stObj.rollNo}</span>
                     </div>
                     <div className="col-xs-12 col-sm-4 m-b-2">
                       <span className="profile-label">Class:</span>
-                      {/* <span>{student.batch.batch}</span> */}
+                      {stObj.batch !== undefined && <span>{stObj.batch.batch}</span>}
                     </div>
                   </div>
                   <div className="row" style={{marginTop: '10px'}}>
                     <div className="col-xs-12 col-sm-4 m-b-2">
                       <span className="profile-label">Student Id:</span>
-                      {/* <span>{student.id}</span> */}
+                      <span>{stObj.id}</span>
                     </div>
                     <div className="col-xs-12 col-sm-4 m-b-2">
                       <span className="profile-label">Department:</span>
-                      {/* <span>{student.department.name}</span> */}
+                      {stObj.department !== undefined && (
+                        <span>{stObj.department.name}</span>
+                      )}
                     </div>
                     <div className="col-xs-12 col-sm-4 m-b-2">
                       <span className="profile-label">Section:</span>
-                      {/* <span>{student.section.section}</span> */}
+                      {stObj.section !== undefined && (
+                        <span>{stObj.section.section}</span>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -194,59 +237,59 @@ class StudentDetailsPage<T = {[data: string]: any}> extends React.Component<
                           <div className="row">
                             <div className="col-sm-4 col-xs-12 m-b-1">
                               <span className="profile-label">Fathers Name:</span>
-                              {/* <span>{student.fatherName}</span> */}
+                              <span>{stObj.fatherName}</span>
                             </div>
                             <div className="col-sm-4 col-xs-12 m-b-1">
                               <span className="profile-label">Fathers Contact:</span>
-                              {/* <span>{student.emergencyContactNo}</span> */}
+                              <span>{stObj.fatherCellNumber}</span>
                             </div>
                             <div className="col-sm-4 col-xs-12 m-b-1">
                               <span className="profile-label">Email Address</span>
-                              {/* <span>{student.alternateEmailAddress}</span> */}
+                              <span>{stObj.fatherEmailId}</span>
                             </div>
                           </div>
                           <div className="row">
                             <div className="col-sm-4 col-xs-12 m-b-1">
                               <span className="profile-label">Mothers Name:</span>
-                              {/* <span>{student.motherName}</span> */}
+                              <span>{stObj.motherName}</span>
                             </div>
                             <div className="col-sm-4 col-xs-12 m-b-1">
                               <span className="profile-label">Mothers Contact:</span>
-                              {/* <span>{student.alternateContactNumber}</span> */}
+                              <span>{stObj.motherCellNumber}</span>
                             </div>
                             <div className="col-sm-4 col-xs-12 m-b-1">
                               <span className="profile-label">Email Address:</span>
-                              {/* <span>{student.alternateEmailAddress}</span> */}
+                              <span>{stObj.motherEmailId}</span>
                             </div>
                           </div>
                         </div>
                         <div className="details-container p-t-2">
                           <div className="row">
                             <div className="col-sm-4 col-xs-12 m-b-1">
-                              <span className="profile-label">Address Line 1:</span>
-                              {/* <span>{student.addressLineOne}</span> */}
+                              <span className="profile-label">Local Address:</span>
+                              <span>{stObj.studentLocalAddress}</span>
                             </div>
                             <div className="col-sm-4 col-xs-12 m-b-1">
-                              <span className="profile-label">Address Line 2:</span>
-                              {/* <span>{student.addressLineTwo}</span> */}
+                              <span className="profile-label">Parmenent Address:</span>
+                              <span>{stObj.studentPermanentAddress}</span>
                             </div>
                             <div className="col-sm-4 col-xs-12 m-b-1">
-                              <span className="profile-label">Town:</span>
-                              {/* <span>{student.town}</span> */}
+                              <span className="profile-label">City:</span>
+                              <span>{stObj.city}</span>
                             </div>
                           </div>
                           <div className="row">
                             <div className="col-sm-4 col-xs-12 m-b-1">
                               <span className="profile-label">State:</span>
-                              {/* <span>{student.state}</span> */}
+                              <span>{stObj.state}</span>
                             </div>
                             <div className="col-sm-4 col-xs-12 m-b-1">
                               <span className="profile-label">Country:</span>
-                              {/* <span>{student.country}</span> */}
+                              <span>{stObj.country}</span>
                             </div>
                             <div className="col-sm-4 col-xs-12 m-b-1">
                               <span className="profile-label">Pin Code:</span>
-                              {/* <span>{student.pincode}</span> */}
+                              <span>{stObj.pinCode}</span>
                             </div>
                           </div>
                         </div>
@@ -254,43 +297,43 @@ class StudentDetailsPage<T = {[data: string]: any}> extends React.Component<
                           <div className="row">
                             <div className="col-sm-4 col-xs-12 m-b-1">
                               <span className="profile-label">Adhar No:</span>
-                              {/* <span>{student.aadharNo}</span> */}
+                              <span>{stObj.studentAadharNo}</span>
                             </div>
                             <div className="col-sm-4 col-xs-12 m-b-1">
                               <span className="profile-label">Date Of Birth:</span>
-                              {/* <span>{student.strDateOfBirth}</span> */}
+                              <span>{stObj.strDateOfBirth}</span>
                             </div>
                             <div className="col-sm-4 col-xs-12 m-b-1">
                               <span className="profile-label">Place Of Birth:</span>
-                              {/* <span>{student.placeOfBirth}</span> */}
+                              <span>{stObj.placeOfBirth}</span>
                             </div>
                           </div>
                           <div className="row">
                             <div className="col-sm-4 col-xs-12 m-b-1">
                               <span className="profile-label">Religion:</span>
-                              {/* <span>{student.religion}</span> */}
+                              <span>{stObj.religion}</span>
                             </div>
                             <div className="col-sm-4 col-xs-12 m-b-1">
                               <span className="profile-label">Cast:</span>
-                              {/* <span>{student.caste}</span> */}
+                              <span>{stObj.caste}</span>
                             </div>
                             <div className="col-sm-4 col-xs-12 m-b-1">
                               <span className="profile-label">Sub Cast:</span>
-                              {/* <span>{student.subCaste}</span> */}
+                              <span>{stObj.subCaste}</span>
                             </div>
                           </div>
                           <div className="row">
                             <div className="col-sm-4 col-xs-12 m-b-1">
                               <span className="profile-label">Blood Group:</span>
-                              {/* <span>{student.bloodGroup}</span> */}
+                              <span>{stObj.bloodGroup}</span>
                             </div>
                             <div className="col-sm-4 col-xs-12 m-b-1">
                               <span className="profile-label">Sex:</span>
-                              {/* <span>{student.sex}</span> */}
+                              <span>{stObj.sex}</span>
                             </div>
                             <div className="col-sm-4 col-xs-12 m-b-1">
                               <span className="profile-label">Student Type:</span>
-                              {/* <span>{student.studentType}</span> */}
+                              <span>{stObj.studentType}</span>
                             </div>
                           </div>
                         </div>
