@@ -1,5 +1,7 @@
-const graphqlUrl = 'http://localhost:8080';
-const loggedInUserUrl = 'http://localhost:3000';
+const IP = 'localhost';
+
+const graphqlUrl = 'http://' + IP + ':8080';
+const loggedInUserUrl = 'http://' + IP + ':3000';
 
 export const config = {
   GRAPHQL_URL: graphqlUrl + '/graphql',

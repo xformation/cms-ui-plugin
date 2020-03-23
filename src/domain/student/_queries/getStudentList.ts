@@ -62,6 +62,42 @@ export const GET_STUDENT_LIST = gql`
         id
         section
       }
+
+      feeDetailsList {
+        id
+        feeParticularsName
+        feeParticularDesc
+        studentType
+        gender
+        amount
+        status
+        batchId
+      }
+      feeCategoryId
+      totalFee
+      totalFeePaid
+      totalFeeOverDue
+      facilityList {
+        id
+        linkDesc
+        facility {
+          id
+          name
+          amount
+        }
+      }
+      paymentHistory {
+        id
+        invoiceNumber
+        amountPaid
+        modeOfPayment
+        chequeNumber
+        demandDraftNumber
+        onlineTxnRefNumber
+        paymentStatus
+        strPaymentDate
+      }
+      strNextPaymentDate
     }
   }
 `;

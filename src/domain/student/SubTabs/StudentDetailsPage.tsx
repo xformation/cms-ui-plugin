@@ -2,11 +2,30 @@ import * as React from 'react';
 import {withApollo} from 'react-apollo';
 import {TabContent, TabPane, Nav, NavItem, NavLink} from 'reactstrap';
 import wsCmsBackendServiceSingletonClient from '../../../wsCmsBackendServiceClient';
+import {MessageBox} from '../Message/MessageBox';
+import {commonFunctions} from '../_utilites/common.functions';
+import {ADD_INVOICE} from '../_queries';
+
+const ERROR_MESSAGE_MANDATORY_FIELD_MISSING = 'Mandatory fields missing';
+const ERROR_MESSAGE_SERVER_SIDE_ERROR = 'Error in cms service, payment invoice could not be generated. Please check cms service logs';
+const SUCCESS_MESSAGE_ADDED = 'Payment saved successfully';
+const SUCCESS_MESSAGE_UPDATED = 'Payment updated successfully';
+
 
 type StudentTableStates = {
   user: any;
   activeTab: any;
   stObj: any;
+  amountPaid: any;
+  branchId: any;
+  academicYearId: any;
+  departmentId: any;
+  errorMessage: any;
+  successMessage: any;
+  modeOfPayment: any;
+  chkDdNo: any;
+  bank: any;
+  tempFeesPaid: any;
 };
 
 export interface StudentDetailsProps extends React.HTMLAttributes<HTMLElement> {
@@ -14,57 +33,99 @@ export interface StudentDetailsProps extends React.HTMLAttributes<HTMLElement> {
   user?: any;
 }
 
-class StudentDetailsPage<T = {[data: string]: any}> extends React.Component<
-  StudentDetailsProps,
-  StudentTableStates
-> {
+class StudentDetailsPage<T = {[data: string]: any}> extends React.Component<StudentDetailsProps, StudentTableStates > {
   constructor(props: any) {
     super(props);
     this.state = {
       activeTab: 0,
       stObj: this.props.data,
       user: this.props.user,
+      amountPaid: null,
+      branchId: null,
+      academicYearId: null,
+      departmentId: null,
+      errorMessage: '',
+      successMessage: '',
+      modeOfPayment: '',
+      chkDdNo: '',
+      bank: '',
+      tempFeesPaid: null,
     };
     this.toggleTab = this.toggleTab.bind(this);
-    // this.registerSocket = this.registerSocket.bind(this);
+    this.createFeeLineItems = this.createFeeLineItems.bind(this);
+    this.createFacilityItems = this.createFacilityItems.bind(this);
+    this.registerSocket = this.registerSocket.bind(this);
+    this.takePayment = this.takePayment.bind(this);
+    this.doSave = this.doSave.bind(this);
   }
+
+  onChange = (e: any) => {
+    e.preventDefault();
+    const {name, value} = e.nativeEvent.target;
+    if(name === "amountPaid"){
+      this.setState({
+          amountPaid: value
+      });
+    }
+    if(name === "chkDdNo"){
+      this.setState({
+        chkDdNo: value
+      });
+    }
+    if(name === "bank"){
+      this.setState({
+          bank: value
+      });
+    }
+    if(name === "modeOfPayment"){
+      this.setState({
+        modeOfPayment: value
+      });
+      commonFunctions.restoreTextBoxBorderToNormal('chkDdNo');
+      commonFunctions.restoreTextBoxBorderToNormal('bank');
+      commonFunctions.restoreTextBoxBorderToNormal('amountPaid');
+    }
+    this.setState({
+      errorMessage: '',
+      successMessage: '',
+    });
+    
+    commonFunctions.restoreTextBoxBorderToNormal(name);
+  };
 
   async componentDidMount() {
     this.setState({
       stObj: this.props.data,
     });
-    // await this.registerSocket();
+    await this.registerSocket();
   }
 
-  // async registerSocket() {
-  //   const socket = wsCmsBackendServiceSingletonClient.getInstance();
-  //   let dpid: any = 0;
-  //   let bid: any = 0;
-  //   let ayid: any = 0;
+  async registerSocket() {
+    const socket = wsCmsBackendServiceSingletonClient.getInstance();
+    socket.onmessage = (response: any) => {
+      let message = JSON.parse(response.data);
+      console.log('StudentDetailsPage. message received from server ::: ', message);
+      this.setState({
+        branchId: message.selectedBranchId,
+        academicYearId: message.selectedAcademicYearId,
+        departmentId: message.selectedDepartmentId,
+      });
+      console.log('StudentDetailsPage. branchId: ', this.state.branchId);
+      console.log('StudentDetailsPage. academicYearId: ', this.state.academicYearId);
+      console.log('StudentDetailsPage. departmentId: ', this.state.departmentId);
+    };
 
-  //   socket.onmessage = (response: any) => {
-  //     let message = JSON.parse(response.data);
-  //     console.log('StudentDetailsPage. message received from server ::: ', message);
-  //   };
+    socket.onopen = () => {
+      console.log('StudentDetailsPage. Opening websocekt connection to cmsbackend. User : ',
+        this.state.user.login
+      );
+      socket.send(this.state.user.login);
+    };
 
-  //   socket.onopen = () => {
-  //     console.log(
-  //       'Student details. Opening websocekt connection to cmsbackend. User : ',
-  //       this.state.user.login
-  //     );
-  //     socket.send(this.state.user.login);
-  //   };
-
-  //   window.onbeforeunload = () => {
-  //     console.log('Student. Closing websocket connection with cms backend service');
-  //   };
-  // }
-
-  // componentDidMount() {
-  //   this.setState({
-  //     stObj: this.props.data,
-  //   });
-  // }
+    window.onbeforeunload = () => {
+      console.log('StudentDetailsPage. Closing websocket connection with cms backend service');
+    };
+  }
 
   componentWillReceiveProps() {
     this.setState({
@@ -77,12 +138,163 @@ class StudentDetailsPage<T = {[data: string]: any}> extends React.Component<
     });
   }
 
+  createFeeLineItems(stObj: any) {
+    const retVal : any = [];
+    if(stObj !== null && stObj !== undefined) {
+      if(stObj.feeDetailsList !== undefined && stObj.feeDetailsList !== null && stObj.feeDetailsList.length > 0) {
+        for (let i = 0; i < stObj.feeDetailsList.length; i++) {
+          const fd = stObj.feeDetailsList[i];
+          console.log("FD :::::::::::::", fd);
+          retVal.push(
+            <tr>
+              <td>{fd.feeParticularsName}</td>
+              <td>{fd.amount}</td>
+            </tr>
+          )
+        }
+      }
+      return retVal;
+    }
+  }
+  
+  createFacilityItems(stObj: any) {
+    const retVal : any = [];
+    if(stObj !== null && stObj !== undefined) {
+      if(stObj.facilityList !== undefined && stObj.facilityList !== null && stObj.facilityList.length > 0) {
+        for (let i = 0; i < stObj.facilityList.length; i++) {
+          const fd = stObj.facilityList[i];
+          console.log("Facility :::::::::::::", fd);
+          retVal.push(
+            <tr>
+              <td>{fd.facility.name}</td>
+              <td>{fd.facility.amount}</td>
+            </tr>
+          )
+        }
+      }
+      return retVal;
+    }
+  }
+   
+  async doSave(inputObj: any) {
+    let btn = document.querySelector('#btnTakePayment');
+    btn && btn.setAttribute('disabled', 'true');
+    let exitCode = 0;
+
+    await this.props.client
+      .mutate({
+        mutation: ADD_INVOICE,
+        variables: {
+          input: inputObj,
+        },
+      })
+      .then((resp: any) => {
+        console.log('Success in save invoice. Response ::: ',resp);
+        this.setState({
+          tempFeesPaid: resp.data.addInvoice.invoice.outStandingAmount
+          // tempFeesPaid: (parseInt((this.state.stObj.totalFeePaid !== '' ? this.state.stObj.totalFeePaid : 0),10) + parseInt(inputObj.amountPaid, 10))
+        });
+      })
+      .catch((error: any) => {
+        exitCode = 1;
+        console.log('Error in save invoice : ', error);
+      });
+    
+    btn && btn.removeAttribute('disabled');
+
+    let errorMessage = '';
+    let successMessage = '';
+    if (exitCode === 0) {
+      successMessage = SUCCESS_MESSAGE_ADDED;
+      
+    } else {
+      errorMessage = ERROR_MESSAGE_SERVER_SIDE_ERROR;
+    }
+    this.setState({
+      successMessage: successMessage,
+      errorMessage: errorMessage,
+    });
+    
+  }
+
+  takePayment(){
+    const {user,stObj, bank, amountPaid, branchId, academicYearId, errorMessage, successMessage,modeOfPayment, chkDdNo} = this.state;
+    console.log("Payment amount : ", amountPaid);
+    if(!branchId){
+      this.setState({
+        errorMessage: 'Please select branch from preferences'
+      });
+      return;
+    }
+    let isValid = true;
+    if(modeOfPayment === null || modeOfPayment === undefined || modeOfPayment === ''){
+      this.setState({
+        errorMessage: ERROR_MESSAGE_MANDATORY_FIELD_MISSING
+      });
+      commonFunctions.changeTextBoxBorderToError('', 'modeOfPayment');
+      isValid = false;
+    }
+    if((modeOfPayment === 'CHEQUE' || modeOfPayment === 'DEMANDDRAFT') && (chkDdNo === null || chkDdNo === undefined || chkDdNo === '')){
+      this.setState({
+        errorMessage: ERROR_MESSAGE_MANDATORY_FIELD_MISSING
+      });
+      commonFunctions.changeTextBoxBorderToError('', 'chkDdNo');
+      isValid = false;
+    }
+    if((modeOfPayment === 'CHEQUE' || modeOfPayment === 'DEMANDDRAFT') && (bank === null || bank === undefined || bank === '')){
+      this.setState({
+        errorMessage: ERROR_MESSAGE_MANDATORY_FIELD_MISSING
+      });
+      commonFunctions.changeTextBoxBorderToError('', 'bank');
+      isValid = false;
+    }
+    if(amountPaid === null || amountPaid === undefined || amountPaid === ''){
+      this.setState({
+        errorMessage: ERROR_MESSAGE_MANDATORY_FIELD_MISSING
+      });
+      commonFunctions.changeTextBoxBorderToError('', 'amountPaid');
+      isValid = false;
+    }
+    if(isValid === false){
+      return;
+    } 
+    if((modeOfPayment === "CHEQUE" || modeOfPayment === "DEMANDDRAFT") 
+          && (chkDdNo === null || chkDdNo === undefined || chkDdNo === '')){
+      this.setState({
+        errorMessage: ERROR_MESSAGE_MANDATORY_FIELD_MISSING
+      });
+      commonFunctions.changeTextBoxBorderToError('', 'chkDdNo');
+      return;
+    }
+    let inputObj = {
+      studentId: stObj.id,
+      branchId: branchId,
+      academicyearId: academicYearId,
+      modeOfPayment: modeOfPayment,
+      chequeNumber: modeOfPayment === 'CHEQUE' ? chkDdNo : null,
+      demandDraftNumber: modeOfPayment === 'DEMANDDRAFT' ? chkDdNo : null,
+      bank: (modeOfPayment === 'CHEQUE' || modeOfPayment === 'DEMANDDRAFT') ? bank : null,
+      amountPaid: amountPaid,
+      updatedBy: user
+    }
+    this.doSave(inputObj);
+  }  
+
+    
+  
+
   render() {
-    const {activeTab, stObj} = this.state;
+    const {activeTab, tempFeesPaid, stObj, amountPaid, errorMessage, successMessage, modeOfPayment, chkDdNo, bank} = this.state;
     console.log('Check the new obj in another page:', stObj);
     return (
       <section className="student-profile-container">
         <div className="plugin-bg-white">
+        {errorMessage !== '' ? (
+          <MessageBox id="mbox" message={errorMessage} activeTab={2} />
+        ) : null}
+        {successMessage !== '' ? (
+          <MessageBox id="mbox" message={successMessage} activeTab={1} />
+        ) : null}
           <div>
             <div className="b-1 m-1">
               <div className="student-photo-container profile-grid">
@@ -350,88 +562,112 @@ class StudentDetailsPage<T = {[data: string]: any}> extends React.Component<
                     <span>
                       <div className="main-details m-1 p-2">
                         <div className="details-container m-b-2">
-                          <div className="dflex bdr-bpttom">
+                          <div className="dflex ">
                             <div className="fwidth dflex ">
                               <div className="fwidth">
                                 <div className="profile-label">Total Fee</div>
-                                <div className="box-text">1,25,000</div>
+                                <div className="box-text">{stObj.totalFee !== null ? stObj.totalFee : 0}</div>
                               </div>
                               <div className="fwidth">
                                 <div className="profile-label">Fees Paid</div>
-                                <div className="box-text ">25,000</div>
+                                <div className="box-text ">{tempFeesPaid === null ? (stObj.totalFeePaid !== null ? stObj.totalFeePaid : 0) : (stObj.totalFee - tempFeesPaid)}</div>
                               </div>
                               <div className="fwidth">
                                 <div className="profile-label">Fees Due</div>
-                                <div className="box-text">50,000</div>
+                                <div className="box-text">{stObj.totalFeeOverDue}</div>
                               </div>
                               <div className="fwidth">
-                                <div className="profile-label">Due Date</div>
-                                <div className="box-text">01/03/2019</div>
+                                <div className="profile-label">Next Due Date</div>
+                                <div className="box-text" style={{height:'31px'}}>{stObj.strNextPaymentDate !== null ? stObj.strNextPaymentDate : '' }</div>
                               </div>
                               <div className="fwidth">
-                                <div className="profile-label">Total Remaining</div>
-                                <div className="box-text">35,000</div>
+                                <div className="profile-label">Total Remaining</div> 
+                                <div className="box-text">{tempFeesPaid === null ? (parseInt(stObj.totalFee, 10) - parseInt(stObj.totalFeePaid,10)) : tempFeesPaid}</div>
                               </div>
-                              <div className="fwidth">
+                              {/* <div className="fwidth">
                                 <div className="profile-label mbten">
                                   Send Notification
                                 </div>
                                 <button className="btn btn-primary btn-cust-width">
                                   Send SMS
                                 </button>
+                              </div> */}
+                              
+                            </div>
+                          </div>
+                            <div className="fwidth dflex m-b-1">{}</div>    
+                          <div className="fwidth dflex bdr-bpttom">
+                              <div className="fwidth">
+                                <div className="profile-label">Mode of Payment </div>
+                                <div className="profile-label">
+                                  <select name="modeOfPayment" id="modeOfPayment" className="gf-form-input" style={{marginTop:'10px'}} onChange={this.onChange} value={modeOfPayment} >
+                                    <option value="">Select</option>
+                                    <option value="CASH">CASH</option>
+                                    <option value="CHEQUE">CHEQUE</option>
+                                    <option value="DEMANDDRAFT">DEMANDDRAFT</option>
+                                  </select>
+                                </div>
                               </div>
                               <div className="fwidth">
-                                <div className="profile-label mbten">Take Payment</div>
-                                <button className="btn btn-primary btn-cust-width">
+                                <div className="profile-label">Cheque/Demand Draft No </div>
+                                <div className="profile-label"><input disabled={(modeOfPayment === 'CHEQUE' || modeOfPayment === 'DEMANDDRAFT')   ? false : true} className="gf-form-input" style={{marginTop:'10px'}} type="number" id="chkDdNo" name="chkDdNo" onChange={this.onChange} value={chkDdNo}/></div>
+                              </div>
+                              <div className="fwidth">
+                                <div className="profile-label">Issuer Bank</div>
+                                <div className="profile-label">
+                                  <select disabled={(modeOfPayment === 'CHEQUE' || modeOfPayment === 'DEMANDDRAFT')   ? false : true} name="bank" id="bank" className="gf-form-input" style={{marginTop:'10px'}} onChange={this.onChange} value={bank} >
+                                    <option value="">Select</option>
+                                    <option value="Axis Bank">Axis Bank</option>
+                                    <option value="CITY Bank">CITY Bank</option>
+                                    <option value="HDFC Bank">HDFC Bank</option>
+                                    <option value="ICICI Bank">ICICI Bank</option>
+                                    <option value="SBI Bank">SBI Bank</option>
+                                  </select>
+                                </div>
+                              </div>
+                              <div className="fwidth">
+                                <div className="profile-label">Provide Fee Amount </div>
+                                <div className="profile-label"><input className="gf-form-input" style={{marginTop:'10px'}} type="number" id="amountPaid" name="amountPaid" onChange={this.onChange} value={amountPaid}/></div>
+                              </div>
+                              <div className="fwidth">
+                                <div className="profile-label mbten">&nbsp;</div>
+                                <button className="btn btn-primary btn-cust-width" id="btnTakePayment" name="btnTakePayment" onClick={this.takePayment}>
                                   Take Payment
                                 </button>
                               </div>
-                            </div>
                           </div>
+
+
                           <div className="dflex m-t-1">
                             <table className="w-40" id="txt-align">
-                              <tr>
-                                <th>Fee Line Item</th>
-                                <th>Amount</th>
-                              </tr>
-
+                              <thead style={{backgroundColor:'rgb(216, 216, 216)'}}>
+                                <tr>
+                                  <th style={{border:'1px solid #868686'}}>Fee Line Item</th>
+                                  <th style={{border:'1px solid #868686'}}>Amount</th>
+                                </tr>
+                              </thead>
                               <tbody>
-                                <tr>
-                                  <td>Tution Fee</td>
-                                  <td>10,000</td>
-                                </tr>
-                                <tr>
-                                  <td>Exam Fee</td>
-                                  <td>5,000</td>
-                                </tr>
-                                <tr>
-                                  <td>Lab Fee</td>
-                                  <td>2,000</td>
-                                </tr>
+                                {this.createFeeLineItems(stObj)}  
                               </tbody>
+                              
                             </table>
                             <table className="w-40 m-r-3 m-l-3" id="txt-align">
-                              <tr>
-                                <th>Facility</th>
-                                <th>Amount</th>
-                              </tr>
+                              <thead style={{backgroundColor:'rgb(216, 216, 216)'}}>
+                                <tr>
+                                  <th style={{border:'1px solid #868686'}}>Facility</th>
+                                  <th style={{border:'1px solid #868686'}}>Amount</th>
+                                </tr>
+                              </thead>
                               <tbody>
-                                <tr>
-                                  <td>Transportation</td>
-                                  <td>10,000</td>
-                                </tr>
-                                <tr>
-                                  <td>Gym</td>
-                                  <td>5,000</td>
-                                </tr>
+                                {this.createFacilityItems(stObj)}  
                               </tbody>
                             </table>
-                            <div className="w-20">
+                            {/* <div className="w-20">
                               <div className="profile-label">Next Payment</div>
                               <div className="box-text">35,000</div>
-                            </div>
+                            </div> */}
                           </div>
-                          <button className="btn btn-primary cust-btn-payment">
+                          <button className="btn btn-primary">
                             Payment History
                           </button>
                         </div>

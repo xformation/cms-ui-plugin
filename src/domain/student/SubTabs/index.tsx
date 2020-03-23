@@ -74,7 +74,7 @@ class StudentSubtabs extends React.Component<StudentProps, any> {
       variables: {
         collegeId: bid,
         // departmentId: departmentId,
-        academicYearId: bid,
+        academicYearId: ayid,
         // collegeId: collegeId,
       },
 

@@ -33,9 +33,9 @@ export interface StudentProps extends React.HTMLAttributes<HTMLElement> {
 const ERROR_MESSAGE_MANDATORY_FIELD_MISSING = 'Mandatory fields missing';
 const ERROR_MESSAGE_INVALID_EMAIL_ID = 'Invalid email id';
 const ERROR_MESSAGE_SERVER_SIDE_ERROR =
-  'Due to some error in preferences service, student could not be saved. Please check preferences service logs';
-const SUCCESS_MESSAGE_STUDENT_ADDED = 'New employee saved successfully';
-const SUCCESS_MESSAGE_STUDENT_UPDATED = 'Employee updated successfully';
+  'Due to some error in cms service, student could not be saved. Please check cms service logs';
+const SUCCESS_MESSAGE_STUDENT_ADDED = 'New student saved successfully';
+const SUCCESS_MESSAGE_STUDENT_UPDATED = 'Student updated successfully';
 
 class AddStudentPage extends React.Component<StudentProps, any> {
   DEFAULT_STUDENT_IMAGE = '/public/img/user_profile.png';
@@ -126,6 +126,7 @@ class AddStudentPage extends React.Component<StudentProps, any> {
     this.doSave = this.doSave.bind(this);
     this.getInput = this.getInput.bind(this);
     this.getcreateStudentFilterDataCache= this.getcreateStudentFilterDataCache.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
 
   async componentDidMount() {
@@ -134,9 +135,9 @@ class AddStudentPage extends React.Component<StudentProps, any> {
 
   registerSocket() {
     const socket = wsCmsBackendServiceSingletonClient.getInstance();
-    let dpid: any = 0;
-    let bid: any = 0;
-    let ayid: any = 0;
+    // let dpid: any = 0;
+    // let bid: any = 0;
+    // let ayid: any = 0;
 
     socket.onmessage = (response: any) => {
       let message = JSON.parse(response.data);
@@ -146,9 +147,9 @@ class AddStudentPage extends React.Component<StudentProps, any> {
         academicYearId: message.selectedAcademicYearId,
         departmentId: message.selectedDepartmentId,
       });
-      bid = '' + message.selectedBranchId;
-      ayid = '' + message.selectedAcademicYearId;
-      dpid = '' + message.selectedDepartmentId;
+      // bid = '' + message.selectedBranchId;
+      // ayid = '' + message.selectedAcademicYearId;
+      // dpid = '' + message.selectedDepartmentId;
       console.log('StudentAdd. branchId: ', this.state.branchId);
       console.log('StudentAdd. departmentId: ', this.state.departmentId);
     };
@@ -185,14 +186,12 @@ class AddStudentPage extends React.Component<StudentProps, any> {
 
   createBatches(batches: any, selectedDepartmentId: any) {
     let batchesOptions = [
-      <option key={0} value="">
-        Select Year
-      </option>,
+      <option key={""} value={""}> Select Year </option>
     ];
     for (let i = 0; i < batches.length; i++) {
       let id = batches[i].id;
-      let dptId = '' + batches[i].department.id;
-      if (dptId == selectedDepartmentId) {
+      let dptId = batches[i].department.id;
+      if (parseInt(dptId,10) === parseInt(selectedDepartmentId,10)) {
         batchesOptions.push(
           <option key={id} value={id}>
             {batches[i].batch}
@@ -321,7 +320,13 @@ class AddStudentPage extends React.Component<StudentProps, any> {
 
   save = (e: any) => {
     const {id} = e.nativeEvent.target;
-    const {studentObj} = this.state;
+    const {studentObj, branchId} = this.state;
+    if(!branchId){
+      this.setState({
+        errorMessage: 'Please select branch from preferences'
+      });
+      return;
+    }
     if (!this.validatePersonalInfo()) {
       this.toggleTab(0);
       return;
@@ -364,381 +369,92 @@ class AddStudentPage extends React.Component<StudentProps, any> {
     });
   }
 
-  validatePersonalInfo() {
-    const {studentObj} = this.state;
-    let isValid = true;
-    let errorMessage = '';
-    // console.log('test inp obj:', studentObj);
-    if (
-      studentObj.rollNo === undefined ||
-      studentObj.rollNo === null ||
-      studentObj.rollNo.trim() === ''
-    ) {
-      commonFunctions.changeTextBoxBorderToError(
-        studentObj.rollNo === undefined || studentObj.rollNo === null
-          ? ''
-          : studentObj.rollNo,
-        'rollNo'
-      );
+  isMandatoryField(objValue: any, obj: any){
+    let errorMessage = "";
+    if(objValue === undefined || objValue === null || objValue.trim() === ""){
+      let tempVal = "";
+      commonFunctions.changeTextBoxBorderToError(tempVal, obj);
       errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
-      isValid = false;
     }
-    // if (
-    //   studentObj.studentType === undefined ||
-    //   studentObj.studentType === null ||
-    //   studentObj.studentType === ''
-    // ) {
-    //   commonFunctions.changeTextBoxBorderToError(
-    //     studentObj.studentType === undefined || studentObj.studentType === null
-    //       ? ''
-    //       : studentObj.studentType,
-    //     'studentType'
-    //   );
-    //   errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
-    //   isValid = false;
-    // }
-    if (
-      studentObj.status === undefined ||
-      studentObj.status === null ||
-      studentObj.status === ''
-    ) {
-      commonFunctions.changeTextBoxBorderToError(
-        studentObj.status === undefined || studentObj.status === null
-          ? ''
-          : studentObj.status,
-        'status'
-      );
-      errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
-      isValid = false;
-    }
-    if (
-      studentObj.studentName === undefined ||
-      studentObj.studentName === null ||
-      studentObj.studentName.trim() === ''
-    ) {
-      commonFunctions.changeTextBoxBorderToError(
-        studentObj.studentName === undefined || studentObj.studentName === null
-          ? ''
-          : studentObj.studentName,
-        'studentName'
-      );
-      errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
-      console.log('check msg error:', errorMessage);
-      isValid = false;
-    }
-    if (
-      studentObj.studentLastName === undefined ||
-      studentObj.studentLastName === null ||
-      studentObj.studentLastName.trim() === ''
-    ) {
-      commonFunctions.changeTextBoxBorderToError(
-        studentObj.studentLastName === undefined || studentObj.studentLastName === null
-          ? ''
-          : studentObj.studentLastName,
-        'studentLastName'
-      );
-      errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
-      isValid = false;
-    }
-    if (
-      studentObj.fatherName === undefined ||
-      studentObj.fatherName === null ||
-      studentObj.fatherName.trim() === ''
-    ) {
-      commonFunctions.changeTextBoxBorderToError(
-        studentObj.fatherName === undefined || studentObj.fatherName === null
-          ? ''
-          : studentObj.fatherName,
-        'fatherName'
-      );
-      errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
-      isValid = false;
-    }
-    if (
-      studentObj.fatherLastName === undefined ||
-      studentObj.fatherLastName === null ||
-      studentObj.fatherLastName.trim() === ''
-    ) {
-      commonFunctions.changeTextBoxBorderToError(
-        studentObj.fatherLastName === undefined || studentObj.fatherLastName === null
-          ? ''
-          : studentObj.fatherLastName,
-        'fatherLastName'
-      );
-      errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
-      isValid = false;
-    }
-    if (
-      studentObj.dateOfBirth === undefined ||
-      studentObj.dateOfBirth === null ||
-      studentObj.dateOfBirth.trim() === ''
-    ) {
-      commonFunctions.changeTextBoxBorderToError(
-        studentObj.dateOfBirth === undefined || studentObj.dateOfBirth === null
-          ? ''
-          : studentObj.dateOfBirth,
-        'dateOfBirth'
-      );
-      errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
-      isValid = false;
-    }
-    if (
-      studentObj.sex === undefined ||
-      studentObj.sex === null ||
-      studentObj.sex.trim() === ''
-    ) {
-      commonFunctions.changeTextBoxBorderToError(
-        studentObj.sex === undefined || studentObj.sex === null ? '' : studentObj.sex,
-        'sex'
-      );
-      errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
-      isValid = false;
-    }
-    this.setState({
-      errorMessage: errorMessage,
-    });
-
-    if (isValid) {
-      this.toggleTab(1);
-    }
-    return isValid;
+    return errorMessage;
   }
-  validateContactDetails() {
-    const {studentObj} = this.state;
-    let isValid = true;
-    let errorMessage = '';
-    if (
-      studentObj.rollNo === undefined ||
-      studentObj.rollNo === null ||
-      studentObj.rollNo.trim() === ''
-    ) {
-      commonFunctions.changeTextBoxBorderToError(
-        studentObj.rollNo === undefined || studentObj.rollNo === null
-          ? ''
-          : studentObj.rollNo,
-        'rollNo'
-      );
-      errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
-      isValid = false;
-    }
-    // if (
-    //   studentObj.studentType === undefined ||
-    //   studentObj.studentType === null ||
-    //   studentObj.studentType === ''
-    // ) {
-    //   commonFunctions.changeTextBoxBorderToError(
-    //     studentObj.studentType === undefined || studentObj.studentType === null
-    //       ? ''
-    //       : studentObj.studentType,
-    //     'studentType'
-    //   );
-    //   errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
-    //   isValid = false;
-    // }
-    if (
-      studentObj.status === undefined ||
-      studentObj.status === null ||
-      studentObj.status === ''
-    ) {
-      commonFunctions.changeTextBoxBorderToError(
-        studentObj.status === undefined || studentObj.status === null
-          ? ''
-          : studentObj.status,
-        'status'
-      );
-      errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
-      isValid = false;
-    }
-    if (
-      studentObj.studentLocalAddress === undefined ||
-      studentObj.studentLocalAddress === null ||
-      studentObj.studentLocalAddress.trim() === ''
-    ) {
-      commonFunctions.changeTextBoxBorderToError(
-        studentObj.studentLocalAddress === undefined ||
-          studentObj.studentLocalAddress === null
-          ? ''
-          : studentObj.studentLocalAddress,
-        'studentLocalAddress'
-      );
-      errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
-      isValid = false;
-    }
-    if (
-      studentObj.studentPermanentAddress === undefined ||
-      studentObj.studentPermanentAddress === null ||
-      studentObj.studentPermanentAddress.trim() === ''
-    ) {
-      commonFunctions.changeTextBoxBorderToError(
-        studentObj.studentPermanentAddress === undefined ||
-          studentObj.studentPermanentAddress === null
-          ? ''
-          : studentObj.studentPermanentAddress,
-        'studentPermanentAddress'
-      );
-      errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
-      isValid = false;
-    }
-    if (
-      studentObj.studentPrimaryCellNumber === undefined ||
-      studentObj.studentPrimaryCellNumber === null ||
-      studentObj.studentPrimaryCellNumber.trim() === ''
-    ) {
-      commonFunctions.changeTextBoxBorderToError(
-        studentObj.studentPrimaryCellNumber === undefined ||
-          studentObj.studentPrimaryCellNumber === null
-          ? ''
-          : studentObj.studentPrimaryCellNumber,
-        'studentPrimaryCellNumber'
-      );
-      errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
-      isValid = false;
-    }
-    if (
-      studentObj.studentPrimaryEmailId === undefined ||
-      studentObj.studentPrimaryEmailId === null ||
-      studentObj.studentPrimaryEmailId.trim() === ''
-    ) {
-      commonFunctions.changeTextBoxBorderToError(
-        studentObj.studentPrimaryEmailId === undefined ||
-          studentObj.studentPrimaryEmailId === null
-          ? ''
-          : studentObj.studentPrimaryEmailId,
-        'studentPrimaryEmailId'
-      );
-      errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
-      isValid = false;
-    }
 
+  validatePersonalInfo() {
+    const {studentObj, studentData} = this.state;
+    let errorMessage = this.isMandatoryField(studentObj.rollNo, "rollNo");
+    errorMessage = this.isMandatoryField(studentData.batch.id, "batch");
+    errorMessage = this.isMandatoryField(studentData.section.id, "section");
+    errorMessage = this.isMandatoryField(studentObj.studentType, "studentType");
+    errorMessage = this.isMandatoryField(studentObj.status, "status");
+    errorMessage = this.isMandatoryField(studentObj.studentName, "studentName");
+    errorMessage = this.isMandatoryField(studentObj.studentLastName, "studentLastName");
+    errorMessage = this.isMandatoryField(studentObj.fatherName, "fatherName");
+    errorMessage = this.isMandatoryField(studentObj.fatherLastName, "fatherLastName");
+    errorMessage = this.isMandatoryField(studentObj.dateOfBirth, "dateOfBirth");
+    errorMessage = this.isMandatoryField(studentObj.sex, "sex");
+    errorMessage = this.isMandatoryField(studentObj.religion, "religion");
+    errorMessage = this.isMandatoryField(studentObj.caste, "caste");
+    
     this.setState({
       errorMessage: errorMessage,
     });
-    // this.props.onSaveUpdate(errorMessage, "");
-    if (isValid) {
-      this.toggleTab(2);
+
+    if (errorMessage !== '') {
+      return false;
     }
-    return isValid;
+    this.toggleTab(1);
+    return true;
+  }
+
+  validateContactDetails() {
+    const {studentObj, studentData} = this.state;
+    let errorMessage = this.isMandatoryField(studentObj.rollNo, "rollNo");
+    errorMessage = this.isMandatoryField(studentData.batch.id, "batch");
+    errorMessage = this.isMandatoryField(studentData.section.id, "section");
+    errorMessage = this.isMandatoryField(studentObj.studentType, "studentType");
+    errorMessage = this.isMandatoryField(studentObj.status, "status");
+    errorMessage = this.isMandatoryField(studentObj.studentLocalAddress, "studentLocalAddress");
+    errorMessage = this.isMandatoryField(studentObj.studentPermanentAddress, "studentPermanentAddress");
+    errorMessage = this.isMandatoryField(studentObj.studentPrimaryCellNumber, "studentPrimaryCellNumber");
+    errorMessage = this.isMandatoryField(studentObj.studentPrimaryEmailId, "studentPrimaryEmailId");
+    
+    this.setState({
+      errorMessage: errorMessage,
+    });
+
+    if (errorMessage !== '') {
+      return false;
+    }
+    this.toggleTab(2);
+    return true;
   }
 
   validateEmergencyDetails() {
-    const {studentObj} = this.state;
-    let isValid = true;
-    let errorMessage = '';
-    if (
-      studentObj.rollNo === undefined ||
-      studentObj.rollNo === null ||
-      studentObj.rollNo.trim() === ''
-    ) {
-      commonFunctions.changeTextBoxBorderToError(
-        studentObj.rollNo === undefined || studentObj.rollNo === null
-          ? ''
-          : studentObj.rollNo,
-        'rollNo'
-      );
-      errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
-      isValid = false;
-    }
-    // if (
-    //   studentObj.studentType === undefined ||
-    //   studentObj.studentType === null ||
-    //   studentObj.studentType === ''
-    // ) {
-    //   commonFunctions.changeTextBoxBorderToError(
-    //     studentObj.studentType === undefined || studentObj.studentType === null
-    //       ? ''
-    //       : studentObj.studentType,
-    //     'studentType'
-    //   );
-    //   errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
-    //   isValid = false;
-    // }
-    if (
-      studentObj.status === undefined ||
-      studentObj.status === null ||
-      studentObj.status === ''
-    ) {
-      commonFunctions.changeTextBoxBorderToError(
-        studentObj.status === undefined || studentObj.status === null
-          ? ''
-          : studentObj.status,
-        'status'
-      );
-      errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
-      isValid = false;
-    }
-    if (
-      studentObj.relationWithStudent === undefined ||
-      studentObj.relationWithStudent === null ||
-      studentObj.relationWithStudent === ''
-    ) {
-      commonFunctions.changeTextBoxBorderToError(
-        studentObj.relationWithStudent === undefined ||
-          studentObj.relationWithStudent === null
-          ? ''
-          : studentObj.relationWithStudent,
-        'relationWithStudent'
-      );
-      errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
-      isValid = false;
-    }
-    if (
-      studentObj.emergencyContactName === undefined ||
-      studentObj.emergencyContactName === null ||
-      studentObj.emergencyContactName.trim() === ''
-    ) {
-      commonFunctions.changeTextBoxBorderToError(
-        studentObj.emergencyContactName === undefined ||
-          studentObj.emergencyContactName === null
-          ? ''
-          : studentObj.emergencyContactName,
-        'emergencyContactName'
-      );
-      errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
-      isValid = false;
-    }
-    if (
-      studentObj.emergencyContactLastName === undefined ||
-      studentObj.emergencyContactLastName === null ||
-      studentObj.emergencyContactLastName.trim() === ''
-    ) {
-      commonFunctions.changeTextBoxBorderToError(
-        studentObj.emergencyContactLastName === undefined ||
-          studentObj.emergencyContactLastName === null
-          ? ''
-          : studentObj.emergencyContactLastName,
-        'emergencyContactLastName'
-      );
-      errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
-      isValid = false;
-    }
-    if (
-      studentObj.emergencyContactCellNumber === undefined ||
-      studentObj.emergencyContactCellNumber === null ||
-      studentObj.emergencyContactCellNumber.trim() === ''
-    ) {
-      commonFunctions.changeTextBoxBorderToError(
-        studentObj.emergencyContactCellNumber === undefined ||
-          studentObj.emergencyContactCellNumber === null
-          ? ''
-          : studentObj.emergencyContactCellNumber,
-        'emergencyContactCellNumber'
-      );
-      errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
-      isValid = false;
-    }
-
+    const {studentObj, studentData} = this.state;
+    let errorMessage = this.isMandatoryField(studentObj.rollNo, "rollNo");
+    errorMessage = this.isMandatoryField(studentData.batch.id, "batch");
+    errorMessage = this.isMandatoryField(studentData.section.id, "section");
+    errorMessage = this.isMandatoryField(studentObj.studentType, "studentType");
+    errorMessage = this.isMandatoryField(studentObj.status, "status");
+    errorMessage = this.isMandatoryField(studentObj.relationWithStudent, "relationWithStudent");
+    errorMessage = this.isMandatoryField(studentObj.emergencyContactName, "emergencyContactName");
+    errorMessage = this.isMandatoryField(studentObj.emergencyContactLastName, "emergencyContactLastName");
+    errorMessage = this.isMandatoryField(studentObj.emergencyContactCellNumber, "emergencyContactCellNumber");
+    
     this.setState({
       errorMessage: errorMessage,
     });
-    // this.props.onSaveUpdate(errorMessage, "");
-    if (isValid) {
-      this.toggleTab(2);
+    
+    if (errorMessage !== '') {
+      return false;
     }
-    return isValid;
+    // this.toggleTab(2);
+    return true;
+
   }
 
   getInput(studentObj: any) {
-    const {branchId, departmentId, studentData} = this.state;
+    const {branchId, departmentId, academicYearId, studentData} = this.state;
     let inputObj = {
       id:
         studentObj.id !== null || studentObj.id !== undefined || studentObj.id !== ''
@@ -784,6 +500,7 @@ class AddStudentPage extends React.Component<StudentProps, any> {
       branchId: branchId,
       batchId: studentData.batch.id,
       sectionId: studentData.section.id,
+      academicYearId: academicYearId,
       // strDateOfBirth:
       //   studentObj.dateOfBirth !== null ||
       //   studentObj.dateOfBirth !== undefined ||
@@ -886,32 +603,12 @@ class AddStudentPage extends React.Component<StudentProps, any> {
               <label htmlFor="">
                 Roll No <span style={{color: 'red'}}> * </span>
               </label>
-              <input
-                className="gf-form-input width-11 m-b-1"
-                style={{width: '10.8rem', marginBottom: '10px'}}
-                name="rollNo"
-                id="rollNo"
-                onChange={this.onChange}
-                type="number"
-                maxLength={255}
-                required
-              />
+              <input className="gf-form-input width-11 m-b-1" style={{width: '10.8rem', marginBottom: '10px'}} name="rollNo" id="rollNo" onChange={this.onChange} type="number" maxLength={255} required />
             </div>
             <div className="form-justify">
-              <label htmlFor="">
-                Year <span style={{color: 'red'}}> * </span>
-              </label>
-               <select
-                  required
-                  name="batch"
-                  id="batch"
-                  onChange={this.onChange}
-                  value={studentData.batch.id}
-                  className="gf-form-input width-11 m-b-1"
-                  style={{width: '10.8rem', marginBottom: '10px', borderRadius: '0px'}}
-                >
-                  
-                    {createStudentFilterDataCache !== null &&
+              <label htmlFor=""> Year <span style={{color: 'red'}}> * </span> </label>
+               <select name="batch" id="batch" className="gf-form-input width-11 m-b-1"  onChange={this.onChange} value={studentData.batch.id} style={{width: '10.8rem', marginBottom: '10px', borderRadius: '0px'}} >
+                  {createStudentFilterDataCache !== null &&
                   createStudentFilterDataCache !== undefined &&
                   createStudentFilterDataCache.batches !== null &&
                   createStudentFilterDataCache.batches !== undefined
@@ -1128,7 +825,7 @@ class AddStudentPage extends React.Component<StudentProps, any> {
                       />
                     </div>
                     <div>
-                      <label htmlFor="">Religion</label>
+                      <label htmlFor="">Religion<span style={{color: 'red'}}> * </span></label>
                       <select
                         className="gf-form-input fwidth"
                         onChange={this.onChange}
@@ -1146,7 +843,7 @@ class AddStudentPage extends React.Component<StudentProps, any> {
                       </select>
                     </div>
                     <div>
-                      <label htmlFor="">Caste</label>
+                      <label htmlFor="">Caste<span style={{color: 'red'}}> * </span></label>
                       <select
                         className="gf-form-input fwidth"
                         onChange={this.onChange}

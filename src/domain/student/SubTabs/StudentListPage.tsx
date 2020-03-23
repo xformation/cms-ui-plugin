@@ -87,9 +87,7 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
     this.createSections = this.createSections.bind(this);
     this.showDetail = this.showDetail.bind(this);
     this.SetObject = this.SetObject.bind(this);
-    this.getcreateStudentFilterDataCache = this.getcreateStudentFilterDataCache.bind(
-      this
-    );
+    this.getcreateStudentFilterDataCache = this.getcreateStudentFilterDataCache.bind( this );
     this.toggleTab = this.toggleTab.bind(this);
 
     // this.searchHandlers = this.searchHandlers.bind(this);
@@ -119,9 +117,9 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
 
   async registerSocket() {
     const socket = wsCmsBackendServiceSingletonClient.getInstance();
-    let dpid: any = 0;
-    let bid: any = 0;
-    let ayid: any = 0;
+    // let dpid: any = 0;
+    // let bid: any = 0;
+    // let ayid: any = 0;
 
     socket.onmessage = (response: any) => {
       let message = JSON.parse(response.data);
@@ -131,9 +129,9 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
         academicYearId: message.selectedAcademicYearId,
         departmentId: message.selectedDepartmentId,
       });
-      bid = '' + message.selectedBranchId;
-      ayid = '' + message.selectedAcademicYearId;
-      dpid = '' + message.selectedDepartmentId;
+      // bid = '' + message.selectedBranchId;
+      // ayid = '' + message.selectedAcademicYearId;
+      // dpid = '' + message.selectedDepartmentId;
       console.log('StudentList. branchId: ', this.state.branchId);
       console.log('StudentList. departmentId: ', this.state.departmentId);
     };
@@ -494,7 +492,7 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
     //   });
     // } else
 
-    if (name === 'batch') {
+    if (name === 'year') {
       this.setState({
         studentData: {
           ...studentData,
@@ -506,13 +504,21 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
           },
         },
       });
-    } else if (name === 'section') {
+    } else if (name === 'sectionObj') {
       this.setState({
         studentData: {
           ...studentData,
           section: {
             id: value,
           },
+        },
+      });
+    }
+    else if (name === 'studentTypeObj') {
+      this.setState({
+        studentData: {
+          ...studentData,
+            studentType: value,
         },
       });
     }
@@ -571,7 +577,10 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
     const {mutate} = this.props;
     const {studentData, branchId, departmentId} = this.state;
     e.preventDefault();
-
+    if(!branchId){
+      alert("Please select branch from preferences");
+      return;
+    }
     let studentFilterInputObject = {
       branchId: branchId, // branchId,
       departmentId: departmentId, // 1151,
@@ -654,8 +663,8 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
                     <label htmlFor="">Year</label>
                     <select
                       required
-                      name="batch"
-                      id="batch"
+                      name="year"
+                      id="year"
                       onChange={this.onChange}
                       value={studentData.batch.id}
                       className="gf-form-input max-width-22"
@@ -676,8 +685,8 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
                     <label htmlFor="">Section</label>
                     <select
                       required
-                      name="section"
-                      id="section"
+                      name="sectionObj"
+                      id="sectionObj"
                       onChange={this.onChange}
                       value={studentData.section.id}
                       className="gf-form-input max-width-12"
@@ -729,8 +738,8 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
                     <label htmlFor="">Student Type</label>
                     <select
                       required
-                      name="studentType"
-                      id="studentType"
+                      name="studentTypeObj"
+                      id="studentTypeObj"
                       onChange={this.onChange}
                       value={studentData.studentType}
                       className="gf-form-input max-width-22"
