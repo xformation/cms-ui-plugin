@@ -1,10 +1,10 @@
 import * as React from 'react';
 import {withApollo} from 'react-apollo';
-import {TabContent, TabPane, Nav, NavItem, NavLink} from 'reactstrap';
+import {TabContent, TabPane, Nav, NavItem, NavLink, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 import wsCmsBackendServiceSingletonClient from '../../../wsCmsBackendServiceClient';
 import {MessageBox} from '../Message/MessageBox';
 import {commonFunctions} from '../_utilites/common.functions';
-import {ADD_INVOICE} from '../_queries';
+import {ADD_INVOICE, GET_INVOICE_LIST} from '../_queries';
 
 const ERROR_MESSAGE_MANDATORY_FIELD_MISSING = 'Mandatory fields missing';
 const ERROR_MESSAGE_SERVER_SIDE_ERROR = 'Error in cms service, payment invoice could not be generated. Please check cms service logs';
@@ -26,6 +26,8 @@ type StudentTableStates = {
   chkDdNo: any;
   bank: any;
   tempFeesPaid: any;
+  isModalOpen: any;
+  paymentObj: any;
 };
 
 export interface StudentDetailsProps extends React.HTMLAttributes<HTMLElement> {
@@ -37,6 +39,7 @@ class StudentDetailsPage<T = {[data: string]: any}> extends React.Component<Stud
   constructor(props: any) {
     super(props);
     this.state = {
+      isModalOpen: false,
       activeTab: 0,
       stObj: this.props.data,
       user: this.props.user,
@@ -50,6 +53,7 @@ class StudentDetailsPage<T = {[data: string]: any}> extends React.Component<Stud
       chkDdNo: '',
       bank: '',
       tempFeesPaid: null,
+      paymentObj: [],
     };
     this.toggleTab = this.toggleTab.bind(this);
     this.createFeeLineItems = this.createFeeLineItems.bind(this);
@@ -57,6 +61,9 @@ class StudentDetailsPage<T = {[data: string]: any}> extends React.Component<Stud
     this.registerSocket = this.registerSocket.bind(this);
     this.takePayment = this.takePayment.bind(this);
     this.doSave = this.doSave.bind(this);
+    this.showDetail = this.showDetail.bind(this);
+    this.getPaymentHistory = this.getPaymentHistory.bind(this);
+    this.createRows = this.createRows.bind(this);
   }
 
   onChange = (e: any) => {
@@ -117,9 +124,9 @@ class StudentDetailsPage<T = {[data: string]: any}> extends React.Component<Stud
 
     socket.onopen = () => {
       console.log('StudentDetailsPage. Opening websocekt connection to cmsbackend. User : ',
-        this.state.user.login
+      new URLSearchParams(location.search).get("signedInUser")
       );
-      socket.send(this.state.user.login);
+      socket.send(new URLSearchParams(location.search).get("signedInUser"));
     };
 
     window.onbeforeunload = () => {
@@ -281,10 +288,75 @@ class StudentDetailsPage<T = {[data: string]: any}> extends React.Component<Stud
   }  
 
     
-  
+  async showDetail(bShow: boolean, stObj: any) {
+    // e && e.preventDefault();
+    if(bShow){
+      await this.getPaymentHistory(stObj);
+    }
+    this.setState({
+        isModalOpen: bShow,
+    });
+  }
+
+  async getPaymentHistory(stObj: any){
+    const {branchId} = this.state;
+    await this.props.client.query({
+      query: GET_INVOICE_LIST,
+      variables: {
+        studentId: stObj.id,
+        branchId: branchId,
+      },
+      fetchPolicy: 'no-cache',
+    }).then((data : any) =>
+        // console.log("DTTTT ____________________________ ",data.data.getInvoices)
+       this.setState({
+        paymentObj: data.data.getInvoices
+      })
+    );
+    
+    
+  }
+
+  async createRows(){
+    const {paymentObj} = this.state;
+    console.log("paymentObj :::::----------------------->>>>>> ",paymentObj);
+    let homeArray = new Array(paymentObj.length);
+    let i = 0
+
+    for (var key in paymentObj) {
+        homeArray[i] =  paymentObj[key];
+        i = i + 1;
+    }
+
+    const retVal = [];
+    
+      for (let x = 0; x < homeArray.length; x++) {
+        const tempObj = homeArray[x];
+        retVal.push(
+          <tbody>
+            <tr>
+              <td>{tempObj.invoiceNumber}</td>
+              <td>{tempObj.amountPaid}</td>
+              <td>{tempObj.outStandingAmount}</td>
+              <td>{tempObj.strPaymentDate}</td>
+              <td>{tempObj.modeOfPayment}</td>
+              <td>{tempObj.chequeNumber}</td>
+              <td>{tempObj.demandDraftNumber}</td>
+              <td>{tempObj.bank}</td>
+            </tr>
+          </tbody>
+        );
+      }
+
+      // console.log("Payment history data :::::: ",data.getInvoices);  
+    
+    return retVal;
+  }
+
+
 
   render() {
-    const {activeTab, tempFeesPaid, stObj, amountPaid, errorMessage, successMessage, modeOfPayment, chkDdNo, bank} = this.state;
+    const {activeTab, isModalOpen, paymentObj, tempFeesPaid, stObj, amountPaid, errorMessage, successMessage, modeOfPayment, chkDdNo, bank} = this.state;
     console.log('Check the new obj in another page:', stObj);
     return (
       <section className="student-profile-container">
@@ -667,9 +739,54 @@ class StudentDetailsPage<T = {[data: string]: any}> extends React.Component<Stud
                               <div className="box-text">35,000</div>
                             </div> */}
                           </div>
-                          <button className="btn btn-primary">
-                            Payment History
-                          </button>
+                          <div>
+                          <Modal isOpen={isModalOpen}  className="react-strap-modal-container">
+                            <ModalHeader>{'Payment History'}</ModalHeader>
+                            <ModalBody className="modal-content">
+                            <div style={{height:'350px', width:'100%', boxSizing:'border-box', display:'inline-block', verticalAlign:'middle', overflowY:'auto'}}>
+                              <table className="fwidth">
+                                <thead>
+                                  <tr>
+                                    <th>Invoice No</th>
+                                    <th>Amount Paid</th>
+                                    <th>Remaining Amount</th>
+                                    <th>Payment Date</th>
+                                    <th>Mode of Payment</th>
+                                    <th>Cheque No</th>
+                                    <th>Demand Draft No</th>
+                                    <th>Issuer Bank</th>
+                                  </tr>
+                                </thead>
+                                {
+                                  paymentObj !== null && paymentObj.length > 0  ?
+                                        console.log("Final payment object :::: ", paymentObj)
+                                  : console.log("Payment object is not yet SET..........", paymentObj)
+                                }
+                                {
+                                  paymentObj !== null && paymentObj.length > 0  ?
+                                        <tbody>
+                                          {
+                                            paymentObj.map((item: any)=> {
+                                                <tr><td>{item}</td></tr>
+                                            })
+                                          }
+                                        </tbody>
+                                  : null
+                                }
+                              </table>
+                            </div>
+                            <button className="btn btn-primary" onClick={e => this.showDetail(false, null)}>
+                              Close
+                            </button>
+                            </ModalBody>
+                          </Modal>
+                          </div>
+                          <div className="w-20">
+                            <button className="btn btn-primary" onClick={e => this.showDetail(true, stObj)}>
+                              Payment History
+                            </button>
+                          </div>
+                          
                         </div>
                       </div>
                     </span>

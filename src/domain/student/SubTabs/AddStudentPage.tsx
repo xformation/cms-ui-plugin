@@ -157,9 +157,9 @@ class AddStudentPage extends React.Component<StudentProps, any> {
     socket.onopen = () => {
       console.log(
         'Student. Opening websocekt connection to cmsbackend. User : ',
-        this.state.user.login
+        new URLSearchParams(location.search).get("signedInUser")
       );
-      socket.send(this.state.user.login);
+      socket.send(new URLSearchParams(location.search).get("signedInUser"));
     };
 
     window.onbeforeunload = () => {
