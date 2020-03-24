@@ -1,10 +1,10 @@
 import * as React from 'react';
-import {withApollo} from 'react-apollo';
-import {TabContent, TabPane, Nav, NavItem, NavLink, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
+import { withApollo } from 'react-apollo';
+import { TabContent, TabPane, Nav, NavItem, NavLink, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import wsCmsBackendServiceSingletonClient from '../../../wsCmsBackendServiceClient';
-import {MessageBox} from '../Message/MessageBox';
-import {commonFunctions} from '../_utilites/common.functions';
-import {ADD_INVOICE, GET_INVOICE_LIST} from '../_queries';
+import { MessageBox } from '../Message/MessageBox';
+import { commonFunctions } from '../_utilites/common.functions';
+import { ADD_INVOICE, GET_INVOICE_LIST } from '../_queries';
 
 const ERROR_MESSAGE_MANDATORY_FIELD_MISSING = 'Mandatory fields missing';
 const ERROR_MESSAGE_SERVER_SIDE_ERROR = 'Error in cms service, payment invoice could not be generated. Please check cms service logs';
@@ -35,7 +35,7 @@ export interface StudentDetailsProps extends React.HTMLAttributes<HTMLElement> {
   user?: any;
 }
 
-class StudentDetailsPage<T = {[data: string]: any}> extends React.Component<StudentDetailsProps, StudentTableStates > {
+class StudentDetailsPage<T = { [data: string]: any }> extends React.Component<StudentDetailsProps, StudentTableStates> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -68,23 +68,23 @@ class StudentDetailsPage<T = {[data: string]: any}> extends React.Component<Stud
 
   onChange = (e: any) => {
     e.preventDefault();
-    const {name, value} = e.nativeEvent.target;
-    if(name === "amountPaid"){
+    const { name, value } = e.nativeEvent.target;
+    if (name === "amountPaid") {
       this.setState({
-          amountPaid: value
+        amountPaid: value
       });
     }
-    if(name === "chkDdNo"){
+    if (name === "chkDdNo") {
       this.setState({
         chkDdNo: value
       });
     }
-    if(name === "bank"){
+    if (name === "bank") {
       this.setState({
-          bank: value
+        bank: value
       });
     }
-    if(name === "modeOfPayment"){
+    if (name === "modeOfPayment") {
       this.setState({
         modeOfPayment: value
       });
@@ -96,7 +96,7 @@ class StudentDetailsPage<T = {[data: string]: any}> extends React.Component<Stud
       errorMessage: '',
       successMessage: '',
     });
-    
+
     commonFunctions.restoreTextBoxBorderToNormal(name);
   };
 
@@ -124,7 +124,7 @@ class StudentDetailsPage<T = {[data: string]: any}> extends React.Component<Stud
 
     socket.onopen = () => {
       console.log('StudentDetailsPage. Opening websocekt connection to cmsbackend. User : ',
-      new URLSearchParams(location.search).get("signedInUser")
+        new URLSearchParams(location.search).get("signedInUser")
       );
       socket.send(new URLSearchParams(location.search).get("signedInUser"));
     };
@@ -146,9 +146,9 @@ class StudentDetailsPage<T = {[data: string]: any}> extends React.Component<Stud
   }
 
   createFeeLineItems(stObj: any) {
-    const retVal : any = [];
-    if(stObj !== null && stObj !== undefined) {
-      if(stObj.feeDetailsList !== undefined && stObj.feeDetailsList !== null && stObj.feeDetailsList.length > 0) {
+    const retVal: any = [];
+    if (stObj !== null && stObj !== undefined) {
+      if (stObj.feeDetailsList !== undefined && stObj.feeDetailsList !== null && stObj.feeDetailsList.length > 0) {
         for (let i = 0; i < stObj.feeDetailsList.length; i++) {
           const fd = stObj.feeDetailsList[i];
           console.log("FD :::::::::::::", fd);
@@ -163,11 +163,11 @@ class StudentDetailsPage<T = {[data: string]: any}> extends React.Component<Stud
       return retVal;
     }
   }
-  
+
   createFacilityItems(stObj: any) {
-    const retVal : any = [];
-    if(stObj !== null && stObj !== undefined) {
-      if(stObj.facilityList !== undefined && stObj.facilityList !== null && stObj.facilityList.length > 0) {
+    const retVal: any = [];
+    if (stObj !== null && stObj !== undefined) {
+      if (stObj.facilityList !== undefined && stObj.facilityList !== null && stObj.facilityList.length > 0) {
         for (let i = 0; i < stObj.facilityList.length; i++) {
           const fd = stObj.facilityList[i];
           console.log("Facility :::::::::::::", fd);
@@ -182,7 +182,7 @@ class StudentDetailsPage<T = {[data: string]: any}> extends React.Component<Stud
       return retVal;
     }
   }
-   
+
   async doSave(inputObj: any) {
     let btn = document.querySelector('#btnTakePayment');
     btn && btn.setAttribute('disabled', 'true');
@@ -196,7 +196,7 @@ class StudentDetailsPage<T = {[data: string]: any}> extends React.Component<Stud
         },
       })
       .then((resp: any) => {
-        console.log('Success in save invoice. Response ::: ',resp);
+        console.log('Success in save invoice. Response ::: ', resp);
         this.setState({
           tempFeesPaid: resp.data.addInvoice.invoice.outStandingAmount
           // tempFeesPaid: (parseInt((this.state.stObj.totalFeePaid !== '' ? this.state.stObj.totalFeePaid : 0),10) + parseInt(inputObj.amountPaid, 10))
@@ -206,14 +206,14 @@ class StudentDetailsPage<T = {[data: string]: any}> extends React.Component<Stud
         exitCode = 1;
         console.log('Error in save invoice : ', error);
       });
-    
+
     btn && btn.removeAttribute('disabled');
 
     let errorMessage = '';
     let successMessage = '';
     if (exitCode === 0) {
       successMessage = SUCCESS_MESSAGE_ADDED;
-      
+
     } else {
       errorMessage = ERROR_MESSAGE_SERVER_SIDE_ERROR;
     }
@@ -221,52 +221,52 @@ class StudentDetailsPage<T = {[data: string]: any}> extends React.Component<Stud
       successMessage: successMessage,
       errorMessage: errorMessage,
     });
-    
+
   }
 
-  takePayment(){
-    const {user,stObj, bank, amountPaid, branchId, academicYearId, errorMessage, successMessage,modeOfPayment, chkDdNo} = this.state;
+  takePayment() {
+    const { user, stObj, bank, amountPaid, branchId, academicYearId, errorMessage, successMessage, modeOfPayment, chkDdNo } = this.state;
     console.log("Payment amount : ", amountPaid);
-    if(!branchId){
+    if (!branchId) {
       this.setState({
         errorMessage: 'Please select branch from preferences'
       });
       return;
     }
     let isValid = true;
-    if(modeOfPayment === null || modeOfPayment === undefined || modeOfPayment === ''){
+    if (modeOfPayment === null || modeOfPayment === undefined || modeOfPayment === '') {
       this.setState({
         errorMessage: ERROR_MESSAGE_MANDATORY_FIELD_MISSING
       });
       commonFunctions.changeTextBoxBorderToError('', 'modeOfPayment');
       isValid = false;
     }
-    if((modeOfPayment === 'CHEQUE' || modeOfPayment === 'DEMANDDRAFT') && (chkDdNo === null || chkDdNo === undefined || chkDdNo === '')){
+    if ((modeOfPayment === 'CHEQUE' || modeOfPayment === 'DEMANDDRAFT') && (chkDdNo === null || chkDdNo === undefined || chkDdNo === '')) {
       this.setState({
         errorMessage: ERROR_MESSAGE_MANDATORY_FIELD_MISSING
       });
       commonFunctions.changeTextBoxBorderToError('', 'chkDdNo');
       isValid = false;
     }
-    if((modeOfPayment === 'CHEQUE' || modeOfPayment === 'DEMANDDRAFT') && (bank === null || bank === undefined || bank === '')){
+    if ((modeOfPayment === 'CHEQUE' || modeOfPayment === 'DEMANDDRAFT') && (bank === null || bank === undefined || bank === '')) {
       this.setState({
         errorMessage: ERROR_MESSAGE_MANDATORY_FIELD_MISSING
       });
       commonFunctions.changeTextBoxBorderToError('', 'bank');
       isValid = false;
     }
-    if(amountPaid === null || amountPaid === undefined || amountPaid === ''){
+    if (amountPaid === null || amountPaid === undefined || amountPaid === '') {
       this.setState({
         errorMessage: ERROR_MESSAGE_MANDATORY_FIELD_MISSING
       });
       commonFunctions.changeTextBoxBorderToError('', 'amountPaid');
       isValid = false;
     }
-    if(isValid === false){
+    if (isValid === false) {
       return;
-    } 
-    if((modeOfPayment === "CHEQUE" || modeOfPayment === "DEMANDDRAFT") 
-          && (chkDdNo === null || chkDdNo === undefined || chkDdNo === '')){
+    }
+    if ((modeOfPayment === "CHEQUE" || modeOfPayment === "DEMANDDRAFT")
+      && (chkDdNo === null || chkDdNo === undefined || chkDdNo === '')) {
       this.setState({
         errorMessage: ERROR_MESSAGE_MANDATORY_FIELD_MISSING
       });
@@ -285,21 +285,21 @@ class StudentDetailsPage<T = {[data: string]: any}> extends React.Component<Stud
       updatedBy: user
     }
     this.doSave(inputObj);
-  }  
+  }
 
-    
+
   async showDetail(bShow: boolean, stObj: any) {
     // e && e.preventDefault();
-    if(bShow){
+    if (bShow) {
       await this.getPaymentHistory(stObj);
     }
     this.setState({
-        isModalOpen: bShow,
+      isModalOpen: bShow,
     });
   }
 
-  async getPaymentHistory(stObj: any){
-    const {branchId} = this.state;
+  async getPaymentHistory(stObj: any) {
+    const { branchId } = this.state;
     await this.props.client.query({
       query: GET_INVOICE_LIST,
       variables: {
@@ -307,66 +307,196 @@ class StudentDetailsPage<T = {[data: string]: any}> extends React.Component<Stud
         branchId: branchId,
       },
       fetchPolicy: 'no-cache',
-    }).then((data : any) =>
-        // console.log("DTTTT ____________________________ ",data.data.getInvoices)
-       this.setState({
+    }).then((data: any) => {
+      //This is dummy data to show details in popup. Please remove it. 
+      data = {
+        "data": {
+          "getInvoices": [
+            {
+              "id": 1101,
+              "invoiceNumber": "9511584994345380",
+              "amountPaid": 300,
+              "outStandingAmount": 0,
+              "modeOfPayment": "CASH",
+              "chequeNumber": null,
+              "demandDraftNumber": null,
+              "onlineTxnRefNumber": null,
+              "paymentStatus": "PAID",
+              "comments": null,
+              "updatedBy": null,
+              "branchId": 1051,
+              "strPaymentDate": "24-03-2020",
+              "strNextPaymentDate": null,
+              "strUpdatedOn": "24-03-2020",
+              "bank": null
+            },
+            {
+              "id": 1052,
+              "invoiceNumber": "9511584992962303",
+              "amountPaid": 100,
+              "outStandingAmount": 300,
+              "modeOfPayment": "DEMANDDRAFT",
+              "chequeNumber": null,
+              "demandDraftNumber": 22222,
+              "onlineTxnRefNumber": null,
+              "paymentStatus": "PAID",
+              "comments": null,
+              "updatedBy": null,
+              "branchId": 1051,
+              "strPaymentDate": "24-03-2020",
+              "strNextPaymentDate": null,
+              "strUpdatedOn": "24-03-2020",
+              "bank": "CITY Bank"
+            },
+            {
+              "id": 1051,
+              "invoiceNumber": "9511584991665939",
+              "amountPaid": 100,
+              "outStandingAmount": 400,
+              "modeOfPayment": "CASH",
+              "chequeNumber": null,
+              "demandDraftNumber": null,
+              "onlineTxnRefNumber": null,
+              "paymentStatus": "PAID",
+              "comments": null,
+              "updatedBy": null,
+              "branchId": 1051,
+              "strPaymentDate": "24-03-2020",
+              "strNextPaymentDate": null,
+              "strUpdatedOn": "24-03-2020",
+              "bank": null
+            },
+            {
+              "id": 1001,
+              "invoiceNumber": "9511584991157994",
+              "amountPaid": 200,
+              "outStandingAmount": 700,
+              "modeOfPayment": "CASH",
+              "chequeNumber": null,
+              "demandDraftNumber": null,
+              "onlineTxnRefNumber": null,
+              "paymentStatus": "PAID",
+              "comments": null,
+              "updatedBy": null,
+              "branchId": 1051,
+              "strPaymentDate": "24-03-2020",
+              "strNextPaymentDate": null,
+              "strUpdatedOn": "24-03-2020",
+              "bank": null
+            },
+            {
+              "id": 952,
+              "invoiceNumber": "9511584986340255",
+              "amountPaid": 300,
+              "outStandingAmount": 2700,
+              "modeOfPayment": "CHEQUE",
+              "chequeNumber": 111111,
+              "demandDraftNumber": null,
+              "onlineTxnRefNumber": null,
+              "paymentStatus": "PAID",
+              "comments": null,
+              "updatedBy": null,
+              "branchId": 1051,
+              "strPaymentDate": "23-03-2020",
+              "strNextPaymentDate": null,
+              "strUpdatedOn": "23-03-2020",
+              "bank": "Axis Bank"
+            },
+            {
+              "id": 951,
+              "invoiceNumber": "9511584985892362",
+              "amountPaid": 2000,
+              "outStandingAmount": 1000,
+              "modeOfPayment": "CASH",
+              "chequeNumber": null,
+              "demandDraftNumber": null,
+              "onlineTxnRefNumber": null,
+              "paymentStatus": "PAID",
+              "comments": null,
+              "updatedBy": null,
+              "branchId": 1051,
+              "strPaymentDate": "23-03-2020",
+              "strNextPaymentDate": null,
+              "strUpdatedOn": "23-03-2020",
+              "bank": null
+            }
+          ]
+        }
+      }
+      this.setState({
         paymentObj: data.data.getInvoices
       })
+    }
     );
-    
-    
+
+
   }
 
-  async createRows(){
-    const {paymentObj} = this.state;
-    console.log("paymentObj :::::----------------------->>>>>> ",paymentObj);
+  async createRows() {
+    const { paymentObj } = this.state;
+    console.log("paymentObj :::::----------------------->>>>>> ", paymentObj);
     let homeArray = new Array(paymentObj.length);
     let i = 0
 
     for (var key in paymentObj) {
-        homeArray[i] =  paymentObj[key];
-        i = i + 1;
+      homeArray[i] = paymentObj[key];
+      i = i + 1;
     }
 
     const retVal = [];
-    
-      for (let x = 0; x < homeArray.length; x++) {
-        const tempObj = homeArray[x];
-        retVal.push(
-          <tbody>
-            <tr>
-              <td>{tempObj.invoiceNumber}</td>
-              <td>{tempObj.amountPaid}</td>
-              <td>{tempObj.outStandingAmount}</td>
-              <td>{tempObj.strPaymentDate}</td>
-              <td>{tempObj.modeOfPayment}</td>
-              <td>{tempObj.chequeNumber}</td>
-              <td>{tempObj.demandDraftNumber}</td>
-              <td>{tempObj.bank}</td>
-            </tr>
-          </tbody>
-        );
-      }
 
-      // console.log("Payment history data :::::: ",data.getInvoices);  
-    
+    for (let x = 0; x < homeArray.length; x++) {
+      const tempObj = homeArray[x];
+      retVal.push(
+        <tbody>
+          <tr>
+            <td>{tempObj.invoiceNumber}</td>
+            <td>{tempObj.amountPaid}</td>
+            <td>{tempObj.outStandingAmount}</td>
+            <td>{tempObj.strPaymentDate}</td>
+            <td>{tempObj.modeOfPayment}</td>
+            <td>{tempObj.chequeNumber}</td>
+            <td>{tempObj.demandDraftNumber}</td>
+            <td>{tempObj.bank}</td>
+          </tr>
+        </tbody>
+      );
+    }
+
+    // console.log("Payment history data :::::: ",data.getInvoices);  
+
     return retVal;
   }
 
-
+  createPaymentHistoryRows(paymentObj: any) {
+    if (paymentObj && paymentObj.length > 0) {
+      return paymentObj.map((item: any) =>
+        <tr key={item.id}>
+          <td>{item.invoiceNumber}</td>
+          <td>{item.amountPaid}</td>
+          <td>{item.outStandingAmount}</td>
+          <td>{item.strPaymentDate}</td>
+          <td>{item.modeOfPayment}</td>
+          <td>{item.chequeNumber}</td>
+          <td>{item.demandDraftNumber}</td>
+          <td>{item.bank}</td>
+        </tr>
+      );
+    }
+    return [];
+  }
 
   render() {
-    const {activeTab, isModalOpen, paymentObj, tempFeesPaid, stObj, amountPaid, errorMessage, successMessage, modeOfPayment, chkDdNo, bank} = this.state;
-    console.log('Check the new obj in another page:', stObj);
+    const { activeTab, isModalOpen, paymentObj, tempFeesPaid, stObj, amountPaid, errorMessage, successMessage, modeOfPayment, chkDdNo, bank } = this.state;
     return (
       <section className="student-profile-container">
         <div className="plugin-bg-white">
-        {errorMessage !== '' ? (
-          <MessageBox id="mbox" message={errorMessage} activeTab={2} />
-        ) : null}
-        {successMessage !== '' ? (
-          <MessageBox id="mbox" message={successMessage} activeTab={1} />
-        ) : null}
+          {errorMessage !== '' ? (
+            <MessageBox id="mbox" message={errorMessage} activeTab={2} />
+          ) : null}
+          {successMessage !== '' ? (
+            <MessageBox id="mbox" message={successMessage} activeTab={1} />
+          ) : null}
           <div>
             <div className="b-1 m-1">
               <div className="student-photo-container profile-grid">
@@ -375,7 +505,7 @@ class StudentDetailsPage<T = {[data: string]: any}> extends React.Component<Stud
                     className="photo"
                     id="stPhoto"
                     // src={student.uploadPhoto}
-                    style={{width: '12rem', height: '12rem'}}
+                    style={{ width: '12rem', height: '12rem' }}
                   ></img>
                 </div>
                 <div className="">
@@ -409,7 +539,7 @@ class StudentDetailsPage<T = {[data: string]: any}> extends React.Component<Stud
                       {stObj.batch !== undefined && <span>{stObj.batch.batch}</span>}
                     </div>
                   </div>
-                  <div className="row" style={{marginTop: '10px'}}>
+                  <div className="row" style={{ marginTop: '10px' }}>
                     <div className="col-xs-12 col-sm-4 m-b-2">
                       <span className="profile-label">Student Id:</span>
                       <span>{stObj.id}</span>
@@ -650,11 +780,11 @@ class StudentDetailsPage<T = {[data: string]: any}> extends React.Component<Stud
                               </div>
                               <div className="fwidth">
                                 <div className="profile-label">Next Due Date</div>
-                                <div className="box-text" style={{height:'31px'}}>{stObj.strNextPaymentDate !== null ? stObj.strNextPaymentDate : '' }</div>
+                                <div className="box-text" style={{ height: '31px' }}>{stObj.strNextPaymentDate !== null ? stObj.strNextPaymentDate : ''}</div>
                               </div>
                               <div className="fwidth">
-                                <div className="profile-label">Total Remaining</div> 
-                                <div className="box-text">{tempFeesPaid === null ? (parseInt(stObj.totalFee, 10) - parseInt(stObj.totalFeePaid,10)) : tempFeesPaid}</div>
+                                <div className="profile-label">Total Remaining</div>
+                                <div className="box-text">{tempFeesPaid === null ? (parseInt(stObj.totalFee, 10) - parseInt(stObj.totalFeePaid, 10)) : tempFeesPaid}</div>
                               </div>
                               {/* <div className="fwidth">
                                 <div className="profile-label mbten">
@@ -664,74 +794,74 @@ class StudentDetailsPage<T = {[data: string]: any}> extends React.Component<Stud
                                   Send SMS
                                 </button>
                               </div> */}
-                              
+
                             </div>
                           </div>
-                            <div className="fwidth dflex m-b-1">{}</div>    
+                          <div className="fwidth dflex m-b-1">{}</div>
                           <div className="fwidth dflex bdr-bpttom">
-                              <div className="fwidth">
-                                <div className="profile-label">Mode of Payment </div>
-                                <div className="profile-label">
-                                  <select name="modeOfPayment" id="modeOfPayment" className="gf-form-input" style={{marginTop:'10px'}} onChange={this.onChange} value={modeOfPayment} >
-                                    <option value="">Select</option>
-                                    <option value="CASH">CASH</option>
-                                    <option value="CHEQUE">CHEQUE</option>
-                                    <option value="DEMANDDRAFT">DEMANDDRAFT</option>
-                                  </select>
-                                </div>
+                            <div className="fwidth">
+                              <div className="profile-label">Mode of Payment </div>
+                              <div className="profile-label">
+                                <select name="modeOfPayment" id="modeOfPayment" className="gf-form-input" style={{ marginTop: '10px' }} onChange={this.onChange} value={modeOfPayment} >
+                                  <option value="">Select</option>
+                                  <option value="CASH">CASH</option>
+                                  <option value="CHEQUE">CHEQUE</option>
+                                  <option value="DEMANDDRAFT">DEMANDDRAFT</option>
+                                </select>
                               </div>
-                              <div className="fwidth">
-                                <div className="profile-label">Cheque/Demand Draft No </div>
-                                <div className="profile-label"><input disabled={(modeOfPayment === 'CHEQUE' || modeOfPayment === 'DEMANDDRAFT')   ? false : true} className="gf-form-input" style={{marginTop:'10px'}} type="number" id="chkDdNo" name="chkDdNo" onChange={this.onChange} value={chkDdNo}/></div>
+                            </div>
+                            <div className="fwidth">
+                              <div className="profile-label">Cheque/Demand Draft No </div>
+                              <div className="profile-label"><input disabled={(modeOfPayment === 'CHEQUE' || modeOfPayment === 'DEMANDDRAFT') ? false : true} className="gf-form-input" style={{ marginTop: '10px' }} type="number" id="chkDdNo" name="chkDdNo" onChange={this.onChange} value={chkDdNo} /></div>
+                            </div>
+                            <div className="fwidth">
+                              <div className="profile-label">Issuer Bank</div>
+                              <div className="profile-label">
+                                <select disabled={(modeOfPayment === 'CHEQUE' || modeOfPayment === 'DEMANDDRAFT') ? false : true} name="bank" id="bank" className="gf-form-input" style={{ marginTop: '10px' }} onChange={this.onChange} value={bank} >
+                                  <option value="">Select</option>
+                                  <option value="Axis Bank">Axis Bank</option>
+                                  <option value="CITY Bank">CITY Bank</option>
+                                  <option value="HDFC Bank">HDFC Bank</option>
+                                  <option value="ICICI Bank">ICICI Bank</option>
+                                  <option value="SBI Bank">SBI Bank</option>
+                                </select>
                               </div>
-                              <div className="fwidth">
-                                <div className="profile-label">Issuer Bank</div>
-                                <div className="profile-label">
-                                  <select disabled={(modeOfPayment === 'CHEQUE' || modeOfPayment === 'DEMANDDRAFT')   ? false : true} name="bank" id="bank" className="gf-form-input" style={{marginTop:'10px'}} onChange={this.onChange} value={bank} >
-                                    <option value="">Select</option>
-                                    <option value="Axis Bank">Axis Bank</option>
-                                    <option value="CITY Bank">CITY Bank</option>
-                                    <option value="HDFC Bank">HDFC Bank</option>
-                                    <option value="ICICI Bank">ICICI Bank</option>
-                                    <option value="SBI Bank">SBI Bank</option>
-                                  </select>
-                                </div>
-                              </div>
-                              <div className="fwidth">
-                                <div className="profile-label">Provide Fee Amount </div>
-                                <div className="profile-label"><input className="gf-form-input" style={{marginTop:'10px'}} type="number" id="amountPaid" name="amountPaid" onChange={this.onChange} value={amountPaid}/></div>
-                              </div>
-                              <div className="fwidth">
-                                <div className="profile-label mbten">&nbsp;</div>
-                                <button className="btn btn-primary btn-cust-width" id="btnTakePayment" name="btnTakePayment" onClick={this.takePayment}>
-                                  Take Payment
+                            </div>
+                            <div className="fwidth">
+                              <div className="profile-label">Provide Fee Amount </div>
+                              <div className="profile-label"><input className="gf-form-input" style={{ marginTop: '10px' }} type="number" id="amountPaid" name="amountPaid" onChange={this.onChange} value={amountPaid} /></div>
+                            </div>
+                            <div className="fwidth">
+                              <div className="profile-label mbten">&nbsp;</div>
+                              <button className="btn btn-primary btn-cust-width" id="btnTakePayment" name="btnTakePayment" onClick={this.takePayment}>
+                                Take Payment
                                 </button>
-                              </div>
+                            </div>
                           </div>
 
 
                           <div className="dflex m-t-1">
                             <table className="w-40" id="txt-align">
-                              <thead style={{backgroundColor:'rgb(216, 216, 216)'}}>
+                              <thead style={{ backgroundColor: 'rgb(216, 216, 216)' }}>
                                 <tr>
-                                  <th style={{border:'1px solid #868686'}}>Fee Line Item</th>
-                                  <th style={{border:'1px solid #868686'}}>Amount</th>
+                                  <th style={{ border: '1px solid #868686' }}>Fee Line Item</th>
+                                  <th style={{ border: '1px solid #868686' }}>Amount</th>
                                 </tr>
                               </thead>
                               <tbody>
-                                {this.createFeeLineItems(stObj)}  
+                                {this.createFeeLineItems(stObj)}
                               </tbody>
-                              
+
                             </table>
                             <table className="w-40 m-r-3 m-l-3" id="txt-align">
-                              <thead style={{backgroundColor:'rgb(216, 216, 216)'}}>
+                              <thead style={{ backgroundColor: 'rgb(216, 216, 216)' }}>
                                 <tr>
-                                  <th style={{border:'1px solid #868686'}}>Facility</th>
-                                  <th style={{border:'1px solid #868686'}}>Amount</th>
+                                  <th style={{ border: '1px solid #868686' }}>Facility</th>
+                                  <th style={{ border: '1px solid #868686' }}>Amount</th>
                                 </tr>
                               </thead>
                               <tbody>
-                                {this.createFacilityItems(stObj)}  
+                                {this.createFacilityItems(stObj)}
                               </tbody>
                             </table>
                             {/* <div className="w-20">
@@ -740,53 +870,42 @@ class StudentDetailsPage<T = {[data: string]: any}> extends React.Component<Stud
                             </div> */}
                           </div>
                           <div>
-                          <Modal isOpen={isModalOpen}  className="react-strap-modal-container">
-                            <ModalHeader>{'Payment History'}</ModalHeader>
-                            <ModalBody className="modal-content">
-                            <div style={{height:'350px', width:'100%', boxSizing:'border-box', display:'inline-block', verticalAlign:'middle', overflowY:'auto'}}>
-                              <table className="fwidth">
-                                <thead>
-                                  <tr>
-                                    <th>Invoice No</th>
-                                    <th>Amount Paid</th>
-                                    <th>Remaining Amount</th>
-                                    <th>Payment Date</th>
-                                    <th>Mode of Payment</th>
-                                    <th>Cheque No</th>
-                                    <th>Demand Draft No</th>
-                                    <th>Issuer Bank</th>
-                                  </tr>
-                                </thead>
-                                {
-                                  paymentObj !== null && paymentObj.length > 0  ?
-                                        console.log("Final payment object :::: ", paymentObj)
-                                  : console.log("Payment object is not yet SET..........", paymentObj)
-                                }
-                                {
-                                  paymentObj !== null && paymentObj.length > 0  ?
-                                        <tbody>
-                                          {
-                                            paymentObj.map((item: any)=> {
-                                                <tr><td>{item}</td></tr>
-                                            })
-                                          }
-                                        </tbody>
-                                  : null
-                                }
-                              </table>
-                            </div>
-                            <button className="btn btn-primary" onClick={e => this.showDetail(false, null)}>
-                              Close
+                            <Modal isOpen={isModalOpen} className="react-strap-modal-container">
+                              <ModalHeader>{'Payment History'}</ModalHeader>
+                              <ModalBody className="modal-content">
+                                <div style={{ height: '350px', width: '100%', boxSizing: 'border-box', display: 'inline-block', verticalAlign: 'middle', overflowY: 'auto' }}>
+                                  <table className="fwidth">
+                                    <thead>
+                                      <tr>
+                                        <th>Invoice No</th>
+                                        <th>Amount Paid</th>
+                                        <th>Remaining Amount</th>
+                                        <th>Payment Date</th>
+                                        <th>Mode of Payment</th>
+                                        <th>Cheque No</th>
+                                        <th>Demand Draft No</th>
+                                        <th>Issuer Bank</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      {
+                                        this.createPaymentHistoryRows(paymentObj)
+                                      }
+                                    </tbody>
+                                  </table>
+                                </div>
+                                <button className="btn btn-primary" onClick={e => this.showDetail(false, null)}>
+                                  Close
                             </button>
-                            </ModalBody>
-                          </Modal>
+                              </ModalBody>
+                            </Modal>
                           </div>
                           <div className="w-20">
                             <button className="btn btn-primary" onClick={e => this.showDetail(true, stObj)}>
                               Payment History
                             </button>
                           </div>
-                          
+
                         </div>
                       </div>
                     </span>
