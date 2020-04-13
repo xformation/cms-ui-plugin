@@ -147,9 +147,9 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
     socket.onopen = () => {
       console.log(
         'StudentList. Opening websocekt connection on User : ',
-        this.state.user.login
+        new URLSearchParams(location.search).get("signedInUser")
       );
-      socket.send(this.state.user.login);
+      socket.send(new URLSearchParams(location.search).get("signedInUser"));
     };
 
     window.onbeforeunload = () => {
