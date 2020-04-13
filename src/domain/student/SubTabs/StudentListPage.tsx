@@ -8,6 +8,8 @@ import '../../../css/dark.css';
 import withLoadingHandler from '../withLoadingHandler';
 import {GET_STUDENT_LIST, GET_STUDENT_FILTER_DATA} from '../_queries';
 import wsCmsBackendServiceSingletonClient from '../../../wsCmsBackendServiceClient';
+import {FaBluetooth} from 'react-icons/fa';
+import EditStudentPage from './EditStudentPage';
 
 const w140 = {
   width: '140px',
@@ -87,7 +89,9 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
     this.createSections = this.createSections.bind(this);
     this.showDetail = this.showDetail.bind(this);
     this.SetObject = this.SetObject.bind(this);
-    this.getcreateStudentFilterDataCache = this.getcreateStudentFilterDataCache.bind( this );
+    this.getcreateStudentFilterDataCache = this.getcreateStudentFilterDataCache.bind(
+      this
+    );
     this.toggleTab = this.toggleTab.bind(this);
 
     // this.searchHandlers = this.searchHandlers.bind(this);
@@ -113,6 +117,10 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
 
   async componentDidMount() {
     await this.registerSocket();
+    console.log(
+      '5. check create catch batches:',
+      this.state.createStudentFilterDataCache.batches
+    );
   }
 
   async registerSocket() {
@@ -281,7 +289,10 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
                   >
                     {student.studentName}
                   </a> */}
-                  <a onClick={(e: any) => this.showDetail(student, e)}>
+                  <a
+                    onClick={(e: any) => this.showDetail(student, e)}
+                    style={{color: '#307dc2'}}
+                  >
                     {student.studentName}
                   </a>
                 </td>
@@ -296,6 +307,15 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
                 <td>{student.sex}</td>
                 <td>{student.studentType}</td>
                 <td>{student.studentPrimaryCellNumber}</td>
+                <td>
+                  <button
+                    className="btn btn-primary"
+                    onClick={(e: any) => this.getStDetail(student, e)}
+                  >
+                    {' '}
+                    Edit{' '}
+                  </button>
+                </td>
               </tr>
             );
             console.log('print student obj:', student);
@@ -328,7 +348,10 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
                 >
                   {student.studentName}
                 </a> */}
-                <a onClick={(e: any) => this.showDetail(student, e)}>
+                <a
+                  onClick={(e: any) => this.showDetail(student, e)}
+                  style={{color: '#307dc2'}}
+                >
                   {student.studentName}
                 </a>
               </td>
@@ -343,6 +366,15 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
               <td>{student.sex}</td>
               <td>{student.studentType}</td>
               <td>{student.studentPrimaryCellNumber}</td>
+              <td>
+                <button
+                  className="btn btn-primary"
+                  onClick={(e: any) => this.getStDetail(student, e)}
+                >
+                  {' '}
+                  Edit{' '}
+                </button>
+              </td>
             </tr>
           );
           console.log('print student obj:', student);
@@ -513,12 +545,11 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
           },
         },
       });
-    }
-    else if (name === 'studentTypeObj') {
+    } else if (name === 'studentTypeObj') {
       this.setState({
         studentData: {
           ...studentData,
-            studentType: value,
+          studentType: value,
         },
       });
     }
@@ -558,6 +589,12 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
   //   this.setState({search: event.target.value.substr()});
   // }
 
+  async getStDetail(obj: any, e: any) {
+    await this.SetObject(obj);
+    console.log('3. data in StdObj:', this.state.StdObj);
+    await this.toggleTab(2);
+  }
+
   async showDetail(obj: any, e: any) {
     await this.SetObject(obj);
     console.log('3. data in StdObj:', this.state.StdObj);
@@ -577,8 +614,8 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
     const {mutate} = this.props;
     const {studentData, branchId, departmentId} = this.state;
     e.preventDefault();
-    if(!branchId){
-      alert("Please select branch from preferences");
+    if (!branchId) {
+      alert('Please select branch from preferences');
       return;
     }
     let studentFilterInputObject = {
@@ -812,6 +849,7 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
                       <th>Gender</th>
                       <th>Type</th>
                       <th>Primary Contact</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -838,14 +876,14 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
                   >
                     Back
                   </a>
-                  <a
+                  {/* <a
                     className="btn btn-primary m-l-1"
                     onClick={(e: any) => {
                       print();
                     }}
                   >
                     Print
-                  </a>
+                  </a> */}
                 </div>
               </div>
               {/* {user !== null &&
@@ -856,6 +894,39 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
               {this.state.StdObj !== null && this.state.StdObj !== undefined && (
                 <StudentDetailsPage data={this.state.StdObj} />
               )}
+            </div>
+          </TabPane>
+          <TabPane tabId={2}>
+            <div className="container-fluid" style={{padding: '0px'}}>
+              <div className="m-b-1 bg-heading-bgStudent studentListFlex p-point5">
+                <div className="">
+                  <h4 className="ptl-06">Student Details</h4>
+                </div>
+                <div className="">
+                  <a
+                    className="btn btn-primary m-l-1"
+                    onClick={() => {
+                      this.toggleTab(0);
+                    }}
+                  >
+                    Back
+                  </a>
+                </div>
+              </div>
+              {user !== null &&
+                this.state.StdObj !== null &&
+                this.state.StdObj !== undefined && (
+                  <EditStudentPage
+                    user={user}
+                    data={this.state.StdObj}
+                    StdObj={this.state.StdObj}
+                    batches={this.state.createStudentFilterDataCache.batches}
+                    sections={this.state.createStudentFilterDataCache.sections}
+                  />
+                )}
+              {/* {this.state.StdObj !== null && this.state.StdObj !== undefined && (
+                <EditStudentPage data={this.state.StdObj} />
+              )} */}
             </div>
           </TabPane>
         </TabContent>

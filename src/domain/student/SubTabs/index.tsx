@@ -33,7 +33,7 @@ class StudentSubtabs extends React.Component<StudentProps, any> {
   }
 
   async componentDidMount() {
-    console.log('Student. component did mount. User ::::', this.state.user.login);
+    // console.log('Student. component did mount. User ::::', this.state.user.login);
     await this.registerSocket();
     // await this.getcreateStudentFilterDataCache();
   }
@@ -42,6 +42,7 @@ class StudentSubtabs extends React.Component<StudentProps, any> {
     const socket = wsCmsBackendServiceSingletonClient.getInstance();
     let bid: any = 0;
     let ayid: any = 0;
+    let dptid: any = 0;
 
     socket.onmessage = (response: any) => {
       let message = JSON.parse(response.data);
@@ -53,6 +54,7 @@ class StudentSubtabs extends React.Component<StudentProps, any> {
       });
       bid = '' + message.selectedBranchId;
       ayid = '' + message.selectedAcademicYearId;
+      dptid = '' + message.selectedDepartmentId;
       console.log('Student index. branchId: ', this.state.branchId);
       console.log('Student index. departmentId: ', this.state.departmentId);
       console.log('Student index. ayId: ', this.state.academicYearId);
@@ -61,9 +63,10 @@ class StudentSubtabs extends React.Component<StudentProps, any> {
     socket.onopen = () => {
       console.log(
         'Student index. Opening websocekt connection on index.tsx. User : ',
-        this.state.user
+        // this.state.user
+        new URLSearchParams(location.search).get('signedInUser')
       );
-      socket.send(this.state.user.login);
+      socket.send(new URLSearchParams(location.search).get('signedInUser'));
     };
 
     window.onbeforeunload = () => {
