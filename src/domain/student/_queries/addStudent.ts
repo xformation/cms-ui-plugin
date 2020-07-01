@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 export const ADD_STUDENT = gql`
-  mutation saveStudent($input: StudentInput!) {
+  mutation saveStudent($input: StudentInput) {
     saveStudent(input: $input) {
       cmsStudentVo {
         id

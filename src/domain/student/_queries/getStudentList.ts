@@ -80,11 +80,7 @@ export const GET_STUDENT_LIST = gql`
       facilityList {
         id
         linkDesc
-        facility {
-          id
-          name
-          amount
-        }
+        facilityId
       }
       paymentHistory {
         id

@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 export const GET_STUDENT_FILTER_DATA = gql`
-  query createStudentFilterDataCache($collegeId: Long, $academicYearId: Long) {
-    createStudentFilterDataCache(collegeId: $collegeId, academicYearId: $academicYearId) {
+  query createStudentFilterDataCache {
+    createStudentFilterDataCache {
       branches {
         id
         branchName
@@ -13,7 +13,7 @@ export const GET_STUDENT_FILTER_DATA = gql`
         branch {
           id
         }
-        academicyear {
+        academicYear {
           id
         }
       }
@@ -30,14 +30,6 @@ export const GET_STUDENT_FILTER_DATA = gql`
         batch {
           id
         }
-      }
-      studentTypes {
-        id
-        description
-      }
-      genders {
-        id
-        description
       }
     }
   }
