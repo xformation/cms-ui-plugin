@@ -65,12 +65,8 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
         section: {
           id: '',
         },
-        studentType: {
-          id: '',
-        },
-        gender: {
-          id: '',
-        },
+        studentType: "",
+        gender: "",
         mutateResult: [],
         search: '',
       },
@@ -163,8 +159,6 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
     const {data} = await this.props.client.query({
       query: GET_STUDENT_FILTER_DATA,
       variables: {
-        collegeId: '' + branchId,
-        academicYearId: '' + academicYearId,
       },
 
       fetchPolicy: 'no-cache',
@@ -545,14 +539,15 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
           },
         },
       });
-    } else if (name === 'studentTypeObj') {
-      this.setState({
-        studentData: {
-          ...studentData,
-          studentType: value,
-        },
-      });
     }
+    //  else if (name === 'studentTypeObj') {
+    //   this.setState({
+    //     studentData: {
+    //       ...studentData,
+    //       studentType: value,
+    //     },
+    //   });
+    // }
     // else if (name === 'gender') {
     //   this.setState({
     //     studentData: {
@@ -746,8 +741,8 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
                       required
                       name="gender"
                       id="gender"
-                      onChange={this.onChange}
-                      value={studentData.gender}
+                      // onChange={this.onChange}
+                      // value={studentData.gender}
                       className="gf-form-input max-width-15"
                     >
                       <option value="">Select gender</option>
@@ -777,8 +772,8 @@ class StudentsTable extends React.Component<StudentListProps, StudentTableStates
                       required
                       name="studentTypeObj"
                       id="studentTypeObj"
-                      onChange={this.onChange}
-                      value={studentData.studentType}
+                      // onChange={this.onChange}
+                      // value={studentData.studentType}
                       className="gf-form-input max-width-22"
                     >
                       <option value="">Select Student Type</option>

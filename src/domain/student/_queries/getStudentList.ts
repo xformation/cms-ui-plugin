@@ -50,10 +50,7 @@ export const GET_STUDENT_LIST = gql`
       motherEmailId
       status
       comments
-      department {
-        id
-        name
-      }
+
       batch {
         id
         batch
@@ -61,6 +58,11 @@ export const GET_STUDENT_LIST = gql`
       section {
         id
         section
+      }
+
+      department {
+        id
+        name
       }
 
       feeDetailsList {

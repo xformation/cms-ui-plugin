@@ -75,9 +75,9 @@ class StudentSubtabs extends React.Component<StudentProps, any> {
     const {data} = await this.props.client.query({
       query: GET_STUDENT_FILTER_DATA,
       variables: {
-        collegeId: bid,
+        // collegeId: bid,
         // departmentId: departmentId,
-        academicYearId: ayid,
+        // academicYearId: ayid,
         // collegeId: collegeId,
       },
 
@@ -94,9 +94,9 @@ class StudentSubtabs extends React.Component<StudentProps, any> {
     const {data} = await this.props.client.query({
       query: GET_STUDENT_FILTER_DATA,
       variables: {
-        collegeId: '' + branchId,
+        // collegeId: '' + branchId,
         // departmentId: departmentId,
-        academicYearId: '' + academicYearId,
+        // academicYearId: '' + academicYearId,
         // collegeId: collegeId,
       },
 
