@@ -16,9 +16,7 @@ export const ADD_INVOICE = gql`
         comments
         updatedBy
         branchId
-        student {
-          id
-        }
+        studentId
         academicYearId
       }
     }

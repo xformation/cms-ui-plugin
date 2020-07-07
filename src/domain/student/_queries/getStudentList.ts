@@ -94,6 +94,9 @@ export const GET_STUDENT_LIST = gql`
         onlineTxnRefNumber
         paymentStatus
         strPaymentDate
+        student {
+          id
+        }
       }
       strNextPaymentDate
     }
