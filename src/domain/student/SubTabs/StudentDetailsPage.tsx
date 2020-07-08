@@ -225,11 +225,23 @@ class StudentDetailsPage<T = { [data: string]: any }> extends React.Component<St
   }
 
   takePayment() {
-    const { user, stObj, bank, amountPaid, branchId, academicYearId, errorMessage, successMessage, modeOfPayment, chkDdNo } = this.state;
+    const { user, stObj, bank, amountPaid, branchId, academicYearId,departmentId, errorMessage, successMessage, modeOfPayment, chkDdNo } = this.state;
     console.log("Payment amount : ", amountPaid);
     if (!branchId) {
       this.setState({
         errorMessage: 'Please select branch from preferences'
+      });
+      return;
+    }
+    if (!departmentId) {
+      this.setState({
+        errorMessage: 'Please select deparment from preferences'
+      });
+      return;
+    }
+    if (!academicYearId) {
+      this.setState({
+        errorMessage: 'Please select academicyear from preferences'
       });
       return;
     }
@@ -276,7 +288,8 @@ class StudentDetailsPage<T = { [data: string]: any }> extends React.Component<St
     let inputObj = {
       studentId: stObj.id,
       branchId: branchId,
-      academicyearId: academicYearId,
+      academicYearId: academicYearId,
+      departmentId: departmentId,
       modeOfPayment: modeOfPayment,
       chequeNumber: modeOfPayment === 'CHEQUE' ? chkDdNo : null,
       demandDraftNumber: modeOfPayment === 'DEMANDDRAFT' ? chkDdNo : null,

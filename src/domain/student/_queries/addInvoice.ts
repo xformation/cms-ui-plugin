@@ -16,8 +16,20 @@ export const ADD_INVOICE = gql`
         comments
         updatedBy
         branchId
-        studentId
         academicYearId
+        paymentRemainder {
+          id
+        }
+        departmentId
+        feeCategory {
+          id
+        }
+        feeDetails {
+          id
+        }
+        dueDate {
+          id
+        }
       }
     }
   }
